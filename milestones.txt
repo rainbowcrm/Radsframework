@@ -1,0 +1,17 @@
+milestones... 
+
+mar -  6  Transaction Template -   with Fixed actions on grid , Ajax controls,
+mar - 13  : filters in list pages
+mar -20  text booxes with REST ,    modern UIs, jquery ctrls
+mar- 27 : tech debts, proj kick off
+
+
+_______________________________
+strategy  
+
+
+<a href="http://mason.gmu.edu/~montecin/netterms.htm" target="_blank">forgot Password?</a>
+
+Jun - finish master pages
+july  - finish trans pages
+aug - UI modifications -- jquery / angular / graphs 

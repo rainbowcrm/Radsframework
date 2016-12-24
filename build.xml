@@ -1,0 +1,101 @@
+<project name="product" default="compile" basedir=".">
+<!--
+   Copyright 1999-2004 The Apache Software Foundation
+ 
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+ 
+       http://www.apache.org/licenses/LICENSE-2.0
+ 
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+-->
+
+<!-- Simple "Hello, World" project to provide a concrete example of
+     the recommendations in the Application Developer's Guide.
+
+     NOTE:  Before using this file as is, you should review the
+     values for the properties that are defined below.
+     In particular, it is assumed that you wish to install this
+     application under context path "/${app.name}" in the Tomcat installation
+     defined by your TOMCAT_HOME environment variable.
+-->
+
+  <property name="app.name"       value="RadsFramework"/>
+   <property name="deploy.home"    value="output"/>
+  <property name="dist.src"       value="${app.name}.jar"/>
+  <property name="dist.home"       value="output"/>
+  <property name="javadoc.home"   value="${deploy.home}/javadoc"/>
+
+
+ <!-- <target name="prepare">
+  </target>
+-->
+  <target name="clean">
+    <delete dir="${deploy.home}"/>
+  </target>
+  
+  <target name="build-jar">
+   <jar destfile="C:/CRM/WS/lib/Rads.jar"
+      basedir="bin"
+      includes="/**"
+      excludes="**/Test.class">
+
+      <manifest>
+        
+      </manifest>
+
+   </jar>
+</target>
+
+
+<target name="copy-resources">
+   <copy todir="C:/CRM/WS/WebContent/resources">
+        <fileset dir="./resources/">
+            <include name="**/*.xml"/>
+            <include name="**/*.png"/>
+            <include name="**/*.json"/>
+			<include name="**/*.js"/>
+        </fileset>
+    </copy>
+</target>
+
+  <target name="compile" >
+    <javac srcdir="src" destdir="bin"
+           debug="on" optimize="off" includeantruntime ="true" deprecation="off">
+	<classpath>
+        <pathelement location=".\lib\jsp-api.jar"/>
+		<pathelement location=".\lib\servlet-api.jar"/>
+		<pathelement location=".\lib\org.json.jar"/>
+		<pathelement location=".\lib\javax.ws.rs-api-2.0.rev.A.jar"/>
+    </classpath>
+	</javac>
+  </target>
+
+<!--
+  <target name="javadoc" depends="prepare">
+    <javadoc sourcepath="src" packagenames="*"
+                destdir="${javadoc.home}">
+	<classpath>
+        <pathelement location=".\lib\jsp-api.jar"/>
+		<pathelement location=".\lib\servlet-api.jar"/>
+		<pathelement location=".\lib\javax.ws.rs-api-2.0.rev.A.jar"/>
+    </classpath>
+	</javadoc>
+  </target>
+-->
+
+  <target name="all" depends="clean,compile,build-jar,copy-resources"/>
+
+
+  <target name="dist" depends="compile,copy-resources">
+    <jar jarfile="${dist.home}/${dist.src}"
+         basedir="." includes="*"/>
+  </target>
+
+
+</project>

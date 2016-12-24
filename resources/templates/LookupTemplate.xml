@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Template id ="lookup" type = "com.techtrade.rads.framework.ui.templates.LookupTemplateType" >
+ <Renderers>
+ <Renderer>
+ <RendererType>HTML</RendererType>
+ <StyleSheet>./css/display.css</StyleSheet>
+ </Renderer>
+ </Renderers>
+ 
+</Template>

@@ -1,0 +1,86 @@
+Setup
+   Company 
+   Configuration
+   Divisions/Stores
+   Roles and Permissions
+   Users
+Vendors
+   Manufacturers
+   Dealers 
+Items
+   Category
+   Sub Category
+   Products  
+   SKUs
+Sales force
+   Sales Associates
+   Sale Leads
+   Product Catalog
+   Sales Pitches
+Customers
+   Category
+   Customer
+Inventory
+	Purchase
+	Sales
+	Returns
+		Purchase
+		Sales
+CRM Intelligence
+	Sales History
+	Items WishList
+	Customer wishList
+	Customer Loyalty
+	Pricing
+	Rules Engine
+Dashboard
+Call Center
+	Associates
+	New Requests
+		Telephone calls
+		Video chats
+	Request Status
+Reports
+	Sales force
+		Total Sales Summarized
+		Total Sales Detailed
+		SalesMan Wise
+		Leads to Sales
+	Customers
+		Customer Sales
+		Customer Loyalty
+		Customer WishList
+		Customer Complaints
+		Total Complaints
+	Items
+		Total Sales
+		Product Wise Sales
+		SKU Wise Sales
+		Wish List SKU wise. 
+		Sales Returns
+		Purchase Returns
+		Inventory Movement
+	Vendors
+		Vendor Wise Sales
+		Vendor Wise Returns
+	Misc
+		Division Wise sales
+		Total Complaints
+		Complaints Associate Wise
+		Company Health Period Wise
+Utilities
+	Export Data
+	Import Data
+	User Profile
+	Logout
+
+	
+	
+	
+	
+	
+    
+
+   
+   
+   

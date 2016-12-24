@@ -1,0 +1,219 @@
+To do
+
+
+lookup windows
+
+UI standardiation based on E APP standards
+lookup window standardization
+Menu control
+left nave control
+filter page
+Cart page
+
+Get Class CSS
+XML based UI definition
+XML based configuration of pages
+
+
+
+
+
+
+
+Download DB : mysql : root/password
+>mysql -h localhost -u root -p
+
+Write App.
+
+
+Write controlller Servler
+
+_____________________________________________________
+Render page via multiple Templates, 
+
+_________________________________________________
+Simplify XML - write XML Document and XMLElement Classes ^ 
+Add buttons ^
+read optonslist from controlller ^
+start custom exceptions ^
+call controller-submit ^
+change TemplateClass to TemplateType type ^
+Test list page with the changes ^
+ Define Fixed Actions ^
+implement navigation in list pages ^
+Write config-XML and Read it too  
+write lookups also from config-XML ^
+Remove parametrized input from Lookups ^
+
+
+page forwarding and open up , nav between pages . ^
+Showing Validation errors.. ^ 
+selecting Records from List Page  ^
+Delete records ^
+include js pages via page xml ^
+submit records ^
+write conditional rendering ^
+
+Remove UIElement extending from UIControl ^
+
+
+
+
+Write panels ^
+implment page with leftnav and menu * 
+Write General template - no model object / object optional *
+Recheck   tabs^
+
+Arrange sections based on template *
+
+write child object model, view andd controller * 
+Fixed Actions in Grid *
+Write one-to many , mmodel view and controller * 
+Write popup def, dialog def**, , introduce jquery , 
+write iframe**, ajax control *  dt picke
+
+introduce context**
+, pass Request objects..**
+
+Write filters in list page ***
+
+Write Fileuploadd control as multipart requ *** 
+Test multiple pages in multiple tabs, frames *
+
+numberic control  **
+errormessage standardization * 
+internationalization *
+
+make UI enterprise standard **
+
+nexPageKey of PageResult should be the key mentioned in the View  XML  - idea is for customization different xmls can work on same controller & model/
+Split the menu set and config set into multiple files for customization
+Write upper limit on rows to save
+___________________________________________________
+Low Priority
+Replace windowAction with FixedAction -- Done
+Move FixedActionField To Template *
+Introduce cache for PageGens 
+
+for writeList Method=POSt is hardcoded  , read it from Template
+Read lookups from Templates and XMLS * 
+let page has a prop Template and all template attributes be part of template and not page ^
+in list page, decide call or don't call populateFullObjectfromPK  based on annottation settng for  delete ,edit and submit
+Working implementation f UICondition - temporarily use rendered-Done
+UITabularize  -- if part of conditional text is true and part is false - UICondition - Done
+_________________________________________________
+
+Readd modelobjectclass in list @
+read multiple keys for uniquerow  @
+write metod to read List <rows> for model objects@
+display deleted rows with diff styl
+__________________________________________________________
+try nav from list to edit annd in edit validate.. @
+
+try  single select buttons in list pages *
+call crud page with params ** later
+add validation for edit / nav **
+_____________________________________________________
+
+Create Supplier page also . where you go to list page after save *
+__________________________________________________
+
+align menu better , draw thick border*
+show full page proper *
+collapse and expand better .  *
+add scroll bars for all the ddivs *
+_______________________________________
+
+Tech Debts
+  
+  rewrite HTMLRead, read only valid input controls- opt1 :  either store model property in requests or get valid input controls from  Page..***
+  Move  UIPage.getInputControls to HTMLAlternativeRenderer.
+  allow in xmll tags like <UITable> <UITableRow> <UITableCCol>  <UIDIV>in addition to <Element type = "UITable>	
+  Move Element generation xml to  controls
+  Flexibiity in Panels, whether it should be part of  a div or just a set off collection should be configurble,  ** 
+  Fixed panels in templates , whether it should come before or after the controls.
+  use annotations - whether to call certain method  in controllers ..
+  errors in elements .. 
+  label_key in elements**
+  Tabularize elem with rows - issuee exist..
+  
+  Table Fixed Action AddRow and Delete Row to be more generic and need to be called from outside the table 
+  make UITransactionPage extend from UICRUDPage
+  Page forward key to be standardized. whether for submit and redirect call or  for JS - there should be an intuitive distoniction
+  
+  ____________________________________________--
+  
+  style for page - div *zA
+  
+  Style for TabSet as a whole -- no upper boundary bout three side boundaries
+  Style for tab - nothing needed 
+  Rearragne CSSS in order.. 
+  _____________________________________________________
+  
+  Aax
+  
+  Write Ajaxpanel * 
+  Write ajaxConfig * 
+  Write Ajaxlookupinterface * 
+  Write Ajaximplementation * 
+  Write ajaxcall in ControlerServler *
+  write in xml page object.. **
+  Write PageGenerator  * 
+  Write HTMLWriter AjaxPanel *
+  Write JS Script to ca Ajax *
+  
+  _______________________________________________________________
+  
+  Sections
+  
+  1. change in test template xml @ 
+  2. change in test page xml *
+  3. change in  test tempate reading code *
+  4. change in test page read code . *
+  5. test UI  * 
+  6. put fixed elements (Panels) in template section  *
+  7. test ui*
+  8. change all templates and pages *
+  ____________________________________________________________________
+  
+  Things to remember
+  
+   1. Template sections can have panel not elements , also not decided whether these come after or belo the pages in XML - Refer Tech debts/
+   __________________________________________________________________________________________________________________
+   
+   open issues .. 
+   
+   Error display ;; Sections should dynamically align themselves on adding errors;;
+   
+   ____________________________________________________________________
+   
+   category (DataSheet Template) *
+   1. Draw a List page with no data : filter, menu , Rads Config , Controller  *
+   2. insert manual data * 
+   3. view the UI  * 
+   4. Change the template to DataSheetTemplate *
+   5. Update DataSheetTemplate with new Add Columns * 
+   6. Write Code to save the  new records * 
+   7. Test Delete * 
+   8. Write Edit *
+   
+   ___________________________________________________
+   To do on Proj
+   1. Top- bar
+   2 Menu betterment
+   3. Log issue fix
+   __________________________________________
+   Item image Steps.
+   
+   1. change  hbm and DAO or jdbc  to save itemimageSet. 
+   2.  hook it with itemimageController
+   3. write Validations
+   ______________________________________________________
+   
+   To do list
+   
+    using Spring transactions and not manual - medium
+    Log issue -  High
+	PK Generation for transaction objects - High
+	
+	

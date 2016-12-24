@@ -1,0 +1,12 @@
+
+
+
+for (page.getElements ; )
+
+if Element.getModelprop != nulll 
+  
+  in.readProper(this, req , prop) ;
+  
+  
+  
+
