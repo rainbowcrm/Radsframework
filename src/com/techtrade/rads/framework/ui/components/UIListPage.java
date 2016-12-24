@@ -359,15 +359,20 @@ public class UIListPage extends UIPage
 			pageNumber ++ ;
 		} else if  (action ==  FixedAction.NAV_LASTPAGE) {
 			pageNumber = ((ListController)getViewController()).getTotalNumberofPages();
-		}else if  (action ==  FixedAction.ACTION_GOEDITMODE) { 
+		}else if  (action ==  FixedAction.ACTION_GOEDITMODE  || action ==  FixedAction.ACTION_PRINT) { 
 			objects =((ListController)getViewController()).populateFullObjectfromPK(objects);
-			List<RadsError> errors = ((ListController)getViewController()).validateforEdit(objects);
+			List<RadsError> errors = null ;
+			if (action ==  FixedAction.ACTION_GOEDITMODE)
+				errors = ((ListController)getViewController()).validateforEdit(objects);
 			if (!Utils.isNullList(errors)){
 				res.setErrors(errors);
 				objects = ((ListController)getViewController()).getData(pageNumber,filter);
 				applyListValues(objects,action);
 			}else {
-				res = ((ListController)getViewController()).goToEdit(objects);
+				if (action ==  FixedAction.ACTION_GOEDITMODE)
+					res = ((ListController)getViewController()).goToEdit(objects);
+				else
+					res = ((ListController)getViewController()).print(objects);
 				if (!Utils.isNullList(objects))
 					res.setObject(objects.get(0));
 			}

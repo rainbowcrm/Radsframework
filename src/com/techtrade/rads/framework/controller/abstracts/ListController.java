@@ -24,7 +24,8 @@ public abstract class ListController extends ViewController{
 		this.recordsPerPage = recordsPerPage;
 	}
 
-
+	public abstract PageResult print(List<ModelObject> objects) ;
+	
 
 	public abstract List<ModelObject> getData(int pageNumber,Filter filter);
 	

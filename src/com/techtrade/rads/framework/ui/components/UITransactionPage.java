@@ -67,7 +67,12 @@ public class UITransactionPage extends UIPage {
 				result.setErrors(errors);
 				objController.setCreateMode();
 			}
-		} else if (fixedAction == FixedAction.ACTION_GOEDITMODE  || fixedAction == FixedAction.ACTION_GOVIEWMODE) {
+		} else if (fixedAction == FixedAction.ACTION_PRINT  ) { 
+			object = ((TransactionController)getViewController()).populateFullObjectfromPK(((TransactionController)getViewController()).getObject());
+			TransactionController objController = ((TransactionController)getViewController());
+			objController.setObject(object);
+			objController.print() ;
+		}else if (fixedAction == FixedAction.ACTION_GOEDITMODE  || fixedAction == FixedAction.ACTION_GOVIEWMODE) {
 			object = ((TransactionController)getViewController()).populateFullObjectfromPK(((TransactionController)getViewController()).getObject());
 			result.setObject(object);
 			result.setResult(Result.SUCCESS);
