@@ -265,6 +265,9 @@ public class ControllerServlet extends HttpServlet{
 					 ((TransactionController)page.getViewController()).setObject(object);
 				 if (page.getFixedAction() != null ) {
 					 PageResult pageResult = page.applyFixedAction();
+					 if (pageResult !=null && pageResult.getResponseAction().equals(PageResult.ResponseAction.FILEDOWNLOAD)) {
+						 return;
+					 }
 					 String nextPageKey = pageResult.getNextPageKey();
 					 if (!Utils.isNullString(nextPageKey) && !nextPageKey.equals(curKey)) {
 						 if(pageResult.getObject() != null) 
@@ -325,6 +328,9 @@ public class ControllerServlet extends HttpServlet{
 						((DataSheetController) page.getViewController()).setObjects(((UIDataSheetPage)page).getModelObjects());
 					 }
 					 res = page.applyFixedAction(); 
+					 if (res !=null && res.getResponseAction().equals(PageResult.ResponseAction.FILEDOWNLOAD)) {
+						 return;
+					 }
 					 if (!res.hasErrors() &&  page.getFixedAction() == FixedAction.ACTION_GOEDITMODE) {
 							mode =ViewController.Mode.UPDATE;
 					  }
