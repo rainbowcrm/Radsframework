@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.techtrade.rads.framework.context.IRadsContext;
 import com.techtrade.rads.framework.context.RadsContext;
 import com.techtrade.rads.framework.controller.abstracts.CRUDController;
+import com.techtrade.rads.framework.model.abstracts.ModelObject;
 import com.techtrade.rads.framework.model.abstracts.RadsError;
 import com.techtrade.rads.framework.ui.abstracts.PageResult;
 
@@ -18,6 +19,12 @@ public class SupplierController extends CRUDController{
 	
 	
 	
+	@Override
+	public ModelObject populateFullObjectfromPK(ModelObject objects) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 	@Override
 	public IRadsContext generateContext(String authToken) {
 		return null;

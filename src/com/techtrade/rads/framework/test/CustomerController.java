@@ -20,6 +20,12 @@ public class CustomerController extends CRUDController{
 	
 	
 	@Override
+	public ModelObject populateFullObjectfromPK(ModelObject objects) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
 	public IRadsContext generateContext(String authToken) {
 		// TODO Auto-generated method stub
 		return null;

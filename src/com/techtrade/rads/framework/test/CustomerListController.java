@@ -19,6 +19,15 @@ import com.techtrade.rads.framework.ui.abstracts.PageResult;
 public class CustomerListController extends ListController{
 
 	
+	
+	@Override
+	public PageResult print(List<ModelObject> objects) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+
 	@Override
 	public IRadsContext generateContext(String authToken) {
 		// TODO Auto-generated method stub

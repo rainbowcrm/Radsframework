@@ -17,6 +17,12 @@ public class SalesOrderController extends TransactionController{
 	
 	
 	@Override
+	public PageResult print() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
 	public ModelObject populateFullObjectfromPK(ModelObject objects) {
 		// TODO Auto-generated method stub
 		return null;
