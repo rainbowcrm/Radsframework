@@ -20,6 +20,7 @@ import com.techtrade.rads.framework.model.abstracts.ModelObject;
 import com.techtrade.rads.framework.ui.abstracts.UIControl;
 import com.techtrade.rads.framework.ui.components.UICRUDPage;
 import com.techtrade.rads.framework.ui.components.UIElement;
+import com.techtrade.rads.framework.ui.components.UIGeneralPage;
 import com.techtrade.rads.framework.ui.components.UIListPage;
 import com.techtrade.rads.framework.ui.components.UILookupPage;
 import com.techtrade.rads.framework.ui.components.UITable;
@@ -45,6 +46,33 @@ public class HTMLAlternativeReader  extends HTMLReader{
 		
 	}
 
+	protected void readUIGeneralPage(UIGeneralPage page, HttpServletRequest request, ModelObject object ) throws Exception{
+		if ( page != null && page.getForm() != null ) {
+			String fixedActField = page.getTemplate().getFixedActionfield();
+			String fixedAction = request.getParameter(fixedActField);
+			String fixedActionParamField = page.getTemplate().getFixedActionParamfield();
+			if (!Utils.isNullString(fixedAction))
+				page.setFixedAction(FixedAction.getFixedAction(fixedAction));
+			String fixedActionParam = request.getParameter(fixedActionParamField);
+			if (!Utils.isNullString(fixedActionParam))
+				page.setFixedActionParam(fixedActionParam);
+			List <UIElement> inputElements = page.getInputElements() ;
+			for (UIElement element : inputElements) {
+				readControl(element, request, object);
+			}
+			/*if (!Utils.isNullList(page.getForm().getElements() )) {
+				for (UIElement element : page.getForm().getElements() ) {
+					if (element.getControl() instanceof UIMenu )
+						 continue ;
+					if (element instanceof UICondition ) {
+						readConditionalContent((UICondition) element, request, object);
+					}
+					readControl(element, request, object);
+				}
+			}*/
+		}
+	}
+	
 	protected void readUITransactionPage(UITransactionPage page, HttpServletRequest request, ModelObject object ) throws Exception{
 		if ( page != null && page.getForm() != null ) {
 			String fixedActField = page.getTemplate().getFixedActionfield();
