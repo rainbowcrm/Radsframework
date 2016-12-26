@@ -318,6 +318,8 @@ public class ControllerServlet extends HttpServlet{
 					 displayNextPage(page, nextPageKey, object,req,resp,null);
 					 return ;
 				 } else  {
+					 if(res.getObject() != null) 
+						 object = res.getObject();
 					 page.setErrors(res.getErrors());
 				 }
 			 }else  if (page.getViewController() instanceof ListController && page instanceof UIListPage) {

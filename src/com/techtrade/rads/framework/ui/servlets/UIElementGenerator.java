@@ -77,6 +77,7 @@ public class UIElementGenerator {
 	protected static String TAG_KEY = "key";
 	protected static String TAG_VALUE = "value";
 	protected static String TAG_WIDTH = "width";
+	protected static String TAG_ALIGN = "align";
 	protected static String TAG_HEIGHT = "height";
 	protected static String TAG_PLACEHOLDER = "placeholder";
 	protected static String TAG_LEVEL = "level";
@@ -570,7 +571,9 @@ public class UIElementGenerator {
 		}else if (("UITableCol").equalsIgnoreCase(type)){
 			UITableCol tableCol  = new UITableCol();
 			String width = doc.getAttributeValue(TAG_WIDTH);
+			String align  = doc.getAttributeValue(TAG_ALIGN);
 			elem = new UIElement(tableCol);
+			tableCol.setAlign(align);
 			tableCol.setWidth(width);
 			if(!Utils.isNullList(doc.getAllChildElements()))  {
 				for  (XMLElement childElem : doc.getAllChildElements())  {

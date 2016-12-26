@@ -68,6 +68,10 @@ public class UITableCol extends UIControl{
 	@Override
 	public Object clone() throws CloneNotSupportedException {
 		UITableCol col = new UITableCol();
+		col.setStyle(this.getStyle());
+		col.setAlign(this.getAlign());
+		col.setDataProperty(this.getDataProperty());
+		col.setColSpan(this.getDataProperty());
 		if (!Utils.isNullList(this.getElements())) {
 			for (UIElement element : this.getElements()) {
 				UIElement newElement = (UIElement)element.clone();
