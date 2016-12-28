@@ -102,7 +102,7 @@ public class HTMLReader extends Reader{
 		if(property.contains(".")) {
 			String subObjectProperty = property.substring(0, property.indexOf("."));
 			String remainingProperty = property.substring(property.indexOf(".")+1,property.length());
-			Method subObjectRead =  object.getClass().getMethod("get" + Utils.initupper(subObjectProperty));
+			Method subObjectRead =  getterMethod(object.getClass(),Utils.initupper(subObjectProperty));  //object.getClass().getMethod("get" + Utils.initupper(subObjectProperty));
 			Object curObject = subObjectRead.invoke(object);
 			if (curObject == null ) {
 				curObject =   Class.forName(subObjectRead.getReturnType().getName()).newInstance();  //curObject.getClass().newInstance() ; 
@@ -111,7 +111,7 @@ public class HTMLReader extends Reader{
 			}
 			return setonSubObject(curObject,remainingProperty, value,element );
 		}else {
-			 Method methodRead =  object.getClass().getMethod("get" + Utils.initupper(property));
+			 Method methodRead =   getterMethod(object.getClass(),Utils.initupper(property)); //object.getClass().getMethod("get" + Utils.initupper(property));
 			 Method method = object.getClass().getMethod("set" + Utils.initupper(property), new Class[] { methodRead.getReturnType() });
 			   Object param; 
 			   if ("java.util.Date".equals(methodRead.getReturnType()) && element.getControl() instanceof UIDate)
@@ -125,6 +125,8 @@ public class HTMLReader extends Reader{
 		//return object;
 	}
 	
+	
+	
 	protected void callSetter (Object object ,UIElement element , byte[] bytes) {
 		try {             
 			   String property= element.getModelProperty();
@@ -132,7 +134,7 @@ public class HTMLReader extends Reader{
 				   setonSubObject(object,property,null,element) ;
 				   return;
 			   }
-			   Method methodRead =  object.getClass().getMethod("get" + Utils.initupper(property));
+			   Method methodRead =  getterMethod(object.getClass(),Utils.initupper(property));
 			   Method method = object.getClass().getMethod("set" + Utils.initupper(property), new Class[] { methodRead.getReturnType() });
 			   method.invoke(object, bytes);
 			 } catch (Exception ex) {
