@@ -859,7 +859,7 @@ public class HTMLWriter extends Writer{
 	}
 	
 	private boolean isJSFunction(PrintWriter out, UIButton button,FixedAction action) {
-		if (action == FixedAction.ACTION_PLAINSUBMIT ) {
+		if (action == FixedAction.ACTION_PLAINSUBMIT  && Utils.isNull(button.getFixedActionParam()) ) {
 			button.setOnClickJS("submit();");
 			return true ;
 		} else if (action == FixedAction.ACTION_RELOAD ) {

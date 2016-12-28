@@ -33,8 +33,7 @@ public  class UICRUDPage extends UIPage {
 
 	@Override
 	public PageResult submit() throws Exception {
-			// TODO Auto-generated method stub
-		return null;
+		return ((CRUDController)getViewController()).submit(object);
 	}
 
 
@@ -94,6 +93,13 @@ public  class UICRUDPage extends UIPage {
 			object = ((CRUDController)getViewController()).populateFullObjectfromPK(((CRUDController)getViewController()).getObject());
 			result.setObject(object);
 			result.setResult(Result.SUCCESS);
+		}else if (fixedAction == FixedAction.ACTION_PLAINSUBMIT  ) {  
+			String fixedActionParam = this.getFixedActionParam() ;
+			if (Utils.isNullString(fixedActionParam)) {
+				result =((CRUDController)getViewController()).submit(object);
+			}else {
+				result =((CRUDController)getViewController()).submit(object,fixedActionParam);
+			}
 		} else if (fixedAction == FixedAction.ACTION_READ ) {
 			CRUDController objController = ((CRUDController)getViewController());
 			objController.read();

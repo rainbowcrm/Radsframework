@@ -17,6 +17,13 @@ public abstract class TransactionController  extends ViewController {
 		mode = Mode.CREATE ;
 	}
 	
+	public  PageResult submit(ModelObject object) {
+		return new PageResult();
+	}
+	
+	public  PageResult submit(ModelObject object,String actionParam) {
+		return new PageResult();
+	}
 	
 		
 	public ModelObject getObject() {
