@@ -19,6 +19,7 @@ import com.techtrade.rads.framework.ui.constants.FixedAction;
 import com.techtrade.rads.framework.ui.controls.UIButton;
 import com.techtrade.rads.framework.ui.controls.UIDate;
 import com.techtrade.rads.framework.ui.controls.UILookupText;
+import com.techtrade.rads.framework.ui.controls.UIMenu;
 import com.techtrade.rads.framework.ui.controls.UITab;
 import com.techtrade.rads.framework.ui.controls.UITabSet;
 import com.techtrade.rads.framework.utils.Utils;
@@ -99,9 +100,11 @@ public class BootstrapWriter  extends  HTMLWriter{
 		out.println("<link rel=\"stylesheet\" type=\"text/css\" href=\"" +bootstrapPath  + "/css/bootstrap-flex.css\">");
 		out.println("<link rel=\"stylesheet\" type=\"text/css\" href=\"" +bootstrapPath  + "/css/bootstrap-grid.css\">");
 		out.println("<link rel=\"stylesheet\" type=\"text/css\" href=\"" +bootstrapPath  + "/css/bootstrap-reboot.css\">");
+		out.println("<link rel=\"stylesheet\" type=\"text/css\" href=\"" +bootstrapPath  + "/font-awesome-4.7.0/css/font-awesome.min.css\">");
 		out.println("<script src=\"https://npmcdn.com/tether@1.2.4/dist/js/tether.min.js\"></script>");
 		out.println("<script src=\"https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js\"></script>");
 		out.println("<script src=\""+bootstrapPath+"/js/bootstrap.min.js\"></script>");
+		
 
 			
 
@@ -172,6 +175,33 @@ protected void writeTabSet(PrintWriter out, UITabSet tabSet,Object value,ViewCon
 
 	out.println("</td></tr></table>");
 	//out.println("</div>");
+}
+
+protected void writeMenu(PrintWriter out, UIMenu menu) throws IOException {
+	String menuText = menu.getMenuText();
+	if(menu.isExternalize()) {
+		IExternalizeFacade facade  = currentPage.getExternalizeFacade() ;
+		menuText =  facade.externalize(context, menuText);
+	}
+	String style = (!Utils.isNullString(menu.getStyle()) ? "class=\"" + menu.getStyle() + "\"" : "");
+	String menuClick = "\"window.location.href ='"+ menu.getMenuLink() +"'\"" ;
+	String groupId= menu.getGroupId() ;
+	if (!Utils.isNullList(menu.getChildMenus())) {
+		menuClick = "toggleMenuVisibility('" + groupId +"')  ;" ;
+	}
+	out.println("<li id=\"" + menu.getId()+ "\" "+ style +" onClick=" + menuClick +">" + "<span>"+menuText+"</span>");
+	if (Utils.isNullList(menu.getChildMenus())) {
+		out.println("</li>");
+		return ;
+	}
+	
+	out.println("<ul id = \""+ groupId +"\"" +  " style=\"display:none\">") ;
+	for (UIMenu childMenu :  menu.getChildMenus()) {
+		writeMenu(out,childMenu) ;
+	}
+	out.println("</ul>") ;
+	out.println("</li>");
+
 }
 	
 }

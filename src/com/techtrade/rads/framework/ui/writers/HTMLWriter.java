@@ -210,10 +210,13 @@ public class HTMLWriter extends Writer{
 	String jstoggleMenuVisibility = " <script language =\"javascript\"> \n " +
 			" function toggleMenuVisibility(objId) {\n " +
 			 " var menuList  =document.getElementById(objId );  \n" +
+			 " var parentContainer  =menuList.parentElement;  \n" +
 			 " if (menuList.style.display== 'none') { \n " +
 			 "   menuList.style.display = '' ;\n" +
+			 "   parentContainer.classList.add('open');\n" +			 
 			 " }else { \n " + 
 			 "  menuList.style.display= 'none'  ; \n"  +
+			 "   parentContainer.classList.remove('open');\n" +	
 			" }   window.event.stopPropagation() ; \n } \n" + 
 			 " </script>" ;	
 	
