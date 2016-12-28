@@ -1673,6 +1673,7 @@ public class HTMLWriter extends Writer{
 		
 		out.println("<Form name =\"" +  page.getFormName() + "\" , method= \"POST\" >");
 		//printErrors(page, out);
+		page.getPageNumElement().setValue(page.getPageNumber());
 		writeElement(new UIElement(page.getPageNumElement()), page.getPageNumber(),controller);
 		writeHidden(out, new UIHidden(page.getTemplate().getFixedActionfield()));
 		writeHidden(out, new UIHidden(page.getTemplate().getSubmitActionfield()));
