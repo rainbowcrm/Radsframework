@@ -22,6 +22,14 @@ public abstract class CRUDController extends ViewController{
 		this.object = object;
 	}
 	
+	public  PageResult submit(ModelObject object) {
+		return new PageResult();
+	}
+	
+	public  PageResult submit(ModelObject object,String actionParam) {
+		return new PageResult();
+	}
+	
 	
 	public abstract List<RadsError> validateforCreate() ;
 	public abstract List<RadsError> validateforUpdate() ;

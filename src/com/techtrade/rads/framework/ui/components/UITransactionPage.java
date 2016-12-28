@@ -21,9 +21,9 @@ public class UITransactionPage extends UIPage {
 
 	@Override
 	public PageResult submit() throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		return ((TransactionController)getViewController()).submit(object);
 	}
+
 
 	@Override
 	public PageResult applyFixedAction() throws Exception {
@@ -67,7 +67,16 @@ public class UITransactionPage extends UIPage {
 				result.setErrors(errors);
 				objController.setCreateMode();
 			}
-		} else if (fixedAction == FixedAction.ACTION_PRINT  ) { 
+		} else if (fixedAction == FixedAction.ACTION_PLAINSUBMIT  ) {  
+			TransactionController objController = ((TransactionController)getViewController());
+			object = objController.getObject();
+			String fixedActionParam = this.getFixedActionParam() ;
+			if (Utils.isNullString(fixedActionParam)) {
+				result =((TransactionController)getViewController()).submit(object);
+			}else {
+				result =((TransactionController)getViewController()).submit(object,fixedActionParam);
+			}
+		}else if (fixedAction == FixedAction.ACTION_PRINT  ) { 
 			object = ((TransactionController)getViewController()).populateFullObjectfromPK(((TransactionController)getViewController()).getObject());
 			TransactionController objController = ((TransactionController)getViewController());
 			objController.setObject(object);
