@@ -298,6 +298,28 @@ public class ControllerServlet extends HttpServlet{
 						 page.setPageKey(curKey);
 					 	 page.setErrors(pageResult.getErrors());
 					 }
+				 }else {
+					 String navAction = req.getParameter("navAction") ;
+					 if (!Utils.isNullString(navAction) && "loadfromPK".equalsIgnoreCase(navAction)) {
+						 if (page.getViewController() instanceof CRUDController){
+							 object = ((CRUDController)page.getViewController()).populateFullObjectfromPK(object);
+							 ((CRUDController)page.getViewController()).setObject(object);
+						 }else{
+							 object = ((TransactionController)page.getViewController()).populateFullObjectfromPK(object);
+							 ((TransactionController)page.getViewController()).setObject(object);
+						 }
+						 
+					 }else  if (!Utils.isNullString(navAction) && "loadfromBK".equalsIgnoreCase(navAction)) {
+						 if (page.getViewController() instanceof CRUDController)  {
+							 ((CRUDController)page.getViewController()).read();
+							 object =((CRUDController)page.getViewController()).getObject() ;
+						 } else {
+							 ((TransactionController)page.getViewController()).read();
+							 object =((TransactionController)page.getViewController()).getObject() ;
+						 }
+						 
+					 }
+					 
 				 }
 				 
 			 }else if (page.getViewController() instanceof GeneralController) {

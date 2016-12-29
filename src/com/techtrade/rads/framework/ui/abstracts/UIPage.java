@@ -3,6 +3,8 @@ package com.techtrade.rads.framework.ui.abstracts;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import com.techtrade.rads.framework.controller.abstracts.IExternalizeFacade;
 import com.techtrade.rads.framework.controller.abstracts.ViewController;
 import com.techtrade.rads.framework.controller.abstracts.CRUDController;
@@ -52,6 +54,7 @@ public abstract class UIPage  extends UIControl {
 	
 	public abstract PageResult applyFixedAction() throws Exception ;
 	
+
 	public String getTitle() {
 		return title;
 	}
