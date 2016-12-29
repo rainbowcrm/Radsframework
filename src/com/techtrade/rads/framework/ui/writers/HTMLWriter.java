@@ -41,6 +41,7 @@ import com.techtrade.rads.framework.ui.components.UITableRow;
 import com.techtrade.rads.framework.ui.components.UITransactionPage;
 import com.techtrade.rads.framework.ui.constants.FixedAction;
 import com.techtrade.rads.framework.ui.constants.RadsConstants;
+import com.techtrade.rads.framework.ui.controls.UIBooleanCheckBox;
 import com.techtrade.rads.framework.ui.controls.UIBreak;
 import com.techtrade.rads.framework.ui.controls.UIButton;
 import com.techtrade.rads.framework.ui.controls.UICondition;
@@ -419,6 +420,8 @@ public class HTMLWriter extends Writer{
 				writeList(out,lst);
 			}else if ( control instanceof UICheckBox) {
 				writeCheckBox(out , (UICheckBox) control );
+			}else if ( control instanceof UIBooleanCheckBox) {
+				writeBooleanCheckBox(out , (UIBooleanCheckBox) control );
 			}else if ( control instanceof UIRadioBox) {
 				writeRadioBox(out , (UIRadioBox) control );
 			}else if ( control instanceof UILabel) {
@@ -740,6 +743,24 @@ public class HTMLWriter extends Writer{
 		
 	}
 
+	protected void writeBooleanCheckBox(PrintWriter out, UIBooleanCheckBox checkBox) throws IOException {
+		IExternalizeFacade facade = null;
+		if(checkBox.isExternalize()) {
+			facade  = currentPage.getExternalizeFacade() ;
+		}
+		String dataProp = "data-property=\"" + checkBox.getDataProperty() + "\""; 
+		
+		String st = checkBox.getDisplayText();
+		Boolean selectedVal = Utils.getBooleanValue(String.valueOf(checkBox.getValue()));
+		String selected = selectedVal?"selected":"";
+		String hiddenVal =selectedVal?"true":"false";
+		out.println("<input type =\"hidden\" id=\"" +  checkBox.getHiddenControlId() + "\"  name =\"" + checkBox.getHiddenControlId()  + "\" value =\""+
+		 hiddenVal + "\"> ");
+		out.println("<input type =\"checkbox\" id=\"" +  checkBox.getId() + "\"  name =\"" +checkBox.getId()  + "\" " + dataProp + 
+				" value =\""+ st + "\"  onclick=\"workBooleanCheckBoxControl(this,'"+ checkBox.getHiddenControlId() +"')\" " + selected + " /><span>"	  +"</span>"  ) ;
+		
+		
+	}
 	protected void writeCheckBox(PrintWriter out, UICheckBox checkBox) throws IOException {
 		IExternalizeFacade facade = null;
 		if(checkBox.isExternalize()) {

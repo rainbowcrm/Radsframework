@@ -24,6 +24,7 @@ import com.techtrade.rads.framework.ui.components.UITableRow;
 import com.techtrade.rads.framework.ui.config.AppConfig;
 import com.techtrade.rads.framework.ui.config.PanelConfig;
 import com.techtrade.rads.framework.ui.constants.FixedAction;
+import com.techtrade.rads.framework.ui.controls.UIBooleanCheckBox;
 import com.techtrade.rads.framework.ui.controls.UIBreak;
 import com.techtrade.rads.framework.ui.controls.UIButton;
 import com.techtrade.rads.framework.ui.controls.UICheckBox;
@@ -70,6 +71,7 @@ public class UIElementGenerator {
 	protected static String TAG_PROPERTY = "property";
 	protected static String TAG_OPTIONS = "options";
 	protected static String TAG_OPTION = "option";
+	protected static String TAG_HIDDENCTRLID = "hiddenControlId";
 	protected static String TAG_ROWS = "rows";
 	protected static String TAG_COLS = "cols";
 	protected static String TAG_FORMAT = "format";
@@ -252,6 +254,12 @@ public class UIElementGenerator {
 		} else if ("UICheckBox".equals(control))  {
 			UICheckBox box = new UICheckBox(id +index,"" );
 			box.addOption(propertValue, propertValue);
+			UITableCol col = new UITableCol(new UIElement(box) , width + "%");
+			return col ;
+		}else if ("UIBooleanCheckBox".equals(control))  {
+			UIBooleanCheckBox box = new UIBooleanCheckBox(id +index);
+			String hdnControlName = doc.getAttributeValue(TAG_HIDDENCTRLID);
+			box.setHiddenControlId(hdnControlName);
 			UITableCol col = new UITableCol(new UIElement(box) , width + "%");
 			return col ;
 		}
@@ -802,6 +810,15 @@ public class UIElementGenerator {
 			Map <String,String> options = getListOptions (doc,controller);
 			for (String s : options.keySet() ) {
 				box.addOption(s, options.get(s));			}
+			elem = new UIElement(label,box,property);
+			if (Utils.isNullString(property))
+				elem.setValue(value);
+			elem.getControl().setStyle(style);
+		}else if ("UIBooleanCheckBox".equals(type))  {
+			UIBooleanCheckBox box = new UIBooleanCheckBox(id );
+			box.setDataProperty(property);
+			String hdnControlName = doc.getAttributeValue(TAG_HIDDENCTRLID);
+			box.setHiddenControlId(hdnControlName);
 			elem = new UIElement(label,box,property);
 			if (Utils.isNullString(property))
 				elem.setValue(value);

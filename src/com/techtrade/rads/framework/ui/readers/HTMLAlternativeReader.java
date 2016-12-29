@@ -26,6 +26,7 @@ import com.techtrade.rads.framework.ui.components.UILookupPage;
 import com.techtrade.rads.framework.ui.components.UITable;
 import com.techtrade.rads.framework.ui.components.UITransactionPage;
 import com.techtrade.rads.framework.ui.constants.FixedAction;
+import com.techtrade.rads.framework.ui.controls.UIBooleanCheckBox;
 import com.techtrade.rads.framework.ui.controls.UICondition;
 import com.techtrade.rads.framework.ui.controls.UIDate;
 import com.techtrade.rads.framework.ui.controls.UIDiv;
@@ -135,7 +136,12 @@ public class HTMLAlternativeReader  extends HTMLReader{
 	}
 	
 	protected void readCollections(UIElement element ,HttpServletRequest request, ModelObject object ) throws Exception{
-		String[] values = request.getParameterValues(element.getControl().getId());
+		String[] values ;
+		if (element.getControl() instanceof UIBooleanCheckBox) {
+			values = request.getParameterValues(((UIBooleanCheckBox)element.getControl()).getHiddenControlId());
+		}else {
+			values = request.getParameterValues(element.getControl().getId());
+		}
 		if (values == null ) return ;
 		String modelProperty = element.getExtendedmodelProperty();
 		String collectionProperty = modelProperty.substring(0, modelProperty.indexOf("["));
