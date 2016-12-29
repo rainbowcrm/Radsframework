@@ -752,7 +752,7 @@ public class HTMLWriter extends Writer{
 		
 		String st = checkBox.getDisplayText();
 		Boolean selectedVal = Utils.getBooleanValue(String.valueOf(checkBox.getValue()));
-		String selected = selectedVal?"selected":"";
+		String selected = selectedVal?"checked":"";
 		String hiddenVal =selectedVal?"true":"false";
 		out.println("<input type =\"hidden\" id=\"" +  checkBox.getHiddenControlId() + "\"  name =\"" + checkBox.getHiddenControlId()  + "\" value =\""+
 		 hiddenVal + "\"> ");
