@@ -214,9 +214,14 @@ public class HTMLAlternativeReader  extends HTMLReader{
 					try { 
 						final Part filePart = request.getPart(element.getControl().getId()); 
 						InputStream  filecontent = filePart.getInputStream();
+						String fileName =getFileName(filePart);
 						final byte[] bytes = new byte[((UIFileUpload)element.getControl()).getMaxSize()];
 						filecontent.read(bytes);
 						callSetter(object,element, bytes);
+						String fileNameProp = element.getFileNameProperty() ;
+						if(!Utils.isNull(fileNameProp)) {
+							callSetter(object, fileNameProp, fileName);
+						}
 					}catch(Exception ex) {
 						// File not present"
 					}
