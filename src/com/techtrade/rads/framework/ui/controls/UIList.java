@@ -15,6 +15,7 @@ public class UIList extends UIControl {
 	private  Map<String,String> options = null;
 	private String size ;
 	String dblClickJS; 
+	String onChangeJS;
 
 	
 	public Map<String, String> getOptions() {
@@ -64,6 +65,14 @@ public class UIList extends UIControl {
 
 	public void setDblClickJS(String dblClickJS) {
 		this.dblClickJS = dblClickJS;
+	}
+
+	public String getOnChangeJS() {
+		return onChangeJS;
+	}
+
+	public void setOnChangeJS(String onChangeJS) {
+		this.onChangeJS = onChangeJS;
 	}
 	
 	

@@ -8,7 +8,7 @@ import com.techtrade.rads.framework.context.IRadsContext;
 
 public interface ILookupService {
 
-	public  List<Object> lookupData(IRadsContext ctx,String searchString, int from , int noRecords );
+	public  List<Object> lookupData(IRadsContext ctx,String searchString, int from , int noRecords , String lookupParam);
 	
 	public abstract IRadsContext generateContext(HttpServletRequest request);
 }

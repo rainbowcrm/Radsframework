@@ -186,10 +186,12 @@ public class ControllerServlet extends HttpServlet{
 		HTMLReader reader = new  HTMLReader(req) ;
 		 reader.read(page,object,null);
 		String searchString   =  String.valueOf(lookupPage.getSearchValue());
+		String additionalParam = req.getParameter("additionalParam");
+		lookupPage.setAdditionalParam(additionalParam);
 		int from  =lookupPage.getFrom() ;
 		int noRecords = lookupPage.getNoRecords() ;
 		IRadsContext ctx = lookupService.generateContext(req);
-		List lstValues = lookupService.lookupData(ctx,searchString, from, noRecords);
+		List lstValues = lookupService.lookupData(ctx,searchString, from, noRecords,additionalParam);
 		lookupPage.applyListValues(lstValues);
 		 String appURL = AppConfig.APPCONFIG.getAppURL(getServletContext().getRealPath("/"));
 		 IExternalizeFacade externalizeFacade = AppConfig.APPCONFIG.getExternalizeFacade() ;

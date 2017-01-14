@@ -292,7 +292,8 @@ public class UIElementGenerator {
 		String mandatory = doc.getAttributeValue(TAG_ISMANDATORY);
 		String showInPrevCol = doc.getAttributeValue(TAG_SHOWINPREVCOL);
 		String externalise = doc.getAttributeValue(TAG_EXTERNALISE);
-		String onChangeJS = doc.getAttributeValue(TAG_ONCLICKJS);
+		String onClickJS = doc.getAttributeValue(TAG_ONCLICKJS);
+		String onChangeJS = doc.getAttributeValue(TAG_ONCHANGEJS);
 		boolean  styleonChildren = false ;
 		
 		if (("true".equalsIgnoreCase(tagApplyStyleonChildren)) || (Utils.isNullString(tagApplyStyleonChildren)  &&  propogateStyletoChildren == true) ){
@@ -788,6 +789,8 @@ public class UIElementGenerator {
 			if (Utils.isNullString(property))
 				elem.setValue(value);
 			elem.getControl().setStyle(style);
+			if(!Utils.isNullString(onChangeJS))
+				lst.setOnChangeJS(onChangeJS);
 			XMLElement node = doc.getFirstChildElement(TAG_OPTIONS);
 			if (node != null ) {
 				String populator  =  node.getAttributeValue(TAG_POPULATOR);
@@ -873,7 +876,7 @@ public class UIElementGenerator {
 		    }
 
 		}else if (("UIButton").equalsIgnoreCase(type)){
-			String onClickJS = doc.getAttributeValue(TAG_ONCLICKJS);
+			//String onClickJS = doc.getAttributeValue(TAG_ONCLICKJS);
 			String caption = doc.getAttributeValue(TAG_CAPTION);
 			String fixedAction = doc.getAttributeValue(TAG_FIXEDACTION);
 			String fixedActionParam = doc.getAttributeValue(TAG_FIXEDACTIONPARAM);

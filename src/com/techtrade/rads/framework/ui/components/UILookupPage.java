@@ -35,6 +35,7 @@ public class UILookupPage extends UIPage{
 	String lookupType; 
 	String parentControl; 
 	String dialogId;
+	String additionalParam;
 	
 	public UILookupPage() {
 	}
@@ -58,7 +59,7 @@ public class UILookupPage extends UIPage{
 		this.lookupSevice = lookupSevice;
 	}
 	public List<Object> lookupValues( String searchString ,int from, int noRecords) {
-		return lookupSevice.lookupData(null,searchString, from, noRecords);
+		return lookupSevice.lookupData(null,searchString, from, noRecords,null);
 	}
 	public UIForm getForm() {
 		return form;
@@ -73,7 +74,17 @@ public class UILookupPage extends UIPage{
 		else
 		   return noRecords;
 	}
+	
+	
 
+
+	public String getAdditionalParam() {
+		return additionalParam;
+	}
+
+	public void setAdditionalParam(String additionalParam) {
+		this.additionalParam = additionalParam;
+	}
 
 	public void setNoRecords(int noRecords) {
 		this.noRecords = noRecords;

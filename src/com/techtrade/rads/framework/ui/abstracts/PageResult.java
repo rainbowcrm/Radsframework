@@ -15,7 +15,7 @@ public class PageResult extends TransactionResult{
 	// boolean redirectToNext ; // true - redirect ; false - forward response ;
 	
 	 public enum ResponseAction {
-		 DEFAULT,FULLRELOAD, RELOADSTATICCONTS , NORELOAD , NEWPAGE, FILEDOWNLOAD;
+		 DEFAULT,FULLRELOAD, RELOADSTATICCONTS , NORELOAD , NEWPAGE, FILEDOWNLOAD, POPUPRESPONSE;
 	 }  
 	 
 	 ResponseAction responseAction = ResponseAction.DEFAULT;

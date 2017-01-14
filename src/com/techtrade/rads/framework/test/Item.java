@@ -34,11 +34,11 @@ public class Item extends ModelObject {
 		this.id = id;
 	}
 
-	public String getSkuName() {
+	public String getItemName() {
 		return skuName;
 	}
 
-	public void setSkuName(String skuName) {
+	public void setItemName(String skuName) {
 		this.skuName = skuName;
 	}
 

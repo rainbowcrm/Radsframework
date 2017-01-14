@@ -725,10 +725,12 @@ public class HTMLWriter extends Writer{
 			facade  = currentPage.getExternalizeFacade() ;
 		}
 		String dblClick = Utils.isNullString(list.getDblClickJS())?"":"ondblclick="+list.getDblClickJS() ;
+		String onChangeJS = Utils.isNullString(list.getOnChangeJS())?"":"onchange=\""+list.getOnChangeJS() + "\"" ;
 		String dataProp = "data-property=\"" + list.getDataProperty() + "\"";  
  		String sizeStr = Utils.isNullString(list.getSize()) ?"":" size= " +  list.getSize() ;
  		String style = (!Utils.isNullString(list.getStyle()) ? "class=\"" + list.getStyle() + "\"" : "");
-		out.println("<select id=\"" + list.getId()+ "\" name =\"" +list.getId()  + "\" " + sizeStr +" "  + style + " " + dataProp + " " + dblClick + " >");
+		out.println("<select id=\"" + list.getId()+ "\" name =\"" +list.getId()  + "\" " + sizeStr +" "  + style + " " + dataProp + " " + " " + 
+ 		onChangeJS + " " + dblClick + " >");
 		if (!Utils.isNullMap(list.getOptions())) {
 			for ( String st: list.getOptions().keySet() ){
 				String selected = st.equals(String.valueOf(list.getValue()))?"selected":"";
