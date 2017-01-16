@@ -83,6 +83,7 @@ public class UITransactionPage extends UIPage {
 			objController.print() ;
 		}else if (fixedAction == FixedAction.ACTION_GOEDITMODE  || fixedAction == FixedAction.ACTION_GOVIEWMODE) {
 			object = ((TransactionController)getViewController()).populateFullObjectfromPK(((TransactionController)getViewController()).getObject());
+			((TransactionController)getViewController()).adapttoUI(object);
 			result.setObject(object);
 			result.setResult(Result.SUCCESS);
 		}

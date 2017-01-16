@@ -76,7 +76,7 @@ public class HTMLReader extends Reader{
 			}else if ( control instanceof UIGeneralPage) {
 				readUIGeneralPage((UIGeneralPage)control, request, object);
 			}  else if ( control instanceof UILookupPage) {
-				readUILookupPage((UILookupPage)control, request);
+				readUILookupPage((UILookupPage)control, request, object);
 			}  else if ( control instanceof UITable) {
 				readTable((UITable)control, request, object,modelProperty);
 			}else if ( control instanceof UIDataSheetPage) {
@@ -601,7 +601,7 @@ public class HTMLReader extends Reader{
 		}
 	}
 	
-	protected void readUILookupPage(UILookupPage page, HttpServletRequest request ) {
+	protected void readUILookupPage(UILookupPage page, HttpServletRequest request , ModelObject object) throws RadsException,Exception {
 		ILookupService lookup = page.getLookupSevice() ;
 		String searchObject  =page.getSearchControl();
 		String searchString = request.getParameter(searchObject);
@@ -612,6 +612,16 @@ public class HTMLReader extends Reader{
 		page.setParentControl(parentControl);
 		page.setSearchValue(searchString);
 		page.setDialogId(dialogId);
+		if (!Utils.isNullList(page.getForm().getElements() )) {
+			for (UIElement element : page.getForm().getElements() ) {
+				if (element.getControl() instanceof UIMenu )
+					 continue ;
+				if (element instanceof UICondition ) {
+					readConditionalContent((UICondition) element, request, object);
+				}
+				readControl(element, request, object);
+			}
+		}
 	}
 	
 	

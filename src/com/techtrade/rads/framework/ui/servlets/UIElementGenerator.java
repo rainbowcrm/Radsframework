@@ -93,6 +93,7 @@ public class UIElementGenerator {
 	protected static String TAG_SAVEFILENAME = "fileNameProperty";
 	protected static String TAG_SUPPLPROPERTY = "supplementaryProperty";
 	protected static String TAG_LOOKUPTYPE = "lookupType";
+	protected static String TAG_ADDITIONAL_INPUT_CTRL= "additionalInputControl";
 	protected static String TAG_ONCLICKJS = "onClickJS";
 	protected static String TAG_ONCHANGEJS = "onChangeJS";
 	protected static String TAG_FOCUSINJS = "focusinJS";
@@ -831,9 +832,11 @@ public class UIElementGenerator {
 			String height =  Utils.getNodeValuefromXML(doc, TAG_HEIGHT) ;
 			String width = Utils.getNodeValuefromXML(doc, TAG_WIDTH) ;
 			String size = doc.getAttributeValue(TAG_SIZE) ;
+			String additionalInputControl = doc.getAttributeValue(TAG_ADDITIONAL_INPUT_CTRL);
 			UILookupText lkpText =new UILookupText(id,lookupType);
 			lkpText.setWindowHeight(height);
 			lkpText.setWindowWidth(width);
+			lkpText.setAdditionalInputControl(additionalInputControl);
 			if (Utils.isPositiveInt(size)) {
 				lkpText.setSize(Integer.parseInt(size));
 			}

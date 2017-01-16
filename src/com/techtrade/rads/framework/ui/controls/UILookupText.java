@@ -22,6 +22,8 @@ public class UILookupText extends UIControl {
 	String frameStyle;
 	
 	
+	String additionalInputControl;
+	
 	
 	public UILookupText (String id) {
 		setId(id);
@@ -111,6 +113,14 @@ public class UILookupText extends UIControl {
 	public void setSize(int size) {
 		this.size = size;
 	}
+	public String getAdditionalInputControl() {
+		return additionalInputControl;
+	}
+	public void setAdditionalInputControl(String additionalInputControl) {
+		this.additionalInputControl = additionalInputControl;
+	}
+	
+	
 	
 
 }

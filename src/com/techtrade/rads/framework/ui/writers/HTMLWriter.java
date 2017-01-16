@@ -146,7 +146,7 @@ public class HTMLWriter extends Writer{
 			 " </script>" ;
 	
 	String jsLookupWindow = " <script language =\"javascript\"> \n " +
-			" function showLookupWindow(url,title,returntxt,height,width) {\n " +
+			" function showLookupWindow(url,title,returntxt,height,width,additionalControl) {\n " +
 			" window.open(url,title,'resizable=0,toolbar=0,status=0,titlebar=0,height=' + height + ',width=' + width  );\n" +
 			" } \n" + 
 			 " </script>" ;
@@ -1027,13 +1027,14 @@ public class HTMLWriter extends Writer{
 		String height = textLookup.getWindowHeight() ;
 		String width =textLookup.getWindowWidth() ;
 		String title= textLookup.getLookupWindowTitle();
+		String additionalControl = textLookup.getAdditionalInputControl() ;
 		String urlText = textLookup.getUrl() + "&lookupType=" + textLookup.getLookupType() + "&parentControl=" +  textLookup.getId();
 		//out.println("<button type =\"submit\"  src =\"" + textLookup.getImgSrc() + "\" onClick=\"showLookupWindow('"+textLookup.getId()+"');\" > </button>");
 		if (textLookup.isShowLookupAsDialog()) {
 			writeLookupDialog(out, textLookup);
-			out.println("<button  type =\"button\"   name=\"btn+"+ textLookup.getId() + "\" onClick=\"showLookupDialog('" + textLookup.getDialogId()  + "',this);\" >" + "..." +" </button>");
+			out.println("<button  type =\"button\"   name=\"btn+"+ textLookup.getId() + "\" onClick=\"showLookupDialog('" + textLookup.getDialogId()  + "',this,'"+additionalControl+"');\" >" + "..." +" </button>");
 		}else {
-			out.println("<button  type =\"button\"    name=\"btn+"+ textLookup.getId() + "\" onClick=\"showLookupWindow('"+ urlText +"','"+title+"','"+textLookup.getId()+"','"+height+"','"+ width+"');\" >" + "..." +" </button>");
+			out.println("<button  type =\"button\"    name=\"btn+"+ textLookup.getId() + "\" onClick=\"showLookupWindow('"+ urlText +"','"+title+"','"+textLookup.getId()+"','"+height+"','"+ width+"','"+additionalControl+"');\" >" + "..." +" </button>");
 		}
 		
 		

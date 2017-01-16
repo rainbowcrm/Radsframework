@@ -35,7 +35,6 @@ public class UILookupPage extends UIPage{
 	String lookupType; 
 	String parentControl; 
 	String dialogId;
-	String additionalParam;
 	
 	public UILookupPage() {
 	}
@@ -78,13 +77,7 @@ public class UILookupPage extends UIPage{
 	
 
 
-	public String getAdditionalParam() {
-		return additionalParam;
-	}
 
-	public void setAdditionalParam(String additionalParam) {
-		this.additionalParam = additionalParam;
-	}
 
 	public void setNoRecords(int noRecords) {
 		this.noRecords = noRecords;

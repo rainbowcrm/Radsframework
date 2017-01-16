@@ -21,6 +21,7 @@ import com.techtrade.rads.framework.controller.abstracts.TransactionController;
 import com.techtrade.rads.framework.controller.abstracts.ViewController;
 import com.techtrade.rads.framework.exceptions.RadsException;
 import com.techtrade.rads.framework.model.abstracts.ModelObject;
+import com.techtrade.rads.framework.model.simple.LookupObject;
 import com.techtrade.rads.framework.model.transaction.TransactionResult;
 import com.techtrade.rads.framework.ui.abstracts.ILookupService;
 import com.techtrade.rads.framework.ui.abstracts.PageResult;
@@ -172,11 +173,12 @@ public class ControllerServlet extends HttpServlet{
 		String lookupType  = req.getParameter("lookupType");
 		String dialogId= req.getParameter("dialogId");
 		UIPage page = null ;
-		ModelObject object = null ;
+		//ModelObject object = null ;
 		try {
 		LookupConfig lookupConfig = AppConfig.APPCONFIG.getLookupConfig(getServletContext().getRealPath("/"), lookupType);
 		String lookupPageID =  lookupConfig.getLookupPage() ;
 		PageConfig config = AppConfig.APPCONFIG.getPageConfig(getServletContext().getRealPath("/"), lookupPageID);
+		LookupObject object =(LookupObject)PageGenerator.readObjectfromPageConfig(config);
 		String  lookupServiceClass = lookupConfig.getService() ;
 		UILookupPage lookupPage =  (UILookupPage)PageGenerator.getPagefromKey(config,object,req,null,resp,getServletContext());
 		lookupPage.setDialogId(dialogId);
@@ -187,7 +189,7 @@ public class ControllerServlet extends HttpServlet{
 		 reader.read(page,object,null);
 		String searchString   =  String.valueOf(lookupPage.getSearchValue());
 		String additionalParam = req.getParameter("additionalParam");
-		lookupPage.setAdditionalParam(additionalParam);
+		object.setAdditionalParam(additionalParam);
 		int from  =lookupPage.getFrom() ;
 		int noRecords = lookupPage.getNoRecords() ;
 		IRadsContext ctx = lookupService.generateContext(req);

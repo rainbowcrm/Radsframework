@@ -147,7 +147,7 @@ public class HTMLAlternativeReader  extends HTMLReader{
 		String collectionProperty = modelProperty.substring(0, modelProperty.indexOf("["));
 		String subObjectDataType = modelProperty.substring(modelProperty.indexOf("[")+1, modelProperty.indexOf("]"));
 		String finalProperty = modelProperty.substring(modelProperty.indexOf("].")+2, modelProperty.length());
-		Method collectionObjectRead =  object.getClass().getMethod("get" + collectionProperty);
+		Method collectionObjectRead =  object.getClass().getMethod("get" + Utils.initupper(collectionProperty));
 		Collection collObject = (Collection)collectionObjectRead.invoke(object);
 		if (List.class.isAssignableFrom(collectionObjectRead.getReturnType())) {
 			if (collObject  == null)
@@ -172,7 +172,7 @@ public class HTMLAlternativeReader  extends HTMLReader{
 			
 		}
 
-		Method methodSet = object.getClass().getMethod("set" + collectionProperty, new Class[] { collectionObjectRead.getReturnType() });
+		Method methodSet = object.getClass().getMethod("set" + Utils.initupper(collectionProperty), new Class[] { collectionObjectRead.getReturnType() });
 		methodSet.invoke(object, collObject);
 	}
 	
@@ -224,6 +224,11 @@ public class HTMLAlternativeReader  extends HTMLReader{
 						}
 					}catch(Exception ex) {
 						// File not present"
+					}
+				}else if (element.getControl() instanceof UIBooleanCheckBox) { 
+					String value  =  request.getParameter(((UIBooleanCheckBox)element.getControl()).getHiddenControlId()) ;
+					if (!Utils.isNullString(value)){
+						callSetter(object,element, value);
 					}
 				}else { String value  =  request.getParameter(element.getControl().getId()) ;
 					if (!Utils.isNullString(value)){
