@@ -353,9 +353,9 @@ public class HTMLWriter extends Writer{
 				else
 					writeLabel(out, element.getLabel(),false);
 			}
-			if (value instanceof ModelObject &&  displayValue == null ) {
+			/*if (value instanceof ModelObject &&  displayValue == null ) {
 				System.out.println("Debugg");
-			}
+			}*/
 			if ( control instanceof UIForm) {
 				writeForm(out, (UIForm) control,value,controller);
 			} else if ( control instanceof UITable) {
@@ -795,7 +795,7 @@ public class HTMLWriter extends Writer{
 			}
 			String selected = st.equals(radioBox.getValue())?"checked=\"checked\"":"";
 			out.println("<input type =\"radio\" id=\"" +  radioBox.getId() + "\" name = \""+ radioBox.getId() 
-					+"\"  "  +  dataProp +  " value =\""+ st + "\" " + selected + " />"  + displayVal) ;
+					+"\"  "  +  dataProp +  " value =\""+ st + "\" " + selected + " />"  + displayVal  + "&nbsp;") ;
 		}
 	}
 	
