@@ -775,8 +775,10 @@ public class UIElementGenerator {
 			elem =  new UIElement(label, tSet,property);
 			for  (XMLElement childElem : doc.getAllChildElements())  {
 				UIElement element = getUIElement(childElem, controller, page,styleonChildren,style);
-				if(element != null)
+				if(element != null) {
+					element.getControl().setStyle(style);
 					tSet.addTab((UITab)element.getControl());
+				}
 			}
 		}else if (("UIList").equalsIgnoreCase(type)){
 			UIList lst = new UIList(id);

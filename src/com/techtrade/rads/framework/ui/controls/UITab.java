@@ -10,6 +10,7 @@ public class UITab extends UIControl {
 	UILabel label;
 	boolean visible;
 	String width;
+	int index;
 
 	public boolean isVisible() {
 		return visible;
@@ -60,4 +61,13 @@ public class UITab extends UIControl {
 		this.width = width;
 	}
 
+	public int getIndex() {
+		return index;
+	}
+
+	public void setIndex(int index) {
+		this.index = index;
+	}
+
+	
 }

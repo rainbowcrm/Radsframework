@@ -94,7 +94,7 @@ public class BootstrapWriter  extends  HTMLWriter{
 		writeMetaData(out, page);
 		page.getStyleSheets().forEach( styleSheet -> { 
 			out.println("<link rel=\"stylesheet\" type=\"text/css\" href=\"" + styleSheet + "\">");	
-		});
+		});		
 		out.println("<link rel=\"stylesheet\" href=\"https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css\">"); 
 		out.println("<link rel=\"stylesheet\" type=\"text/css\" href=\"" +bootstrapPath  + "/css/bootstrap.css\">");
 		out.println("<link rel=\"stylesheet\" type=\"text/css\" href=\"" +bootstrapPath  + "/css/bootstrap-flex.css\">");
@@ -103,7 +103,7 @@ public class BootstrapWriter  extends  HTMLWriter{
 		out.println("<link rel=\"stylesheet\" type=\"text/css\" href=\"" +bootstrapPath  + "/font-awesome-4.7.0/css/font-awesome.min.css\">");
 		out.println("<script src=\"https://npmcdn.com/tether@1.2.4/dist/js/tether.min.js\"></script>");
 		out.println("<script src=\"https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js\"></script>");
-		out.println("<script src=\""+bootstrapPath+"/js/bootstrap.min.js\"></script>");
+		out.println("<script src=\"https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js\"></script>");
 		
 
 			
@@ -148,34 +148,63 @@ protected void writeTabSet(PrintWriter out, UITabSet tabSet,Object value,ViewCon
 	String style = (!Utils.isNullString(tabSet.getStyle()) ? tabSet.getStyle() : "");
 	String titleStyleUnSelected  = tabSet.getUnSelectedTabStyle() ;
 	String titleStyleSelected =  tabSet.getSelectedTabStyle() ;
-	out.println("<table class='nav nav-tabs "+style+"' >");
+	out.println("<div class='panel with-nav-tabs panel-default' " + width + "  >");
 	//	out.println("<div id= \""+ tabSet.getId() + "\"" +  style + ">");
-	out.println("<tr class='nav-item'><th>");
+	out.println("<div class='panel-heading'>");
+	out.println("<ul class='nav nav-tabs'>");
 	int count = 0 ;
 	for(UITab tab :  tabSet.getTabs()) {
 
 		IExternalizeFacade facade  = currentPage.getExternalizeFacade() ;
 		String labelValue =  facade.externalize(context, tab.getLabel().getLabel());
-		out.println("<span id=\"SP" + tab.getId()+ "\"  class = \""+ ((count==0)?titleStyleSelected:titleStyleUnSelected) + 
+		String active = "";
+		if (count == 0 )
+			active = "class =\"active\"";
+		out.println("<li " + active +" >");
+		out.println("<a href=\"#"+tab.getId()+"\" data-toggle=\"tab\">" + labelValue + "</a>"  );
+		out.println("</li>");
+		/*out.println("<span id=\"SP" + tab.getId()+ "\"  class = \""+ ((count==0)?titleStyleSelected:titleStyleUnSelected) + 
 				"\" onClick =\"toggleTabVisbility('"+ tab.getId()+"','SP"+ tab.getId() +"','"+  titleStyleSelected+"','" + titleStyleUnSelected +"');\"> " 
 				+ labelValue + "</span>");
-		count ++;
+		*/count ++;
 	}
-	out.println("</th></tr>");
+	out.println("</ul></div>");
 	int index = 0;
-	out.println("<tr><td >");
+	out.println("<div class='panel-body'> ");
+	out.println("<div class='tab-content'> ");
 	for(UITab tab :  tabSet.getTabs()) {
-		tab.setWidth(width);
+		/*tab.setWidth(width);
 		//tab.setStyle(tabSet.getStyle());
 		if ( index == 0 )
 			tab.setVisible(true);
 		index ++;
-		writeElement(new UIElement(tab),value,controller);
+		writeElement(new UIElement(tab),value,controller);*/
+		tab.setIndex(index ++ );
+		writeTab(out, tab, value, controller);
 	}
 
-	out.println("</td></tr></table>");
+	out.println("</div></div></div>");
 	//out.println("</div>");
 }
+
+protected void writeTab(PrintWriter out, UITab tab,Object value,ViewController controller) throws IOException {
+	
+	String vb =  (tab.isVisible())?"":"none" ;
+	String width = tab.getWidth() ;
+	String style = (!Utils.isNullString(tab.getStyle()) ? "class=\"" + tab.getStyle() + "\"" : "");
+	String classStyle = "class=\"tab-pane fade\"";
+	if(tab.getIndex() == 0)
+		classStyle = "class=\"tab-pane fade in active\"";
+	out.println("<div id= \""+ tab.getId() + "\" " + classStyle  + "  >\n");
+	out.println("<div id= \"inner"+ tab.getId() + "\" " + style  + "  >\n");
+	for (UIElement element : tab.getElements() ) {
+		writeElement(element,value,controller);
+	}
+	out.println("</div>");
+	out.println("</div>");
+	
+}
+
 
 protected void writeMenu(PrintWriter out, UIMenu menu) throws IOException {
 	String menuText = menu.getMenuText();
