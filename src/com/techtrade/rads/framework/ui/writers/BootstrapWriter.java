@@ -213,12 +213,13 @@ protected void writeMenu(PrintWriter out, UIMenu menu) throws IOException {
 		menuText =  facade.externalize(context, menuText);
 	}
 	String style = (!Utils.isNullString(menu.getStyle()) ? "class=\"" + menu.getStyle() + "\"" : "");
+	//String textStyle = (!Utils.isNullString(menu.getTextStyle()) ? "class=\"" + menu.getTextStyle() + "\"" : "");
 	String menuClick = "\"window.location.href ='"+ menu.getMenuLink() +"'\"" ;
 	String groupId= menu.getGroupId() ;
 	if (!Utils.isNullList(menu.getChildMenus())) {
 		menuClick = "toggleMenuVisibility('" + groupId +"')  ;" ;
 	}
-	out.println("<li id=\"" + menu.getId()+ "\" "+ style +" onClick=" + menuClick +">" + "<span>"+menuText+"</span>");
+	out.println("<li id=\"" + menu.getId()+ "\" "+ style +" onClick=" + menuClick +">" +  menuText);
 	if (Utils.isNullList(menu.getChildMenus())) {
 		out.println("</li>");
 		return ;
