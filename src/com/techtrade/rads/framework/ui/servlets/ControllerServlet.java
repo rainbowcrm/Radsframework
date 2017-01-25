@@ -38,6 +38,7 @@ import com.techtrade.rads.framework.ui.config.PageConfig;
 import com.techtrade.rads.framework.ui.constants.FixedAction;
 import com.techtrade.rads.framework.ui.readers.HTMLAlternativeReader;
 import com.techtrade.rads.framework.ui.readers.HTMLReader;
+import com.techtrade.rads.framework.ui.writers.BootstrapMixWriter;
 import com.techtrade.rads.framework.ui.writers.BootstrapWriter;
 import com.techtrade.rads.framework.ui.writers.HTMLWriter;
 import com.techtrade.rads.framework.utils.Utils;

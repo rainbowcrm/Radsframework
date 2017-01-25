@@ -11,6 +11,9 @@ import com.techtrade.rads.framework.ui.components.UIElement;
 public class UIDiv extends UIControl{
 	
 	List<UIElement> elements = null;
+	
+	String width;
+	String align;
 
 	public List<UIElement> getElements() {
 		return elements;
@@ -41,6 +44,23 @@ public class UIDiv extends UIControl{
 		elements = newList;
 			
 	}
+
+	public String getWidth() {
+		return width;
+	}
+
+	public void setWidth(String width) {
+		this.width = width;
+	}
+
+	public String getAlign() {
+		return align;
+	}
+
+	public void setAlign(String align) {
+		this.align = align;
+	}
+	
 	
 	
 }

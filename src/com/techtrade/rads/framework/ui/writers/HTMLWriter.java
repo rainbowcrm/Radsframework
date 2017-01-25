@@ -581,7 +581,10 @@ public class HTMLWriter extends Writer{
     
     protected void writeDiv(PrintWriter out, UIDiv div,Object value,ViewController controller) throws IOException {
 		String style = (!Utils.isNullString(div.getStyle()) ? "class=\"" + div.getStyle() + "\"" : "");
-		out.println("<div id= \""+ div.getId() +   "\" " + style + ">");
+		String width = (!Utils.isNullString(div.getWidth()) ? "width=" + div.getWidth() : "");
+		String align = (!Utils.isNullString(div.getAlign()) ? "align=\"" + div.getAlign()+ "\"" : "");
+	
+		out.println("<div id= \""+ div.getId() +   "\" " + style + " " + width + " " + align + " >");
 		if(!Utils.isNullList(div.getElements())) {
 			for (UIElement element : div.getElements() ) {
 				writeElement(element,value,controller);
@@ -1545,7 +1548,7 @@ public class HTMLWriter extends Writer{
 		out.println(jstoggleMenuVisibility);
 		
 		writeJSIncludes(out,page);
-		out.println("<Body> ") ;
+		out.println("<Body bgcolor=\"#f5f5f5\"> ") ;
 		out.println("") ;
 		
 		//writeFixedElementsofTemplate(out,page,value,controller);

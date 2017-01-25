@@ -599,8 +599,13 @@ public class UIElementGenerator {
 			elem.getControl().setStyle(style);
 		}else if (("UIDiv").equalsIgnoreCase(type)){
 			UIDiv div = new UIDiv();
+			String width = doc.getAttributeValue(TAG_WIDTH);
+			String align  = doc.getAttributeValue(TAG_ALIGN);
 			elem = new UIElement(div);
 			div.setStyle(style);
+			div.setAlign(align);
+			div.setWidth(width);
+
 			for (XMLElement childElem : doc.getChildElements()) {
 				UIElement element = getUIElement(childElem, controller, page,styleonChildren,style);
 				if(element != null)
