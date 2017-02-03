@@ -16,8 +16,19 @@ public class UIList extends UIControl {
 	private String size ;
 	String dblClickJS; 
 	String onChangeJS;
+	
+	boolean multiSelect;
 
 	
+	
+	public boolean isMultiSelect() {
+		return multiSelect;
+	}
+
+	public void setMultiSelect(boolean multiSelect) {
+		this.multiSelect = multiSelect;
+	}
+
 	public Map<String, String> getOptions() {
 		return options;
 	}

@@ -791,6 +791,9 @@ public class UIElementGenerator {
 			if (!Utils.isNull(size))
 				 lst.setSize(size);
 			lst.setDataProperty(property);
+			String multipe = doc.getAttributeValue(TAG_MULTIPLE);
+			if (!Utils.isNull(multipe) && "true".equalsIgnoreCase(multipe))
+				lst.setMultiSelect(true);
 			/*Map<String, String> options = getMapOptions(doc, controller);
 			lst.setOptions(options);*/
 			elem = new UIElement(label,lst,property);

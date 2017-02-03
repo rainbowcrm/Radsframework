@@ -55,6 +55,7 @@ import com.techtrade.rads.framework.ui.controls.UIDiv;
 import com.techtrade.rads.framework.ui.controls.UIFileUpload;
 import com.techtrade.rads.framework.ui.controls.UIFilterSet;
 import com.techtrade.rads.framework.ui.controls.UIIFrame;
+import com.techtrade.rads.framework.ui.controls.UIList;
 import com.techtrade.rads.framework.ui.controls.UIMenu;
 import com.techtrade.rads.framework.ui.controls.UITab;
 import com.techtrade.rads.framework.ui.controls.UITabSet;
@@ -151,9 +152,22 @@ public class HTMLReader extends Reader{
 			         ex.printStackTrace();
 			 }
 	}
+	
+	protected void callSetter (Object object , String property , String values[]) {
+		try {             
+			   Method methodRead =  object.getClass().getMethod("get" + Utils.initupper(property));
+			   Method method = object.getClass().getMethod("set" + Utils.initupper(property), new Class[] { methodRead.getReturnType() });
+			   method.invoke(object,values ); 
+			 } catch (Exception ex) {
+			         ex.printStackTrace();
+			 }
+	}
+	
 	protected Method getterMethod(Class className , String property) throws java.lang.NoSuchMethodException  {
 		return Utils.getterMethod(className, property);
 	}
+
+	
 	
 	protected void callSetter (Object object ,UIElement element , String value) {
 		try {             
@@ -388,6 +402,19 @@ public class HTMLReader extends Reader{
 				}catch(Exception ex) {
 					// File not present"
 				}
+			}else if (element.getControl() instanceof UIList){
+				UIList lst= (UIList)element.getControl();
+				if (lst.isMultiSelect())  {
+					String [] values = request.getParameterValues(element.getControl().getId()) ;
+					if(values != null )
+						callSetter(object,element.getModelProperty(),values);
+				}else {
+					String value  =  request.getParameter(element.getControl().getId()) ;
+					if (!Utils.isNullString(value)){
+						callSetter(object,element, value);
+					}
+				}
+				
 			}else {
 				String value  =  request.getParameter(element.getControl().getId()) ;
 				if (!Utils.isNullString(value)){

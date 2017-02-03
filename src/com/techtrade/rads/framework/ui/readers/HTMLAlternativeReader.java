@@ -31,6 +31,7 @@ import com.techtrade.rads.framework.ui.controls.UICondition;
 import com.techtrade.rads.framework.ui.controls.UIDate;
 import com.techtrade.rads.framework.ui.controls.UIDiv;
 import com.techtrade.rads.framework.ui.controls.UIFileUpload;
+import com.techtrade.rads.framework.ui.controls.UIList;
 import com.techtrade.rads.framework.ui.controls.UIMenu;
 import com.techtrade.rads.framework.utils.Utils;
 
@@ -230,6 +231,19 @@ public class HTMLAlternativeReader  extends HTMLReader{
 					if (!Utils.isNullString(value)){
 						callSetter(object,element, value);
 					}
+				}else if (element.getControl() instanceof UIList){
+					UIList lst= (UIList)element.getControl();
+					if (lst.isMultiSelect())  {
+						String [] values = request.getParameterValues(element.getControl().getId()) ;
+						if(values != null )
+							callSetter(object,element.getModelProperty(),values);
+					}else {
+						String value  =  request.getParameter(element.getControl().getId()) ;
+						if (!Utils.isNullString(value)){
+							callSetter(object,element, value);
+						}
+					}
+					
 				}else { String value  =  request.getParameter(element.getControl().getId()) ;
 					if (!Utils.isNullString(value)){
 						callSetter(object,element, value);

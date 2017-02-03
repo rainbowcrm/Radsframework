@@ -732,7 +732,8 @@ public class HTMLWriter extends Writer{
 		String dataProp = "data-property=\"" + list.getDataProperty() + "\"";  
  		String sizeStr = Utils.isNullString(list.getSize()) ?"":" size= " +  list.getSize() ;
  		String style = (!Utils.isNullString(list.getStyle()) ? "class=\"" + list.getStyle() + "\"" : "");
-		out.println("<select id=\"" + list.getId()+ "\" name =\"" +list.getId()  + "\" " + sizeStr +" "  + style + " " + dataProp + " " + " " + 
+ 		String multiSelect = list.isMultiSelect()?" multiple ":"";
+		out.println("<select id=\"" + list.getId()+ "\" name =\"" +list.getId()  + "\" " + multiSelect + " " + sizeStr +" "  + style + " " + dataProp + " " + " " + 
  		onChangeJS + " " + dblClick + " >");
 		if (!Utils.isNullMap(list.getOptions())) {
 			for ( String st: list.getOptions().keySet() ){
