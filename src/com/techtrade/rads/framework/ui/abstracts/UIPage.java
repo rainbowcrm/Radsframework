@@ -295,7 +295,10 @@ public abstract class UIPage  extends UIControl {
 					for (UIElement elem : col.getElements())  {
 						List<UIElement> innerElements = recurseForInputElements(elem) ;
 						for (UIElement innerElement : innerElements ) {
-							innerElement.setExtendedmodelProperty(prefix  + innerElement.getModelProperty());
+							if (!Utils.isNullString(innerElement.getExtendedmodelProperty()) && innerElement.getExtendedmodelProperty().contains("[") )
+								innerElement.setExtendedmodelProperty(prefix  + innerElement.getExtendedmodelProperty());
+							else
+								innerElement.setExtendedmodelProperty(prefix  + innerElement.getModelProperty());
 						}
 						if (!Utils.isNullList(innerElements)) {
 							tableInputElements.addAll(innerElements);

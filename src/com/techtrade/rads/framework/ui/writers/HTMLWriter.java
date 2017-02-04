@@ -738,6 +738,15 @@ public class HTMLWriter extends Writer{
 		if (!Utils.isNullMap(list.getOptions())) {
 			for ( String st: list.getOptions().keySet() ){
 				String selected = st.equals(String.valueOf(list.getValue()))?"selected":"";
+				if(list.isMultiSelect()  &&  list.getValue() instanceof String[]) {
+					String [] vals = (String  [])list.getValue();
+					for (int i =0 ; i < vals.length ; i ++ ) {
+						if(vals[i].equals(st)) {
+							selected ="selected";
+							break;
+						}
+					}
+				}
 				String opt = list.getOptions().get(st);
 				if ( facade != null ) {
 					opt = facade.externalize(context, opt);

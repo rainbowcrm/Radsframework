@@ -157,7 +157,7 @@ public class HTMLReader extends Reader{
 		try {             
 			   Method methodRead =  object.getClass().getMethod("get" + Utils.initupper(property));
 			   Method method = object.getClass().getMethod("set" + Utils.initupper(property), new Class[] { methodRead.getReturnType() });
-			   method.invoke(object,values ); 
+			   method.invoke(object,new Object[]{values} ); 
 			 } catch (Exception ex) {
 			         ex.printStackTrace();
 			 }
