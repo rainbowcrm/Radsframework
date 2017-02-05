@@ -36,6 +36,10 @@ public  class UICRUDPage extends UIPage {
 		return ((CRUDController)getViewController()).submit(object);
 	}
 
+	@Override
+	public PageResult submit(String submitAction) throws Exception {
+		return ((CRUDController)getViewController()).submit(object,submitAction);
+	}
 
 
 

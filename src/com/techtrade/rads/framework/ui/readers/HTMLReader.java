@@ -479,6 +479,9 @@ public class HTMLReader extends Reader{
 			String fixedActionParam = request.getParameter(fixedActionParamField);
 			if (!Utils.isNullString(fixedActionParam))
 				page.setFixedActionParam(fixedActionParam);
+			String submitAction = request.getParameter(page.getTemplate().getSubmitActionfield());
+			if(!Utils.isNullString(submitAction))
+				page.setSubmitAction(submitAction);
 			if (!Utils.isNullList(page.getForm().getElements() )) {
 				for (UIElement element : page.getForm().getElements() ) {
 					if (element.getControl() instanceof UIMenu )
@@ -525,6 +528,10 @@ public class HTMLReader extends Reader{
 			String fixedActField = page.getTemplate().getFixedActionfield();
 			String fixedAction = request.getParameter(fixedActField);
 			String fixedActionParamField = page.getTemplate().getFixedActionParamfield();
+			String submitAction = request.getParameter(page.getTemplate().getSubmitActionfield());
+			if(!Utils.isNullString(submitAction))
+				page.setSubmitAction(submitAction);
+			
 			if (!Utils.isNullString(fixedAction))
 				page.setFixedAction(FixedAction.getFixedAction(fixedAction));
 			String fixedActionParam = request.getParameter(fixedActionParamField);

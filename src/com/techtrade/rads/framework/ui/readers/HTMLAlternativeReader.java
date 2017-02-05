@@ -58,6 +58,9 @@ public class HTMLAlternativeReader  extends HTMLReader{
 			String fixedActionParam = request.getParameter(fixedActionParamField);
 			if (!Utils.isNullString(fixedActionParam))
 				page.setFixedActionParam(fixedActionParam);
+			String submitAction = request.getParameter(page.getTemplate().getSubmitActionfield());
+			if(!Utils.isNullString(submitAction))
+				page.setSubmitAction(submitAction);
 			List <UIElement> inputElements = page.getInputElements() ;
 			for (UIElement element : inputElements) {
 				readControl(element, request, object);
@@ -85,7 +88,10 @@ public class HTMLAlternativeReader  extends HTMLReader{
 			String fixedActionParam = request.getParameter(fixedActionParamField);
 			if (!Utils.isNullString(fixedActionParam))
 				page.setFixedActionParam(fixedActionParam);
-	
+			String submitAction = request.getParameter(page.getTemplate().getSubmitActionfield());
+			if(!Utils.isNullString(submitAction))
+				page.setSubmitAction(submitAction);
+
 
 			List <UIElement> inputElements = page.getInputElements() ;
 			for (UIElement element : inputElements) {
@@ -265,7 +271,10 @@ public class HTMLAlternativeReader  extends HTMLReader{
 			String fixedActionParam = request.getParameter(fixedActionParamField);
 			if (!Utils.isNullString(fixedActionParam))
 				page.setFixedActionParam(fixedActionParam);
-			
+			String submitAction = request.getParameter(page.getTemplate().getSubmitActionfield());
+			if(!Utils.isNullString(submitAction))
+				page.setSubmitAction(submitAction);
+
 			List <UIElement> inputElements = page.getInputElements() ;
 			for (UIElement element : inputElements) {
 				readControl(element, request, object);

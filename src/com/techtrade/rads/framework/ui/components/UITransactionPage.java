@@ -23,6 +23,11 @@ public class UITransactionPage extends UIPage {
 	public PageResult submit() throws Exception {
 		return ((TransactionController)getViewController()).submit(object);
 	}
+	
+	@Override
+	public PageResult submit(String submitAction) throws Exception {
+		return ((TransactionController)getViewController()).submit(object,submitAction);
+	}
 
 
 	@Override

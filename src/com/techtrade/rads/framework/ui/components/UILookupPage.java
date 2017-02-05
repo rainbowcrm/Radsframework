@@ -4,6 +4,7 @@ package com.techtrade.rads.framework.ui.components;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.techtrade.rads.framework.controller.abstracts.TransactionController;
 import com.techtrade.rads.framework.ui.abstracts.ILookupService;
 import com.techtrade.rads.framework.ui.abstracts.PageResult;
 import com.techtrade.rads.framework.ui.abstracts.UIControl;
@@ -113,6 +114,11 @@ public class UILookupPage extends UIPage{
 	}
 	@Override
 	public PageResult submit() {
+		return null;
+	}
+	
+	@Override
+	public PageResult submit(String submitAction) throws Exception {
 		return null;
 	}
 	@Override

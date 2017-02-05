@@ -9,6 +9,10 @@ public  abstract class GeneralController extends ViewController {
 	protected ModelObject object ;
 	
 	public abstract PageResult submit(ModelObject object) ;
+	
+	public  PageResult submit(ModelObject object,String actionParam) {
+		return new PageResult();
+	}
 	public ModelObject getObject() {
 		return object;
 	}

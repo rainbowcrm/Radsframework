@@ -334,8 +334,10 @@ public class ControllerServlet extends HttpServlet{
 				 FixedAction fixedAction = page.getFixedAction();
 				 if (fixedAction != null) {
 					 res = page.applyFixedAction() ;
-				 }else
-					 res = page.submit() ;
+				 }else if (!Utils.isNullString(page.getSubmitAction()))
+					 res =page.submit(page.getSubmitAction());
+				 else
+					 res = page.submit() ; 
 				 String nextPageKey = res!=null?res.getNextPageKey():"";
 				 if (res !=null && res.getResponseAction().equals(PageResult.ResponseAction.FILEDOWNLOAD)) {
 					 return;

@@ -1,5 +1,6 @@
 package com.techtrade.rads.framework.ui.components;
 
+import com.techtrade.rads.framework.controller.abstracts.CRUDController;
 import com.techtrade.rads.framework.controller.abstracts.ListController;
 import com.techtrade.rads.framework.controller.abstracts.ViewController;
 import com.techtrade.rads.framework.filter.Filter;
@@ -517,6 +518,12 @@ public class UIListPage extends UIPage
 		return res;
 	}
 
+	
+	@Override
+	public PageResult submit(String submitAction) throws Exception {
+		return submit();
+	}
+	
 	public List<ModelObject> getObjects() {
 		return objects;
 	}

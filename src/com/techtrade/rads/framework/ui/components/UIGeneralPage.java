@@ -29,6 +29,11 @@ public class UIGeneralPage extends UIPage{
 	public PageResult submit() throws Exception {
 		return ((GeneralController)getViewController()).submit(object);
 	}
+	
+	
+	public PageResult submit(String submitAction) throws Exception {
+		return ((GeneralController)getViewController()).submit(object,submitAction);
+	}
 
 	@Override
 	public PageResult applyFixedAction() throws Exception {

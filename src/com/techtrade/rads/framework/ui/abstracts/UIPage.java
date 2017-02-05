@@ -52,6 +52,9 @@ public abstract class UIPage  extends UIControl {
 	
 	public abstract PageResult submit() throws Exception ;
 	
+	public abstract PageResult submit(String submitAction ) throws Exception ;
+	
+	
 	public abstract PageResult applyFixedAction() throws Exception ;
 	
 
