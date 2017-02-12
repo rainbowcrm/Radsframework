@@ -1501,6 +1501,7 @@ public class HTMLWriter extends Writer{
 		out.println("</Title>") ;
 		out.println("<Head>"); 
 		//out.println("<link rel=\"stylesheet\" type=\"text/css\" href=\"" + page.getStyleSheet() + "\">");
+		out.println("<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">");
 		writeStyleSheet(out, page);
 		out.println("</Head>");
 		out.println(jsToggle);
