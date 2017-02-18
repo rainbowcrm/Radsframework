@@ -22,6 +22,7 @@ import com.techtrade.rads.framework.ui.controls.UILookupText;
 import com.techtrade.rads.framework.ui.controls.UIMenu;
 import com.techtrade.rads.framework.ui.controls.UITab;
 import com.techtrade.rads.framework.ui.controls.UITabSet;
+import com.techtrade.rads.framework.ui.controls.graphs.UIBarChart;
 import com.techtrade.rads.framework.utils.Utils;
 
 public class BootstrapWriter  extends  HTMLWriter{
@@ -100,24 +101,66 @@ public class BootstrapWriter  extends  HTMLWriter{
 		out.println("<link rel=\"stylesheet\" type=\"text/css\" href=\"" +bootstrapPath  + "/css/bootstrap-flex.css\">");
 		out.println("<link rel=\"stylesheet\" type=\"text/css\" href=\"" +bootstrapPath  + "/css/bootstrap-grid.css\">");
 		out.println("<link rel=\"stylesheet\" type=\"text/css\" href=\"" +bootstrapPath  + "/css/bootstrap-reboot.css\">");
+		out.println("<link rel=\"stylesheet\" type=\"text/css\" href=\"" +bootstrapPath  + "/css/bootstrap-datepicker.css\">");
 		out.println("<link rel=\"stylesheet\" type=\"text/css\" href=\"" +bootstrapPath  + "/font-awesome-4.7.0/css/font-awesome.min.css\">");
+		
 		out.println("<script src=\"https://npmcdn.com/tether@1.2.4/dist/js/tether.min.js\"></script>");
 		out.println("<script src=\"https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js\"></script>");
 		out.println("<script src=\"https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js\"></script>");
-		
-
-			
-
+		out.println("<script src=\"https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/js/bootstrap-datepicker.js\"></script>");
 			/*out.println("<script src=\"https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js\"></script>");*/
 		
 	}
 	
-protected void writeDate(PrintWriter out, UIDate dateC) throws ParseException, IOException {
+
+	protected void writeBarChart(PrintWriter out, UIBarChart chart, Object value,ViewController controller) throws IOException {
+		GoogleChartWriter.writeBarChart(out, chart.getGoogleBarChartData(), value, controller);
+		
+	}
+	
+	protected void writeDate(PrintWriter out, UIDate dateC) throws ParseException, IOException {
 		
 		String dataProp = "data-property=\"" + dateC.getDataProperty() + "\""; 
-		out.println("<input type =\"date\" id=\"" + dateC.getId() + "\"  name =\"" +dateC.getId()  + "\"  "  + dataProp +  " value=\""+ 
-				Utils.dateToString((java.util.Date)dateC.getValue(),"yyyy-MM-dd") +"\"/>");
+		/*out.println("<input type =\"date\" id=\"" + dateC.getId() + "\"  name =\"" +dateC.getId()  + "\"  "  + dataProp +  " value=\""+ 
+				Utils.dateToString((java.util.Date)dateC.getValue(),"yyyy-MM-dd") +"\"/>");*/
+		
+	/*String dtControl = " <div class=\"container\">" + 
+	   " <div class=\"row\">" +
+	    "    <div class='col-sm-6'>" + 
+	           " <div class=\"form-group\"> " +
+	               " <div class='input-group date' width=\"5\" id='"+dateC.getId()+"'"  + dataProp + " value=\" " + Utils.dateToString((java.util.Date)dateC.getValue(),"mm-dd-yyyy") + " \"> " +
+	                    " <input type='text' class=\"form-control\" /> " +
+	                   " <span class=\"input-group-addon\"> " +
+	                   "      <span class=\"glyphicon glyphicon-calendar\"></span> " +
+	                   "   </span> " + 
+	               "  </div> " +
+	         "   </div> " +
+	         " </div> " + 
+	        "  <script type=\"text/javascript\"> " +
+	         "   $(function () { " + 
+	               "  $('#datetimepicker1').datetimepicker(); " +
+	           " }); " +
+	       " </script> " +
+	  "  </div> " +
+	" </div> ";*/
 	
+	/*String dtControl =  //" <div class=\"form-group\"> " +
+			                    " <input type='text' width=\"5\" id='"+dateC.getId()+"'"  + dataProp + " value=\" " + Utils.dateToString((java.util.Date)dateC.getValue(),"mm-dd-yyyy") + " \"  /> " +
+			                    		   " <span class=\"input-group-addon\"> " +
+			                   "      <span class=\"glyphicon glyphicon-calendar\"></span> " +
+			                   "   </span> " + 
+			           //    " </div> " + 
+			        "  <script type=\"text/javascript\"> " +
+			         "   $(function () { " + 
+			               "  $('#"+ dateC.getId() +"').datetimepicker(); " +
+			           " }); " +
+			       " </script> " ;
+
+	
+		
+	out.println(dtControl);*/
+		
+		super.writeDate(out, dateC);
 	}
 
 	/*protected void writeLookupText(PrintWriter out, UILookupText textLookup) throws IOException {

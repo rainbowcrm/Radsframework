@@ -6,6 +6,7 @@ public class BarData {
 	String text;
 	String color ;
 	String textColor;
+	String legend;
 	
 	public double getValue() {
 		return value;
@@ -30,6 +31,12 @@ public class BarData {
 	}
 	public void setTextColor(String textColor) {
 		this.textColor = textColor;
+	}
+	public String getLegend() {
+		return legend;
+	}
+	public void setLegend(String legend) {
+		this.legend = legend;
 	}
 	
 	

@@ -207,4 +207,15 @@ public class Utils {
 		Method methodRead = className.getMethod("is" + Utils.initupper(property));
 		return methodRead ;
 	}
+	
+	public static String getCommaSeperatedArray(List list, String quote) {
+		StringBuffer objects = new StringBuffer () ;
+		if (list == null) return "";
+		for( int i = 0 ; i < list.size() ; i ++ ) {
+			objects.append(quote + list.get(i) + quote);
+			if( i < list.size() -1 )
+				 objects.append( ",");
+		}
+		return objects.toString();
+	}
 }

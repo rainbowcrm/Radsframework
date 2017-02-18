@@ -30,6 +30,8 @@ public class UIBarChart extends UIControl{
 	String dataProvider;
 	List<UIGraphBar> bars;
 	SortedSet<Integer> valueRanges; 
+	
+	GoogleBarChartData googleBarChartData;
 
 	public List<UIGraphBar> getBars() {
 		return bars;
@@ -222,8 +224,16 @@ public class UIBarChart extends UIControl{
 			}
 			curX += marginWidth;
 		}
-		
+		uiBarChart.setGoogleBarChartData(GoogleBarChartData.makeGoogleChart(barChartData, rangeWidth, rangeHeight));
 		return uiBarChart;
+	}
+
+	public GoogleBarChartData getGoogleBarChartData() {
+		return googleBarChartData;
+	}
+
+	public void setGoogleBarChartData(GoogleBarChartData googleBarChartData) {
+		this.googleBarChartData = googleBarChartData;
 	}
 	
 	

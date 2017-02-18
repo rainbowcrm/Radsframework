@@ -5,6 +5,9 @@ import java.util.List;
 
 public class BarChartData {
 
+	String title;
+	String subTitle;
+	
 	public class Division {
 		List <BarData> barDatas ;
 
@@ -74,5 +77,18 @@ public class BarChartData {
 		}
 		divisions.add(division);
 	}
+	public String getTitle() {
+		return title;
+	}
+	public void setTitle(String title) {
+		this.title = title;
+	}
+	public String getSubTitle() {
+		return subTitle;
+	}
+	public void setSubTitle(String subTitle) {
+		this.subTitle = subTitle;
+	}
+	
 	
 }
