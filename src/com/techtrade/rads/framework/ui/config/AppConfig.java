@@ -39,6 +39,7 @@ public enum AppConfig {
 	protected static final String TAG_CLASS = "class";
 	protected static final String TAG_PROPERTIES= "Properties";
 	protected static final String TAG_APPURL= "appURL";
+	protected static final String TAG_GOOGLEGRAPHS= "useGoogleforGraphs";
 	protected static final String TAG_BOOTSTRAPFOLDER= "bootstrapFolder";
 	protected static final String TAG_EXTERNALIZEFACADE= "ExternalizeFacade";
 	protected static final String TAG_EXTERNALIZECLASS= "class";
@@ -55,6 +56,7 @@ public enum AppConfig {
 	Map <String, AjaxServiceConfig> ajaxServiceMap =  new HashMap<String, AjaxServiceConfig> ();
 	String appURL ;
 	String bootstrapFolder;
+	Boolean useGoogleGraphs;
 	
 	Map <String, PanelConfig> panelMap =  new HashMap<String, PanelConfig> ();
 	IExternalizeFacade externalizeFacade ;
@@ -65,6 +67,9 @@ public enum AppConfig {
 		if (propElement != null ) { 
 			appURL= propElement.getChildAttributeValue(TAG_APPURL);
 			bootstrapFolder=propElement.getChildAttributeValue(TAG_BOOTSTRAPFOLDER);
+			String googleGraphs = propElement.getChildAttributeValue(TAG_GOOGLEGRAPHS);
+			if(!Utils.isNullString(googleGraphs))
+				useGoogleGraphs = Boolean.parseBoolean(googleGraphs);
 		}
 		
 		XMLElement pages = conf.getFirstChildElement(TAG_PAGES);
@@ -159,6 +164,13 @@ public enum AppConfig {
 		return appURL;
 	}
 	
+	public boolean useGoogleGraphs(String realPath)throws Exception {
+	if (Utils.isNullMap(configMap)) {
+			XMLDocument doc = XMLDocument.parse(realPath + "/resources/config/RadsConfig.xml") ;
+			readDocument(doc);
+		}
+		return useGoogleGraphs;
+	}
 	
 	
 		

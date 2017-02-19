@@ -667,6 +667,7 @@ public class UIElementGenerator {
 			
 		}else if ("UIPieChart".equalsIgnoreCase(type)) {
 			UIPieChart chart = new  UIPieChart();
+			chart.setId(id);
 			String centerX =doc.getChildAttributeValue(TAG_CENTERX) ;
 			String centerY = doc.getChildAttributeValue(TAG_CENTERY);
 			String radius = doc.getChildAttributeValue(TAG_RADIUS);
@@ -692,6 +693,7 @@ public class UIElementGenerator {
 			elem = new UIElement("",chart);
 		}else if ("UIBarChart".equalsIgnoreCase(type)) { 
 			UIBarChart chart = new  UIBarChart();
+			chart.setId(id);
 			String xStart =doc.getChildAttributeValue(TAG_XSTART) ;
 			String yStart = doc.getChildAttributeValue(TAG_YSTART);
 			String rangeWidth = doc.getChildAttributeValue(TAG_RANGEWIDTH);
@@ -726,6 +728,7 @@ public class UIElementGenerator {
 			
 		}else if ("UILineChart".equalsIgnoreCase(type)) { 
 			UILineChart chart = new  UILineChart();
+			chart.setId(id);
 			String xStart =doc.getChildAttributeValue(TAG_XSTART) ;
 			String yStart = doc.getChildAttributeValue(TAG_YSTART);
 			String rangeWidth = doc.getChildAttributeValue(TAG_RANGEWIDTH);

@@ -92,6 +92,7 @@ public class HTMLWriter extends Writer{
 	UIPage currentPage;
 	String appURL;
 	IRadsContext context ;
+	protected boolean useGoogleforGraphs;
 	
 	// " span.style.backgroundColor  = \"#53868B\"; \n"+  
 	 //" span.style.fontColor  = \"black\"; \n"+
@@ -235,7 +236,16 @@ public class HTMLWriter extends Writer{
 	public void setAppURL(String appURL) {
 		this.appURL = appURL;
 	}
+	
 
+	public boolean isUseGoogleforGraphs() {
+		return useGoogleforGraphs;
+	}
+
+
+	public void setUseGoogleforGraphs(boolean useGoogleforGraphs) {
+		this.useGoogleforGraphs = useGoogleforGraphs;
+	}
 
 
 	private Object getfromSubObject(Object object , String property) throws Exception{
@@ -387,6 +397,7 @@ public class HTMLWriter extends Writer{
 				String chartProp = prop.getDataProvider();
 				PieChartData pieChart=(PieChartData) callGetter((ModelObject)object, chartProp);
 				UIPieChart chart = UIPieChart.makeUIPieChart(pieChart,prop.getHeight(),prop.getWidth(), prop.getCenterX(), prop.getCenterY(), prop.getRadius());
+				chart.setId(prop.getId());
 				writePieChart(out, chart, displayValue, controller);
 			}else if ( control instanceof UIBarChart) {
 				//writeHidden(out, (UIHidden) control);
@@ -395,6 +406,7 @@ public class HTMLWriter extends Writer{
 				BarChartData barChartData =(BarChartData) callGetter((ModelObject)object, chartProp);
 				UIBarChart chart = UIBarChart.makeUIBarChart(barChartData, prop.getWidth(),prop.getHeight(), prop.getStartX(), 
 						prop.getStartY(), prop.getMarginWidth(),prop.getBarWidth(),prop.getNoYAxisDivisions());
+				chart.setId(prop.getId());
 				writeBarChart(out, chart, null, controller);
 			}else if ( control instanceof UILineChart) {
 				//writeHidden(out, (UIHidden) control);

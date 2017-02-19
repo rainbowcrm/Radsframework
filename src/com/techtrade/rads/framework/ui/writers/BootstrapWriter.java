@@ -23,6 +23,8 @@ import com.techtrade.rads.framework.ui.controls.UIMenu;
 import com.techtrade.rads.framework.ui.controls.UITab;
 import com.techtrade.rads.framework.ui.controls.UITabSet;
 import com.techtrade.rads.framework.ui.controls.graphs.UIBarChart;
+import com.techtrade.rads.framework.ui.controls.graphs.UIGraphPath;
+import com.techtrade.rads.framework.ui.controls.graphs.UIPieChart;
 import com.techtrade.rads.framework.utils.Utils;
 
 public class BootstrapWriter  extends  HTMLWriter{
@@ -112,9 +114,20 @@ public class BootstrapWriter  extends  HTMLWriter{
 		
 	}
 	
+	protected void writePieChart(PrintWriter out, UIPieChart chart, Object value,ViewController controller) throws IOException {
+		if (!useGoogleforGraphs )
+			super.writePieChart(out, chart, value, controller);
+		else
+			GoogleChartWriter.writePieChart(out, chart.getGooglePieChartData(), value, controller,chart.getId());
+	}
+	
 
 	protected void writeBarChart(PrintWriter out, UIBarChart chart, Object value,ViewController controller) throws IOException {
-		GoogleChartWriter.writeBarChart(out, chart.getGoogleBarChartData(), value, controller);
+		if (!useGoogleforGraphs )
+			super.writeBarChart(out, chart, value, controller);
+		else
+			GoogleChartWriter.writeBarChart(out, chart.getGoogleBarChartData(), value, controller,chart.getId());
+		
 		
 	}
 	

@@ -22,6 +22,8 @@ public class GoogleBarChartData {
 	
 	int width,height;
 	
+	
+	
 	public List<String> getDivisionTitles() {
 		return divisionTitles;
 	}
@@ -41,6 +43,9 @@ public class GoogleBarChartData {
 	public void setValues(Map<String, List<Double>> values) {
 		this.values = values;
 	}
+	
+	
+	
 	public static GoogleBarChartData makeGoogleChart(BarChartData barChartData,int width, int height ) {
 		GoogleBarChartData chartData = new GoogleBarChartData();
 		chartData.setTitle(barChartData.getTitle());
@@ -48,10 +53,10 @@ public class GoogleBarChartData {
 		chartData.setHeight(height);
 		chartData.setWidth(width);
 		barChartData.getDivisions().forEach( division -> { 
+			String text = division.getDivisionTitle();
+			 if(!chartData.getDivisionTitles().contains(text))
+				 chartData.getDivisionTitles().add(text);
 			 division.getBarDatas().forEach( barData ->  { 
-				 String text = barData.getText() ;
-				 if(!chartData.getDivisionTitles().contains(text))
-					 chartData.getDivisionTitles().add(text);
 				 String legend = barData.getLegend();
 				 if(!chartData.getComponentBarTitles().contains(legend))
 					 chartData.getComponentBarTitles().add(legend);
@@ -64,6 +69,9 @@ public class GoogleBarChartData {
 		});
 		return chartData;
 	}
+	
+	
+	
 	public String getTitle() {
 		return title;
 	}

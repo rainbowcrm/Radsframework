@@ -5,14 +5,18 @@ import java.io.PrintWriter;
 
 
 
+
+
 import com.techtrade.rads.framework.controller.abstracts.ViewController;
+import com.techtrade.rads.framework.model.graphdata.PieSliceData;
 import com.techtrade.rads.framework.ui.controls.graphs.GoogleBarChartData;
+import com.techtrade.rads.framework.ui.controls.graphs.GooglePieChartData;
 import com.techtrade.rads.framework.ui.controls.graphs.UIBarChart;
 import com.techtrade.rads.framework.utils.Utils;
 
 public class GoogleChartWriter {
 
-	public static void writeBarChart(PrintWriter out, GoogleBarChartData chart, Object value,ViewController controller) throws IOException {
+	public static void writeBarChart(PrintWriter out, GoogleBarChartData chart, Object value,ViewController controller, String id) throws IOException {
 		out.println("<script type=\"text/javascript\" src=\"https://www.gstatic.com/charts/loader.js\"></script>");
 		out.println(" <script type=\"text/javascript\">");
 		out.println(" google.charts.load('current', {'packages':['bar']});");
@@ -34,15 +38,44 @@ public class GoogleChartWriter {
 				out.println("bars: 'vertical' ");
 				out.println("};");
 				
-		out.println("var chart = new google.charts.Bar(document.getElementById('barchart_material'));");
+		out.println("var chart = new google.charts.Bar(document.getElementById('"+ id +"'));");
 		out.println("chart.draw(data, options);");
 		out.println("}");
 		out.println("</script>");
 		
-		out.println("<div id=\"barchart_material\" style=\"width: " + chart.getWidth()+ "px; height: "+ chart.getHeight()+ "px;\"></div>");
+		out.println("<div id=\""+id+ "\" style=\"width: " + chart.getWidth()+ "px; height: "+ chart.getHeight()+ "px;\"></div>");
 		  
-		 
 	}
+	
+	public static void writePieChart(PrintWriter out, GooglePieChartData chart, Object value,ViewController controller,String id) throws IOException {
+		out.println("<script type=\"text/javascript\" src=\"https://www.gstatic.com/charts/loader.js\"></script>");
+		out.println(" <script type=\"text/javascript\">");
+		out.println(" google.charts.load('current', {'packages':['corechart']});");
+		out.println("  google.charts.setOnLoadCallback(drawChart); ");
+		out.println(" function drawChart() { ");
+		out.println(" var data = google.visualization.arrayToDataTable([ ");
+		out.println( "['Options','Values']," );
+		for ( int  i = 0 ; i < chart.getPieSlices().size() ; i ++  ) {
+			String comma = (i < chart.getPieSlices().size()-1)?",":"";
+			PieSliceData pieSlicdeData  =(PieSliceData)chart.getPieSlices().get(i); 
+			out.println( "['"  + pieSlicdeData.getText() + "',"  + pieSlicdeData.getVolume() + "]" + comma);
+			
+		}
+		out.println("]);");
+		
+		out.println("var options = {");
+		out.println("  	title: '" +chart.getTitle() + "'");
+		out.println("};");
+				
+		out.println("var chart = new google.visualization.PieChart(document.getElementById('"+id+"'));");
+		out.println("chart.draw(data, options);");
+		out.println("}");
+		out.println("</script>");
+		
+		out.println("<div id=\""+id+"\" style=\"width: " + chart.getWidth() + "px; height: "+ chart.getHeight()+ "px;\"></div>");
+		  
+	}
+	
 	private static String getData (GoogleBarChartData chart, int index)
 	{
 		String title = chart.getDivisionTitles().get(index) ;

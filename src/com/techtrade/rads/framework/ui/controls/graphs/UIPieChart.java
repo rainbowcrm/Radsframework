@@ -18,6 +18,8 @@ public class UIPieChart extends UIControl{
 	int centerX, centerY, radius;
 	UIGraphText footerNote ;
 	
+	GooglePieChartData googlePieChartData;
+	
 	public UIGraphCircle getCircle() {
 		return circle;
 	}
@@ -125,6 +127,7 @@ public class UIPieChart extends UIControl{
 			graphText.setY(centerY +  radius + 30);
 			pieChart.setFooterNote(graphText);
 		}
+		pieChart.setGooglePieChartData(GooglePieChartData.makeGoogleChart(pieCharData, width, height));
 		return pieChart;
 	}
 	public int getWidth() {
@@ -132,6 +135,13 @@ public class UIPieChart extends UIControl{
 	}
 	public void setWidth(int width) {
 		this.width = width;
+	}
+	
+	public GooglePieChartData getGooglePieChartData() {
+		return googlePieChartData;
+	}
+	public void setGooglePieChartData(GooglePieChartData googlePieChartData) {
+		this.googlePieChartData = googlePieChartData;
 	}
 	public int getHeight() {
 		return height;

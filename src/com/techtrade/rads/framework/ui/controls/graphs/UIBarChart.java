@@ -138,6 +138,7 @@ public class UIBarChart extends UIControl{
 	 *  rangeWidth / noDivision * 
 	 */
 
+
 	public int getBarWidth() {
 		return barWidth;
 	}

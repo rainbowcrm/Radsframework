@@ -10,6 +10,7 @@ public class BarChartData {
 	
 	public class Division {
 		List <BarData> barDatas ;
+		String divisionTitle;
 
 		public List<BarData> getBarDatas() {
 			return barDatas;
@@ -24,6 +25,16 @@ public class BarChartData {
 			}
 			barDatas.add(barData);
 		}
+
+		public String getDivisionTitle() {
+			return divisionTitle;
+		}
+
+		public void setDivisionTitle(String divisionTitle) {
+			this.divisionTitle = divisionTitle;
+		}
+		
+		
 		
 	}
 	
