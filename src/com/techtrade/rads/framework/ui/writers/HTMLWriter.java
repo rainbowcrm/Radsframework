@@ -415,6 +415,7 @@ public class HTMLWriter extends Writer{
 				LineChartData lineChartData =(LineChartData) callGetter((ModelObject)object, chartProp);
 				UILineChart chart = UILineChart.makeUILineChart(lineChartData, prop.getWidth(),prop.getHeight(), prop.getStartX(), 
 						prop.getStartY(),prop.getMarginWidth(),prop.getMarginHeight(),prop.getCanvasWidth(),prop.getCanvasHeight());
+				chart.setId(prop.getId());
 				writeLineChart(out, chart, null, controller);
 			}else if ( control instanceof UITextArea) {
 				writeTextArea(out, (UITextArea) control);

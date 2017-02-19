@@ -7,9 +7,13 @@ import java.io.PrintWriter;
 
 
 
+
+
 import com.techtrade.rads.framework.controller.abstracts.ViewController;
+import com.techtrade.rads.framework.model.graphdata.LineChartEntryData;
 import com.techtrade.rads.framework.model.graphdata.PieSliceData;
 import com.techtrade.rads.framework.ui.controls.graphs.GoogleBarChartData;
+import com.techtrade.rads.framework.ui.controls.graphs.GoogleLineChartData;
 import com.techtrade.rads.framework.ui.controls.graphs.GooglePieChartData;
 import com.techtrade.rads.framework.ui.controls.graphs.UIBarChart;
 import com.techtrade.rads.framework.utils.Utils;
@@ -45,6 +49,59 @@ public class GoogleChartWriter {
 		
 		out.println("<div id=\""+id+ "\" style=\"width: " + chart.getWidth()+ "px; height: "+ chart.getHeight()+ "px;\"></div>");
 		  
+	}
+	
+	
+	public static void writeLineChart(PrintWriter out, GoogleLineChartData chart, Object value,ViewController controller,String id) throws IOException {
+		out.println("<script type=\"text/javascript\" src=\"https://www.gstatic.com/charts/loader.js\"></script>");
+		out.println(" <script type=\"text/javascript\">");
+		out.println(" google.charts.load('current', {'packages':['line']});");
+		out.println("  google.charts.setOnLoadCallback(drawChart); ");
+		out.println(" function drawChart() { ");
+		out.println(" var data = new google.visualization.DataTable();");
+		out.println(" data.addColumn('string','entries');");
+		for ( int  i = 0 ; i < chart.getEntries().size() ; i ++  ) {
+			LineChartEntryData lineChartEntry = chart.getEntries().get(i) ;
+			out.println(" data.addColumn('number','"+lineChartEntry.getText() +"');"); 
+		}
+		out.println("  data.addRows([ ");
+
+		for (int j =0 ; j < chart.getIntervals().size() ; j ++ ) {
+			String outercomma = (j < chart.getIntervals().size()-1)?",":"";
+			String interval = chart.getIntervals().get(j);
+			out.print("['" + interval  +"',");
+			for ( int  i = 0 ; i < chart.getEntries().size() ; i ++  ) {
+				String comma = (i < chart.getEntries().size()-1)?",":"";
+				LineChartEntryData lineChartEntry = chart.getEntries().get(i) ;
+				Double plottedValue = lineChartEntry.getValueMap().get(interval);
+				double pltVal = 0;
+				if(plottedValue != null)
+					pltVal =  plottedValue.doubleValue();
+				out.print(pltVal  + comma);
+			}
+			out.println("]" + outercomma);
+		}
+		out.println("]);");
+		out.println("var options = {");
+		out.println(" 	chart: {");
+				out.println("  	title: '" +chart.getTitle() + "',");
+						out.println(" subtitle: '" + chart.getSubTitle() + "',");
+				out.println(" },");
+		out.println("width:"  + chart.getWidth() + ",");
+		out.println("height:"  + chart.getHeight() + ",");
+		out.println("axes: {" );
+		out.println("x: {" );
+		out.println("0: {side: 'top'}" );
+		out.println(" }" );
+		out.println(" }" );
+		out.println("};");
+		
+		out.println("var chart = new google.charts.Line(document.getElementById('"+ id +"'));");
+		out.println("chart.draw(data, options);");
+		out.println("}");
+		out.println("</script>");
+		
+		out.println("<div id=\""+id+ "\" style=\"width: " + chart.getWidth()+ "px; height: "+ chart.getHeight()+ "px;\"></div>");
 	}
 	
 	public static void writePieChart(PrintWriter out, GooglePieChartData chart, Object value,ViewController controller,String id) throws IOException {

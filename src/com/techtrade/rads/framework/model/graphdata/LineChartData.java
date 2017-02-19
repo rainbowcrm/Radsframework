@@ -15,6 +15,9 @@ public class LineChartData {
 
 	String startingPoint  ;
 	
+	String title;
+	String subTitle;
+	
 	public class Range {
 		int xMin ,xMax;
 		int yMin, yMax;
@@ -48,6 +51,22 @@ public class LineChartData {
 	
 	
 	
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
+	public String getSubTitle() {
+		return subTitle;
+	}
+
+	public void setSubTitle(String subTitle) {
+		this.subTitle = subTitle;
+	}
+
 	public Range getRange() {
 		return range;
 	}

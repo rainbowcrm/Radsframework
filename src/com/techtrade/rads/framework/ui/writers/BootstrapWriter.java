@@ -24,6 +24,7 @@ import com.techtrade.rads.framework.ui.controls.UITab;
 import com.techtrade.rads.framework.ui.controls.UITabSet;
 import com.techtrade.rads.framework.ui.controls.graphs.UIBarChart;
 import com.techtrade.rads.framework.ui.controls.graphs.UIGraphPath;
+import com.techtrade.rads.framework.ui.controls.graphs.UILineChart;
 import com.techtrade.rads.framework.ui.controls.graphs.UIPieChart;
 import com.techtrade.rads.framework.utils.Utils;
 
@@ -114,6 +115,16 @@ public class BootstrapWriter  extends  HTMLWriter{
 		
 	}
 	
+	
+	
+	@Override
+	protected void writeLineChart(PrintWriter out, UILineChart chart,Object value, ViewController controller) throws IOException {
+		if (!useGoogleforGraphs )
+			super.writeLineChart(out, chart, value, controller);
+		else
+			GoogleChartWriter.writeLineChart(out, chart.getGoogleLineChartData(), value, controller,chart.getId());
+	}
+
 	protected void writePieChart(PrintWriter out, UIPieChart chart, Object value,ViewController controller) throws IOException {
 		if (!useGoogleforGraphs )
 			super.writePieChart(out, chart, value, controller);

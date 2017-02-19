@@ -29,6 +29,8 @@ public class UILineChart  extends UIControl{
 	List<UILineSet> lineSets ;
 	String borderColor ; 
 	UIGraphLegend legend; 
+	
+	GoogleLineChartData googleLineChartData;
 		
 	public class Division {
 		int x, y ;
@@ -203,11 +205,20 @@ public class UILineChart  extends UIControl{
 		legend.setxWidthPerEntries(0);
 		legend.setyHeightPerEntries((int)(chart.getHeight() / (chartData.getEntries().size() + 1)));
 		chart.setLegend(legend);
-		
+		chart.setGoogleLineChartData(GoogleLineChartData.makeGoogleChart(chartData, rangeWidth, rangeHeight));
 		return chart;
 	}
 	
 	
+	
+	public GoogleLineChartData getGoogleLineChartData() {
+		return googleLineChartData;
+	}
+
+	public void setGoogleLineChartData(GoogleLineChartData googleLineChartData) {
+		this.googleLineChartData = googleLineChartData;
+	}
+
 	public void addValueRange(Integer valueRange) {
 		if (valueRanges == null)
 			valueRanges = new TreeSet<Integer>();
