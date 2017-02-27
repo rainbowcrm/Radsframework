@@ -119,14 +119,14 @@ public class BootstrapWriter  extends  HTMLWriter{
 	
 	@Override
 	protected void writeLineChart(PrintWriter out, UILineChart chart,Object value, ViewController controller) throws IOException {
-		if (!useGoogleforGraphs )
+		if (!chart.isUseGoogleChart() )
 			super.writeLineChart(out, chart, value, controller);
 		else
 			GoogleChartWriter.writeLineChart(out, chart.getGoogleLineChartData(), value, controller,chart.getId());
 	}
 
 	protected void writePieChart(PrintWriter out, UIPieChart chart, Object value,ViewController controller) throws IOException {
-		if (!useGoogleforGraphs )
+		if (!chart.isUseGoogleChart() )
 			super.writePieChart(out, chart, value, controller);
 		else
 			GoogleChartWriter.writePieChart(out, chart.getGooglePieChartData(), value, controller,chart.getId());
@@ -134,7 +134,7 @@ public class BootstrapWriter  extends  HTMLWriter{
 	
 
 	protected void writeBarChart(PrintWriter out, UIBarChart chart, Object value,ViewController controller) throws IOException {
-		if (!useGoogleforGraphs )
+		if (!chart.isUseGoogleChart() )
 			super.writeBarChart(out, chart, value, controller);
 		else
 			GoogleChartWriter.writeBarChart(out, chart.getGoogleBarChartData(), value, controller,chart.getId());

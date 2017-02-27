@@ -18,6 +18,7 @@ public class UIBarChart extends UIControl{
 	
 	Direction direction= Direction.VERTICAL ;
 	
+	boolean useGoogleChart = true;
 
 	int width, height;
 	int barSectionHeight ;
@@ -235,6 +236,14 @@ public class UIBarChart extends UIControl{
 
 	public void setGoogleBarChartData(GoogleBarChartData googleBarChartData) {
 		this.googleBarChartData = googleBarChartData;
+	}
+
+	public boolean isUseGoogleChart() {
+		return useGoogleChart;
+	}
+
+	public void setUseGoogleChart(boolean useGoogleChart) {
+		this.useGoogleChart = useGoogleChart;
 	}
 	
 	

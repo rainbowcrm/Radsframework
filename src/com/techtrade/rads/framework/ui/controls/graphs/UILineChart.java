@@ -28,7 +28,9 @@ public class UILineChart  extends UIControl{
 	List<Division> divisions ;
 	List<UILineSet> lineSets ;
 	String borderColor ; 
-	UIGraphLegend legend; 
+	UIGraphLegend legend;
+	
+	boolean useGoogleChart = true;
 	
 	GoogleLineChartData googleLineChartData;
 		
@@ -312,6 +314,14 @@ public class UILineChart  extends UIControl{
 
 	public void setCanvasWidth(int canvasWidth) {
 		this.canvasWidth = canvasWidth;
+	}
+
+	public boolean isUseGoogleChart() {
+		return useGoogleChart;
+	}
+
+	public void setUseGoogleChart(boolean useGoogleChart) {
+		this.useGoogleChart = useGoogleChart;
 	}
 	
 	

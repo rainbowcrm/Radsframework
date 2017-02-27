@@ -109,6 +109,7 @@ public class UIElementGenerator {
 	protected static String TAG_FIXEDACTIONSHOW_WARN= "fixedActionshowWarning";
 	protected static String TAG_FIXEDACTION_WARN_MSG= "fixedActionwaringMessage";
 	protected static String TAG_FIXEDACTION_VAIDATEFUN= "fixedActionvalidateFunc";
+	protected static String TAG_USEGOOGLEGRAPH = "useGoogleGraph";
 	protected static String TAG_XSTART = "xStart";
 	protected static String TAG_YSTART = "yStart";
 	protected static String TAG_CENTERX = "centerX";
@@ -668,6 +669,9 @@ public class UIElementGenerator {
 		}else if ("UIPieChart".equalsIgnoreCase(type)) {
 			UIPieChart chart = new  UIPieChart();
 			chart.setId(id);
+			String useGoogleGraph = doc.getAttributeValue(TAG_USEGOOGLEGRAPH);
+			if(!Utils.isNullString(useGoogleGraph))
+				 chart.setUseGoogleChart(Utils.getBooleanValue(useGoogleGraph));
 			String centerX =doc.getChildAttributeValue(TAG_CENTERX) ;
 			String centerY = doc.getChildAttributeValue(TAG_CENTERY);
 			String radius = doc.getChildAttributeValue(TAG_RADIUS);
@@ -694,6 +698,9 @@ public class UIElementGenerator {
 		}else if ("UIBarChart".equalsIgnoreCase(type)) { 
 			UIBarChart chart = new  UIBarChart();
 			chart.setId(id);
+			String useGoogleGraph = doc.getAttributeValue(TAG_USEGOOGLEGRAPH);
+			if(!Utils.isNullString(useGoogleGraph))
+				 chart.setUseGoogleChart(Utils.getBooleanValue(useGoogleGraph));
 			String xStart =doc.getChildAttributeValue(TAG_XSTART) ;
 			String yStart = doc.getChildAttributeValue(TAG_YSTART);
 			String rangeWidth = doc.getChildAttributeValue(TAG_RANGEWIDTH);
@@ -729,6 +736,9 @@ public class UIElementGenerator {
 		}else if ("UILineChart".equalsIgnoreCase(type)) { 
 			UILineChart chart = new  UILineChart();
 			chart.setId(id);
+			String useGoogleGraph = doc.getAttributeValue(TAG_USEGOOGLEGRAPH);
+			if(!Utils.isNullString(useGoogleGraph))
+				 chart.setUseGoogleChart(Utils.getBooleanValue(useGoogleGraph));
 			String xStart =doc.getChildAttributeValue(TAG_XSTART) ;
 			String yStart = doc.getChildAttributeValue(TAG_YSTART);
 			String rangeWidth = doc.getChildAttributeValue(TAG_RANGEWIDTH);

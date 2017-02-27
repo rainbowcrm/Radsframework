@@ -398,6 +398,7 @@ public class HTMLWriter extends Writer{
 				PieChartData pieChart=(PieChartData) callGetter((ModelObject)object, chartProp);
 				UIPieChart chart = UIPieChart.makeUIPieChart(pieChart,prop.getHeight(),prop.getWidth(), prop.getCenterX(), prop.getCenterY(), prop.getRadius());
 				chart.setId(prop.getId());
+				chart.setUseGoogleChart(prop.isUseGoogleChart());
 				writePieChart(out, chart, displayValue, controller);
 			}else if ( control instanceof UIBarChart) {
 				//writeHidden(out, (UIHidden) control);
@@ -407,6 +408,7 @@ public class HTMLWriter extends Writer{
 				UIBarChart chart = UIBarChart.makeUIBarChart(barChartData, prop.getWidth(),prop.getHeight(), prop.getStartX(), 
 						prop.getStartY(), prop.getMarginWidth(),prop.getBarWidth(),prop.getNoYAxisDivisions());
 				chart.setId(prop.getId());
+				chart.setUseGoogleChart(prop.isUseGoogleChart());
 				writeBarChart(out, chart, null, controller);
 			}else if ( control instanceof UILineChart) {
 				//writeHidden(out, (UIHidden) control);
@@ -416,6 +418,7 @@ public class HTMLWriter extends Writer{
 				UILineChart chart = UILineChart.makeUILineChart(lineChartData, prop.getWidth(),prop.getHeight(), prop.getStartX(), 
 						prop.getStartY(),prop.getMarginWidth(),prop.getMarginHeight(),prop.getCanvasWidth(),prop.getCanvasHeight());
 				chart.setId(prop.getId());
+				chart.setUseGoogleChart(prop.isUseGoogleChart());
 				writeLineChart(out, chart, null, controller);
 			}else if ( control instanceof UITextArea) {
 				writeTextArea(out, (UITextArea) control);

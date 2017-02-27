@@ -20,6 +20,8 @@ public class UIPieChart extends UIControl{
 	
 	GooglePieChartData googlePieChartData;
 	
+	boolean useGoogleChart = true;
+	
 	public UIGraphCircle getCircle() {
 		return circle;
 	}
@@ -160,6 +162,12 @@ public class UIPieChart extends UIControl{
 	}
 	public void setFooterNote(UIGraphText footerNote) {
 		this.footerNote = footerNote;
+	}
+	public boolean isUseGoogleChart() {
+		return useGoogleChart;
+	}
+	public void setUseGoogleChart(boolean useGoogleChart) {
+		this.useGoogleChart = useGoogleChart;
 	}
 	
 	
