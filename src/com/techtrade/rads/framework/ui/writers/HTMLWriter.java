@@ -396,6 +396,7 @@ public class HTMLWriter extends Writer{
 				UIPieChart prop = (UIPieChart)control  ;
 				String chartProp = prop.getDataProvider();
 				PieChartData pieChart=(PieChartData) callGetter((ModelObject)object, chartProp);
+				if (pieChart == null) return ;
 				UIPieChart chart = UIPieChart.makeUIPieChart(pieChart,prop.getHeight(),prop.getWidth(), prop.getCenterX(), prop.getCenterY(), prop.getRadius());
 				chart.setId(prop.getId());
 				chart.setUseGoogleChart(prop.isUseGoogleChart());
@@ -405,6 +406,8 @@ public class HTMLWriter extends Writer{
 				UIBarChart prop = (UIBarChart)control  ;
 				String chartProp = prop.getDataProvider();
 				BarChartData barChartData =(BarChartData) callGetter((ModelObject)object, chartProp);
+				if (barChartData == null)
+					return ;
 				UIBarChart chart = UIBarChart.makeUIBarChart(barChartData, prop.getWidth(),prop.getHeight(), prop.getStartX(), 
 						prop.getStartY(), prop.getMarginWidth(),prop.getBarWidth(),prop.getNoYAxisDivisions());
 				chart.setId(prop.getId());
@@ -415,6 +418,8 @@ public class HTMLWriter extends Writer{
 				UILineChart prop = (UILineChart)control  ;
 				String chartProp = prop.getDataProvider();
 				LineChartData lineChartData =(LineChartData) callGetter((ModelObject)object, chartProp);
+				if (lineChartData == null)
+					return ;
 				UILineChart chart = UILineChart.makeUILineChart(lineChartData, prop.getWidth(),prop.getHeight(), prop.getStartX(), 
 						prop.getStartY(),prop.getMarginWidth(),prop.getMarginHeight(),prop.getCanvasWidth(),prop.getCanvasHeight());
 				chart.setId(prop.getId());
