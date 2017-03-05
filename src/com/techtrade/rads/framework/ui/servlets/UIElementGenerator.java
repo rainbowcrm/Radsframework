@@ -818,7 +818,13 @@ public class UIElementGenerator {
 			XMLElement node = doc.getFirstChildElement(TAG_OPTIONS);
 			if (node != null ) {
 				String populator  =  node.getAttributeValue(TAG_POPULATOR);
-				elem.setPopulator(populator);
+				if(!Utils.isNullString(populator))
+					elem.setPopulator(populator);
+				else {
+					Map childrenOptions=  getMapOptions(doc,controller);
+					lst.setOptions(childrenOptions);
+				}
+				
 			}
 		}else if (("UIRadioBox").equalsIgnoreCase(type)){
 			UIRadioBox box = new UIRadioBox(id) ;
