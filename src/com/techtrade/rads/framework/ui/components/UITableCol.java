@@ -14,6 +14,8 @@ public class UITableCol extends UIControl{
 	String width;
 	String colSpan ;
 	String align;
+	
+	String sortField;
 
 
 	public List<UIElement> getElements() {
@@ -97,12 +99,12 @@ public class UITableCol extends UIControl{
 		this.colSpan = colSpan;
 	}
 
+	public String getSortField() {
+		return sortField;
+	}
 
-
-
-
-
-	
-	
+	public void setSortField(String sortField) {
+		this.sortField = sortField;
+	}
 	
 }

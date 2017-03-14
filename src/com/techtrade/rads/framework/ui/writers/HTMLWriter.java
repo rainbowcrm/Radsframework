@@ -41,6 +41,7 @@ import com.techtrade.rads.framework.ui.components.UITableRow;
 import com.techtrade.rads.framework.ui.components.UITransactionPage;
 import com.techtrade.rads.framework.ui.constants.FixedAction;
 import com.techtrade.rads.framework.ui.constants.RadsConstants;
+import com.techtrade.rads.framework.ui.constants.RadsControlConstants;
 import com.techtrade.rads.framework.ui.controls.UIBooleanCheckBox;
 import com.techtrade.rads.framework.ui.controls.UIBreak;
 import com.techtrade.rads.framework.ui.controls.UIButton;
@@ -1102,7 +1103,13 @@ public class HTMLWriter extends Writer{
 		String colSpan = (!Utils.isNullString(col.getColSpan()) ? "colspan=" + col.getColSpan() : "");
 		String align = (!Utils.isNullString(col.getAlign()) ? "align=\"" + col.getAlign()+ "\"" : "");
 		String style = (!Utils.isNullString(col.getStyle()) ? "class=\"" + col.getStyle() + "\"" : "");
-		out.println("<" + divTag + " " +  width + " " + colSpan + " " + align + " " + style +" >");
+		String sort = (!Utils.isNullString(col.getSortField()) ? " data-sortfield=\"" + col.getSortField() + "\"" : "");
+		String click = "";
+		if (currentPage instanceof  UIListPage && !Utils.isNullString(col.getSortField())) {
+			 click = " onClick = submitwithSort('"+ col.getSortField() +"');";
+			
+		}
+		out.println("<" + divTag + " " +  width + " " + colSpan + " " + align + " " + sort + " " + style +" " + click + " >");
 		if (!Utils.isNullList(col.getElements())) {
 			for (UIElement element : col.getElements() ) {
 				writeElement(element, value,controller);
@@ -1740,6 +1747,8 @@ public class HTMLWriter extends Writer{
 		writeHidden(out, new UIHidden(page.getTemplate().getFixedActionfield()));
 		writeHidden(out, new UIHidden(page.getTemplate().getSubmitActionfield()));
 		writeHidden(out, new UIHidden(page.getTemplate().getFixedActionParamfield()));
+		writeHidden(out,new UIHidden(RadsControlConstants.SORT_DIRECTION)) ;
+		writeHidden(out,new UIHidden(RadsControlConstants.SORT_FIELD)) ;
 		writeHidden(out, new UIHidden("currentpage",page.getPageKey()));
 		if (controller.getMode() != null)
 			writeHidden(out, new UIHidden("currentmode",controller.getMode().name()));

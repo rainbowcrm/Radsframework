@@ -7,6 +7,9 @@ public class UIDataColumn  {
 	String title;
 	String width;
 	List<UIElement> elementImages;
+	
+	SortCriteria sortCriteria ;
+	
 
 	public UIDataColumn(){
 		
@@ -39,6 +42,13 @@ public class UIDataColumn  {
 			elementImages = new ArrayList<UIElement>();
 		elementImages.add(elementImage);
 	}
+	public SortCriteria getSortCriteria() {
+		return sortCriteria;
+	}
+	public void setSortCriteria(SortCriteria sortCriteria) {
+		this.sortCriteria = sortCriteria;
+	}
+	
 	
 	
 	

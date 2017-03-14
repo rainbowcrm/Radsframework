@@ -7,6 +7,7 @@ import com.techtrade.rads.framework.filter.Filter;
 import com.techtrade.rads.framework.model.abstracts.ModelObject;
 import com.techtrade.rads.framework.model.abstracts.RadsError;
 import com.techtrade.rads.framework.ui.abstracts.PageResult;
+import com.techtrade.rads.framework.ui.components.SortCriteria;
 
 public abstract class ListController extends ViewController{
 	
@@ -27,7 +28,8 @@ public abstract class ListController extends ViewController{
 	public abstract PageResult print(List<ModelObject> objects) ;
 	
 
-	public abstract List<ModelObject> getData(int pageNumber,Filter filter);
+	public abstract List<ModelObject> getData(int pageNumber,Filter filter, SortCriteria sortCriteria );
+	
 	
 	public abstract void saveFilter(Filter filter);
 	

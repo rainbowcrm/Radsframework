@@ -75,7 +75,7 @@ public class UIDataSheetPage extends UIListPage{
 			}else if  (action ==  FixedAction.ACTION_GOEDITMODE) { 
 				editingObjects =((ListController)getViewController()).populateFullObjectfromPK(objects);
 				errors = ((ListController)getViewController()).validateforEdit(editingObjects); 
-				objects = ((ListController)getViewController()).getData(pageNumber,filter);
+				objects = ((ListController)getViewController()).getData(pageNumber,filter,null);
 				if (!Utils.isNullList(errors)){
 					result.setErrors(errors);
 					applyListValues(objects,action);
@@ -88,7 +88,7 @@ public class UIDataSheetPage extends UIListPage{
 			result.setResult(Result.FAILURE);
 			result.setErrors(errors);
 			addingObjects = new ArrayList(((DataSheetController)getViewController()).getObjects()) ;
-			objects = new ArrayList( ((ListController)getViewController()).getData(pageNumber,filter));
+			objects = new ArrayList( ((ListController)getViewController()).getData(pageNumber,filter,null));
 			//applyListValues(objects, action);
 			if (action == FixedAction.ACTION_CREATE)
 				objController.setCreateMode();

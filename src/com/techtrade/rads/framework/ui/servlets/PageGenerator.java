@@ -33,6 +33,7 @@ import com.techtrade.rads.framework.ui.abstracts.UIControl;
 import com.techtrade.rads.framework.ui.abstracts.UIPage;
 import com.techtrade.rads.framework.ui.components.AjaxGroup;
 import com.techtrade.rads.framework.ui.components.PanelDef;
+import com.techtrade.rads.framework.ui.components.SortCriteria;
 import com.techtrade.rads.framework.ui.components.UICRUDPage;
 import com.techtrade.rads.framework.ui.components.UIDataColumn;
 import com.techtrade.rads.framework.ui.components.UIDataSheetPage;
@@ -132,6 +133,7 @@ public class PageGenerator {
 	protected static String TAG_OPERATOR  = "operator";
 	protected static String TAG_RENDERED  = "rendered";
 	protected static String TAG_SEARCHFIELDID  = "SearchFieldId";
+	protected static String TAG_SORTFIELD  = "sortField";
 	protected static String TAG_LISTFIELDID  ="listFieldId";
 	protected static String TAG_DATAENTRYCOLS  = "DataEntryColumns";
 
@@ -546,6 +548,7 @@ public class PageGenerator {
 		for (XMLElement  column: columns ) {
 			String width = column.getAttributeValue(TAG_WIDTH);
 			String title =column.getAttributeValue(TAG_TITLE);
+			String sortField = column.getAttributeValue(TAG_SORTFIELD);
 			UITableCol col = new UITableCol();
 			UILabel lbl = new UILabel("");
 			lbl.setLabel(title);
@@ -553,6 +556,9 @@ public class PageGenerator {
 			titLabel.setStyle(template.getTitleRowSpanStyle());
 			col.addElement(titLabel);
 			col.setWidth(width);
+			if(!Utils.isNullString(sortField)) {
+				col.setSortField(sortField);
+			}
 			titleRow.addCol(col );
 			page.addColumnDefs(col);
 			
@@ -561,6 +567,12 @@ public class PageGenerator {
 			List<XMLElement> elements= column.getChildElements(TAG_ELEMENT);
 			for (XMLElement element :elements) {
 				uiDataColumn.addElementImage(getElementImage(element,objController,page));
+			}
+			if(!Utils.isNullString(sortField)) {
+				SortCriteria sortCriteria =new SortCriteria();
+				sortCriteria.setFieldName(sortField);
+				uiDataColumn.setSortCriteria(sortCriteria);
+				
 			}
 			page.addUIDataColumns(uiDataColumn);
 		}

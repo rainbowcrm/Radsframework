@@ -15,6 +15,7 @@ import com.techtrade.rads.framework.filter.Filter;
 import com.techtrade.rads.framework.model.abstracts.ModelObject;
 import com.techtrade.rads.framework.model.abstracts.RadsError;
 import com.techtrade.rads.framework.ui.abstracts.PageResult;
+import com.techtrade.rads.framework.ui.components.SortCriteria;
 
 public class CustomerListController extends ListController{
 
@@ -70,7 +71,7 @@ public class CustomerListController extends ListController{
 
 
 	@Override
-	public List<ModelObject> getData(int pageNumber,Filter filter) {
+	public List<ModelObject> getData(int pageNumber,Filter filter, SortCriteria sortCriteria) {
 		List <ModelObject > customers =new ArrayList<ModelObject>();
 		if (pageNumber == 1) {
 			
