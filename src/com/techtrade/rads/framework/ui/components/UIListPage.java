@@ -57,6 +57,8 @@ public class UIListPage extends UIPage
   List <String> selectedRows ;
   String modelClass ;
   
+  SortCriteria sortCriteria;
+  
   private static final String MULTIPLE = "Multiple" ;
   private static final String SINGLE =  "Single" ;
   private static final String NONE =  "None" ;
@@ -367,7 +369,7 @@ public class UIListPage extends UIPage
 				errors = ((ListController)getViewController()).validateforEdit(objects);
 			if (!Utils.isNullList(errors)){
 				res.setErrors(errors);
-				objects = ((ListController)getViewController()).getData(pageNumber,filter,null);
+				objects = ((ListController)getViewController()).getData(pageNumber,filter,sortCriteria);
 				applyListValues(objects,action);
 			}else {
 				if (action ==  FixedAction.ACTION_GOEDITMODE)
@@ -394,7 +396,7 @@ public class UIListPage extends UIPage
 			}
 		}
 		
-	    objects = ((ListController)getViewController()).getData(pageNumber,filter,null);
+	    objects = ((ListController)getViewController()).getData(pageNumber,filter,sortCriteria);
 		applyListValues(objects,action);
 		return res;
 		
@@ -501,7 +503,7 @@ public class UIListPage extends UIPage
 	public PageResult submit() throws Exception{
 		List<ModelObject > objects = new ArrayList<ModelObject>();
 		if (Utils.isNullList(getSelectedRows())) {
-			objects = ((ListController)getViewController()).getData(pageNumber,filter,null);
+			objects = ((ListController)getViewController()).getData(pageNumber,filter,sortCriteria);
 			applyListValues(objects,null);
 			return new PageResult();
 		}
@@ -512,7 +514,7 @@ public class UIListPage extends UIPage
 		objects = ((ListController)getViewController()).populateFullObjectfromPK(objects);
 		PageResult res=  ((ListController)getViewController()).submit(objects,getSubmitAction());
 		if (Utils.isNullString(res.getNextPageKey())) {
-			objects = ((ListController)getViewController()).getData(pageNumber,filter,null);
+			objects = ((ListController)getViewController()).getData(pageNumber,filter,sortCriteria);
 			applyListValues(objects,null);
 		}
 		return res;
@@ -540,7 +542,20 @@ public class UIListPage extends UIPage
 		return null;
 	}
 
+
+
+	public SortCriteria getSortCriteria() {
+		return sortCriteria;
+	}
+
+
+
+	public void setSortCriteria(SortCriteria sortCriteria) {
+		this.sortCriteria = sortCriteria;
+	}
+
 	   
+	
 	
   
   

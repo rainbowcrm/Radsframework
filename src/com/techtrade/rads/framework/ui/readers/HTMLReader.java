@@ -32,6 +32,7 @@ import com.techtrade.rads.framework.model.abstracts.ModelObject;
 import com.techtrade.rads.framework.ui.abstracts.ILookupService;
 import com.techtrade.rads.framework.ui.abstracts.Reader;
 import com.techtrade.rads.framework.ui.abstracts.UIControl;
+import com.techtrade.rads.framework.ui.components.SortCriteria;
 import com.techtrade.rads.framework.ui.components.UICRUDPage;
 import com.techtrade.rads.framework.ui.components.UIDataSheetPage;
 import com.techtrade.rads.framework.ui.components.UIElement;
@@ -48,6 +49,7 @@ import com.techtrade.rads.framework.ui.components.UITableRow;
 import com.techtrade.rads.framework.ui.components.UITransactionPage;
 import com.techtrade.rads.framework.ui.constants.FixedAction;
 import com.techtrade.rads.framework.ui.constants.RadsConstants;
+import com.techtrade.rads.framework.ui.constants.RadsControlConstants;
 import com.techtrade.rads.framework.ui.controls.UICondition;
 import com.techtrade.rads.framework.ui.controls.UIDate;
 import com.techtrade.rads.framework.ui.controls.UIDialog;
@@ -616,6 +618,16 @@ public class HTMLReader extends Reader{
 			String pageNum = request.getParameter(pageNumField);  
 			String submitAction = request.getParameter(submitActionField) ;
 			String fixedActionParam = request.getParameter(fixedActionParamField);
+			
+			String sortField = request.getParameter(RadsControlConstants.SORT_FIELD);
+			String sortDirection = request.getParameter(RadsControlConstants.SORT_DIRECTION);
+			
+			if(!Utils.isNullString(sortField)){
+				SortCriteria sortCriteria = new  SortCriteria();
+				sortCriteria.setFieldName(sortField);
+				sortCriteria.setDirection(SortCriteria.DIRECTION.ASCENDING);
+				page.setSortCriteria(sortCriteria);
+			}
 			
 			String []selectedRows = request.getParameterValues(page.getUniquePropertyUIId()); 
 			if ( selectedRows != null ) {

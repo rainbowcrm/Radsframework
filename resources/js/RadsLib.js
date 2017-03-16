@@ -209,4 +209,7 @@ function isNumberKey(evt)
 
 function submitwithSort(sort) {
 	console.log ('sorting with ' +  sort) ;
+	document.getElementById('rds_sortfield').value =sort;
+	document.getElementById('rds_sortdirection').value ='ASC';
+	document.forms[0].submit();
 }

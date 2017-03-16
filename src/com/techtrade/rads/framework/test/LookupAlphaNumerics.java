@@ -11,7 +11,15 @@ import com.techtrade.rads.framework.utils.Utils;
 
 public class LookupAlphaNumerics implements ILookupService{
 
+	
+	
 	@Override
+	public List<Object> lookupData(IRadsContext ctx, String searchString,
+			int from, int noRecords, String lookupParam) {
+		// TODO Auto-generated method stub
+		return lookupData(ctx, searchString, from, noRecords);
+	}
+
 	public List<Object> lookupData(IRadsContext ctx,String searchString, int from, int noRecords) {
 		String arr[] = new String [8000] ;
 		int c = 0 ;
