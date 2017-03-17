@@ -6,9 +6,12 @@ public class SortCriteria {
 	
 	public enum DIRECTION  {
 		
-		ASCENDING, DESCENDING
+		ASCENDING, DESCENDING ;
+		
 	}  
 	DIRECTION direction ;
+	
+	
 	public String getFieldName() {
 		return fieldName;
 	}

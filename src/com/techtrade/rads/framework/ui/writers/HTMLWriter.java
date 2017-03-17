@@ -1719,6 +1719,18 @@ public class HTMLWriter extends Writer{
 		});
 	}
 	
+	protected void writeSortControls(PrintWriter out, UIListPage page, Object value,ViewController controller)throws IOException{
+		
+		UIHidden hdnSortField =  new UIHidden(RadsControlConstants.SORT_FIELD);
+		UIHidden hdnSortDirection = new UIHidden(RadsControlConstants.SORT_DIRECTION);
+		if (page.getSortCriteria() != null )  {
+			hdnSortField.setValue(page.getSortCriteria().getFieldName());
+			hdnSortDirection.setValue(page.getSortCriteria().getDirection());
+		}
+		writeHidden(out,hdnSortField ) ;
+		writeHidden(out,hdnSortDirection) ;
+	}
+	
 	protected void writeListPage(PrintWriter out, UIListPage page, Object value,ViewController controller) throws IOException{
 		out.println("<HTML>") ;
 		out.println("<Title>" + page.getTitle()) ;
@@ -1747,8 +1759,7 @@ public class HTMLWriter extends Writer{
 		writeHidden(out, new UIHidden(page.getTemplate().getFixedActionfield()));
 		writeHidden(out, new UIHidden(page.getTemplate().getSubmitActionfield()));
 		writeHidden(out, new UIHidden(page.getTemplate().getFixedActionParamfield()));
-		writeHidden(out,new UIHidden(RadsControlConstants.SORT_DIRECTION)) ;
-		writeHidden(out,new UIHidden(RadsControlConstants.SORT_FIELD)) ;
+		writeSortControls(out, page, value, controller);
 		writeHidden(out, new UIHidden("currentpage",page.getPageKey()));
 		if (controller.getMode() != null)
 			writeHidden(out, new UIHidden("currentmode",controller.getMode().name()));
