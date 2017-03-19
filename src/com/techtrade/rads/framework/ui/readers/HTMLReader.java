@@ -514,6 +514,18 @@ public class HTMLReader extends Reader{
 					}
 				}
 			}
+			
+			String sortField = request.getParameter(RadsControlConstants.SORT_FIELD);
+			String sortDirection = request.getParameter(RadsControlConstants.SORT_DIRECTION);
+			if(!Utils.isNullString(sortField)){
+				SortCriteria sortCriteria = new  SortCriteria();
+				sortCriteria.setFieldName(sortField);
+				if("DESC".equalsIgnoreCase(sortDirection))
+					sortCriteria.setDirection(SortCriteria.DIRECTION.DESCENDING);
+				else
+					sortCriteria.setDirection(SortCriteria.DIRECTION.ASCENDING);
+				page.setSortCriteria(sortCriteria);
+			}
 			List<ModelObject> objects = page.getModelObjects() ;
 			if (objects == null )
 				objects = new ArrayList<ModelObject>() ;
