@@ -625,7 +625,10 @@ public class HTMLReader extends Reader{
 			if(!Utils.isNullString(sortField)){
 				SortCriteria sortCriteria = new  SortCriteria();
 				sortCriteria.setFieldName(sortField);
-				sortCriteria.setDirection(SortCriteria.DIRECTION.ASCENDING);
+				if("DESC".equalsIgnoreCase(sortDirection))
+					sortCriteria.setDirection(SortCriteria.DIRECTION.DESCENDING);
+				else
+					sortCriteria.setDirection(SortCriteria.DIRECTION.ASCENDING);
 				page.setSortCriteria(sortCriteria);
 			}
 			

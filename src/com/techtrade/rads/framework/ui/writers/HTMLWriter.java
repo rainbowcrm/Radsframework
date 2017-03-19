@@ -25,6 +25,7 @@ import com.techtrade.rads.framework.ui.abstracts.UIControl;
 import com.techtrade.rads.framework.ui.abstracts.UIPage;
 import com.techtrade.rads.framework.ui.abstracts.Writer;
 import com.techtrade.rads.framework.ui.components.AjaxGroup;
+import com.techtrade.rads.framework.ui.components.SortCriteria;
 import com.techtrade.rads.framework.ui.components.UICRUDPage;
 import com.techtrade.rads.framework.ui.components.UIElement;
 import com.techtrade.rads.framework.ui.components.UIFixedPanel;
@@ -1725,7 +1726,10 @@ public class HTMLWriter extends Writer{
 		UIHidden hdnSortDirection = new UIHidden(RadsControlConstants.SORT_DIRECTION);
 		if (page.getSortCriteria() != null )  {
 			hdnSortField.setValue(page.getSortCriteria().getFieldName());
-			hdnSortDirection.setValue(page.getSortCriteria().getDirection());
+			if (SortCriteria.DIRECTION.DESCENDING.equals(page.getSortCriteria().getDirection()))
+				 hdnSortDirection.setValue("DESC");
+			else
+				 hdnSortDirection.setValue("ASC");
 		}
 		writeHidden(out,hdnSortField ) ;
 		writeHidden(out,hdnSortDirection) ;
