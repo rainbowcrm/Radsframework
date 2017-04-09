@@ -3,7 +3,9 @@ package com.techtrade.rads.framework.ui.servlets;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.StringTokenizer;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
@@ -55,6 +57,7 @@ public class JSONProcessor {
 			String pageNumber = root.optString("hdnPage");
 			String sortField = root.optString(RadsControlConstants.SORT_FIELD);
 			String sortDirection = root.optString(RadsControlConstants.SORT_DIRECTION);
+			String selectedRecords = root.optString(RadsControlConstants.JSON_SELECTEDIDS);
 			JSONObject json =root.optJSONObject("dataObject") ;
 			JSONArray filterArray = root.optJSONArray("filter")	;
 			ViewController.Mode initialMode = PageGenerator.getModeFromString(modeKey);
@@ -80,6 +83,15 @@ public class JSONProcessor {
 						SortCriteria sortCriteria = new SortCriteria(sortField,SortCriteria.DIRECTION.valueOf(sortDirection));
 						((UIListPage) page).setSortCriteria(sortCriteria);
 					}
+					  if(!Utils.isNullString(selectedRecords)) 
+					  {
+						  List<String >selRows = new ArrayList<String> ();
+						  StringTokenizer tokenizer = new StringTokenizer(selectedRecords,",");
+						  while(tokenizer.hasMoreTokens()) {
+							  selRows.add(tokenizer.nextToken()) ;
+						  }
+						  ((UIListPage) page).setSelectedRows(selRows);
+					  }
 					 writeListPage((UIListPage) page, fixedActionStr,response,authToken,filterArray);
 					 return;
 				 } else  if (page.getViewController() instanceof GeneralController){
