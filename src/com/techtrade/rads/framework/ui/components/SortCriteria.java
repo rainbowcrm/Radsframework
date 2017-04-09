@@ -25,6 +25,19 @@ public class SortCriteria {
 		this.direction = direction;
 	}
 	
+	public  SortCriteria() {
+	}
+	
+	public SortCriteria(String fieldName, DIRECTION direction) {
+		super();
+		this.fieldName = fieldName;
+		this.direction = direction;
+	}
+
+
+	
+	
+	
 	
 	
 	

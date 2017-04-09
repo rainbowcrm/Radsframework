@@ -64,7 +64,7 @@ public class Utils {
 		if (isNullString(str)) return false ;
 		try  {
 			int val = Integer.parseInt(str) ;
-			if  (val >  0 )
+			if  (val >=  0 )
 				return true ;
 			else
 				return false;

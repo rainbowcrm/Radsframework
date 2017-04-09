@@ -27,11 +27,13 @@ import com.techtrade.rads.framework.model.abstracts.RadsError;
 import com.techtrade.rads.framework.model.transaction.TransactionResult;
 import com.techtrade.rads.framework.ui.abstracts.PageResult;
 import com.techtrade.rads.framework.ui.abstracts.UIPage;
+import com.techtrade.rads.framework.ui.components.SortCriteria;
 import com.techtrade.rads.framework.ui.components.UIGeneralPage;
 import com.techtrade.rads.framework.ui.components.UIListPage;
 import com.techtrade.rads.framework.ui.config.AppConfig;
 import com.techtrade.rads.framework.ui.config.PageConfig;
 import com.techtrade.rads.framework.ui.constants.FixedAction;
+import com.techtrade.rads.framework.ui.constants.RadsControlConstants;
 import com.techtrade.rads.framework.utils.Utils;
 
 public class JSONProcessor {
@@ -50,8 +52,11 @@ public class JSONProcessor {
 			String pageID = root.optString("pageID");
 			String modeKey  =root.optString("currentmode") ;
 			String fixedActionStr = root.optString("fixedAction") ;
+			String pageNumber = root.optString("hdnPage");
+			String sortField = root.optString(RadsControlConstants.SORT_FIELD);
+			String sortDirection = root.optString(RadsControlConstants.SORT_DIRECTION);
 			JSONObject json =root.optJSONObject("dataObject") ;
-			JSONArray filterArray = root.optJSONArray("filter") ;
+			JSONArray filterArray = root.optJSONArray("filter")	;
 			ViewController.Mode initialMode = PageGenerator.getModeFromString(modeKey);
 			PageConfig config = AppConfig.APPCONFIG.getPageConfig(context.getRealPath("/"), pageID);
 			ModelObject object =PageGenerator.readObjectfromPageConfig(config);
@@ -68,7 +73,13 @@ public class JSONProcessor {
 						 ((CRUDController)page.getViewController()).setObject(object);
 					 else
 						 ((TransactionController)page.getViewController()).setObject(object);
-				 }else  if (page.getViewController() instanceof ListController && page instanceof UIListPage) { 
+				 }else  if (page.getViewController() instanceof ListController && page instanceof UIListPage) {
+					 if (Utils.isPositiveInt(pageNumber))
+						 ((UIListPage) page).setPageNumber(Integer.parseInt(pageNumber));
+					if(!Utils.isNullString(sortField)  && !Utils.isNullString(sortDirection)){ 
+						SortCriteria sortCriteria = new SortCriteria(sortField,SortCriteria.DIRECTION.valueOf(sortDirection));
+						((UIListPage) page).setSortCriteria(sortCriteria);
+					}
 					 writeListPage((UIListPage) page, fixedActionStr,response,authToken,filterArray);
 					 return;
 				 } else  if (page.getViewController() instanceof GeneralController){

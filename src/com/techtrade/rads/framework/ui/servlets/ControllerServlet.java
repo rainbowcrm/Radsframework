@@ -275,6 +275,9 @@ public class ControllerServlet extends HttpServlet{
 					 if (pageResult !=null && pageResult.getResponseAction().equals(PageResult.ResponseAction.FILEDOWNLOAD)) {
 						 return;
 					 }
+					 if (pageResult !=null && pageResult.getResponseAction().equals(PageResult.ResponseAction.FULLRELOAD)) {
+						 write(resp,page,page,object) ;
+					 }
 					 String nextPageKey = pageResult.getNextPageKey();
 					 if (!Utils.isNullString(nextPageKey) && !nextPageKey.equals(curKey)) {
 						 if(pageResult.getObject() != null) 
