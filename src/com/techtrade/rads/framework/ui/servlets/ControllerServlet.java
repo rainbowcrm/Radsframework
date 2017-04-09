@@ -277,6 +277,7 @@ public class ControllerServlet extends HttpServlet{
 					 }
 					 if (pageResult !=null && pageResult.getResponseAction().equals(PageResult.ResponseAction.FULLRELOAD)) {
 						 write(resp,page,page,object) ;
+						 return;
 					 }
 					 String nextPageKey = pageResult.getNextPageKey();
 					 if (!Utils.isNullString(nextPageKey) && !nextPageKey.equals(curKey)) {
