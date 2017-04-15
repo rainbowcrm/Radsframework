@@ -353,7 +353,10 @@ public class HTMLWriter extends Writer{
 			} else
 				value = object;
 			
-			if (control instanceof UIImage && displayValue instanceof String) {
+			if (control instanceof UIHyperLink && displayValue instanceof String && displayValue != null) {
+				((UIHyperLink)control).setHyperLink(String.valueOf(displayValue));
+				((UIHyperLink)control).setInnerText(String.valueOf(displayValue));
+			}else if (control instanceof UIImage && displayValue instanceof String) {
 				((UIImage) control).setSrc(String.valueOf(displayValue));
 			} else if (! (control instanceof UILabel))
 				control.setValue(displayValue);
