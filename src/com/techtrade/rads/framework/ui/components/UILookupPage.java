@@ -3,6 +3,7 @@ package com.techtrade.rads.framework.ui.components;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import com.techtrade.rads.framework.controller.abstracts.TransactionController;
 import com.techtrade.rads.framework.ui.abstracts.ILookupService;
@@ -58,8 +59,8 @@ public class UILookupPage extends UIPage{
 	public void setLookupSevice(ILookupService lookupSevice) {
 		this.lookupSevice = lookupSevice;
 	}
-	public List<Object> lookupValues( String searchString ,int from, int noRecords) {
-		return lookupSevice.lookupData(null,searchString, from, noRecords,null);
+	public Map<String, String> lookupValues( String searchString ,int from, int noRecords) {
+		return lookupSevice.lookupData(null,searchString, from, noRecords,null,null);
 	}
 	public UIForm getForm() {
 		return form;
@@ -154,6 +155,7 @@ public class UILookupPage extends UIPage{
 		this.listControl = listControl;
 	}
 	
+	@Deprecated
 	public void applyListValues(List<String> lstValues) {
 		List<UIElement > elements = this.getInputElements();
 		for(UIElement element : elements) {
@@ -171,6 +173,26 @@ public class UILookupPage extends UIPage{
 		}
 	}
 
+	public void applyMapValues(Map<String,String> mapValues) {
+		List<UIElement > elements = this.getInputElements();
+		for(UIElement element : elements) {
+			if(element.getControl() != null && listControl.equalsIgnoreCase(element.getControl().getId())) {
+			  UIList lstOptions = (UIList) element.getControl() ;
+			  lstOptions.setOptions(mapValues);
+			  if (Utils.isNullString(dialogId)) {
+				  String dblClick = "closeLookupWindow('" + this.getParentControl() + "','"+ this.getListControl()  +"');";
+				  lstOptions.setDblClickJS(dblClick);
+			  }else {
+				  String dblClick = "closeLookupDialog('"+ dialogId +"','" + this.getParentControl() + "','"+ this.getListControl()  +"');";
+				  lstOptions.setDblClickJS(dblClick);
+			  }
+			}
+		}
+	}
+
+
+	
+	
 	public String getDialogId() {
 		return dialogId;
 	}

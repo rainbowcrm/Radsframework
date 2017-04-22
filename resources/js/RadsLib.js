@@ -162,7 +162,9 @@ function showLookupDialogWithAdditionalFields(id,curControl,additionalControl,ad
 	}
 	dialog.showModal();
 	
- }function fireAjaxRequest (service, requestCtrls, responseCtrls, currentCtrl) {
+ }
+
+function fireAjaxRequest (service, requestCtrls, responseCtrls, currentCtrl) {
 	var requestStr = appURL + "rdscontroller?ajxService=" + service;
 	var index  = getCurrentObjectIndex(currentCtrl);
 	console.log(requestCtrls + "index" + index) ;

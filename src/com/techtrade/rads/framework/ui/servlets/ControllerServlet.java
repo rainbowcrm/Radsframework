@@ -197,11 +197,12 @@ public class ControllerServlet extends HttpServlet{
 		object.setAdditionalFields(additionalFields);
 		String additionalControls = req.getParameter("additionalControls");
 		object.setAdditionalControls(additionalControls);
+		List<String> listAddFields = Utils.getListfromStringtokens(additionalFields, ",");
 		int from  =lookupPage.getFrom() ;
 		int noRecords = lookupPage.getNoRecords() ;
 		IRadsContext ctx = lookupService.generateContext(req);
-		List lstValues = lookupService.lookupData(ctx,searchString, from, noRecords,additionalParam);
-		lookupPage.applyListValues(lstValues);
+		Map mapValues = lookupService.lookupData(ctx,searchString, from, noRecords,additionalParam,listAddFields);
+		lookupPage.applyMapValues(mapValues);
 		 String appURL = AppConfig.APPCONFIG.getAppURL(getServletContext().getRealPath("/"));
 		 IExternalizeFacade externalizeFacade = AppConfig.APPCONFIG.getExternalizeFacade() ;
 		 if (externalizeFacade != null ) {

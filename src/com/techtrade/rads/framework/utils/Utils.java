@@ -3,12 +3,14 @@ package com.techtrade.rads.framework.utils;
 import java.lang.reflect.Method;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.StringTokenizer;
 
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -217,5 +219,17 @@ public class Utils {
 				 objects.append( ",");
 		}
 		return objects.toString();
+	}
+	
+	public static List<String> getListfromStringtokens(String string,String token )
+	{
+		List<String> ans = new ArrayList<String> ();
+		if(isNullString(string)) return ans;
+		StringTokenizer tokenizer  = new StringTokenizer(string,token);
+		while(tokenizer.hasMoreTokens()) {
+			ans.add(tokenizer.nextToken());
+		}
+		
+		return ans;
 	}
 }
