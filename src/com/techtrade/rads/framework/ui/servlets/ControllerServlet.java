@@ -193,6 +193,10 @@ public class ControllerServlet extends HttpServlet{
 		String searchString   =  String.valueOf(lookupPage.getSearchValue());
 		String additionalParam = req.getParameter("additionalParam");
 		object.setAdditionalParam(additionalParam);
+		String additionalFields = req.getParameter("additionalFields");
+		object.setAdditionalFields(additionalFields);
+		String additionalControls = req.getParameter("additionalControls");
+		object.setAdditionalControls(additionalControls);
 		int from  =lookupPage.getFrom() ;
 		int noRecords = lookupPage.getNoRecords() ;
 		IRadsContext ctx = lookupService.generateContext(req);

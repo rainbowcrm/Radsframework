@@ -3,6 +3,7 @@ package com.techtrade.rads.framework.ui.servlets;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -144,6 +145,9 @@ public class UIElementGenerator {
 	protected static String TAG_DIALOGSTYLE = "dialogStyle" ;
 	protected static String TAG_FRAMESTYLE ="frameStyle";
 	
+	protected static String TAG_SUPPLIMENTARYFIELDS ="SupplementaryFields";
+	protected static String TAG_FIELD ="Field";
+	
 	
 	
 	protected static String TAG_HEAD = "head" ;
@@ -278,6 +282,24 @@ public class UIElementGenerator {
 			return ((TransactionController)controller).getObject();
 		}else
 			return null ;
+	}
+	
+	private static void setSupplimentaryFields(XMLElement doc,UILookupText lookupText)
+	{
+		XMLElement supplElements =  doc.getFirstChildElement(TAG_SUPPLIMENTARYFIELDS);
+		if (supplElements != null) {
+			List<XMLElement> fieldElements= supplElements.getChildElements(TAG_FIELD);
+			if (!Utils.isNullList(fieldElements)) {
+				fieldElements.forEach( fieldElement ->  {  
+					String property = fieldElement.getChildAttributeValue(TAG_PROPERTY);
+					String control = fieldElement.getChildAttributeValue(TAG_CONTROL);
+					if(lookupText.getSupplimentaryFields() == null)
+						lookupText.setSupplimentaryFields(new LinkedHashMap<String,String>()) ;
+					lookupText.getSupplimentaryFields().put(control, property) ;
+				});
+			}
+		}
+		
 	}
 	
 	public static UIElement getUIElement(XMLElement doc,ViewController controller,UIPage page,boolean propogateStyletoChildren, String parentStyle) throws Exception {
@@ -886,7 +908,7 @@ public class UIElementGenerator {
 				lkpText.setDialogStyle(dlgStyle);
 				lkpText.setFrameStyle(frmStyle);
 			}
-			
+			setSupplimentaryFields(doc, lkpText);
 			
 		}else if ("Panel".equalsIgnoreCase(type )) {
 		    String key = doc.getAttributeValue(TAG_KEY);

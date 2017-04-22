@@ -1,5 +1,7 @@
 package com.techtrade.rads.framework.ui.controls;
 
+import java.util.Map;
+
 import com.techtrade.rads.framework.ui.abstracts.UIControl;
 import com.techtrade.rads.framework.ui.constants.RadsConstants;
 import com.techtrade.rads.framework.utils.Utils;
@@ -24,6 +26,7 @@ public class UILookupText extends UIControl {
 	
 	String additionalInputControl;
 	
+	Map<String,String>  supplimentaryFields;
 	
 	public UILookupText (String id) {
 		setId(id);
@@ -118,6 +121,12 @@ public class UILookupText extends UIControl {
 	}
 	public void setAdditionalInputControl(String additionalInputControl) {
 		this.additionalInputControl = additionalInputControl;
+	}
+	public Map<String, String> getSupplimentaryFields() {
+		return supplimentaryFields;
+	}
+	public void setSupplimentaryFields(Map<String, String> supplimentaryFields) {
+		this.supplimentaryFields = supplimentaryFields;
 	}
 	
 	

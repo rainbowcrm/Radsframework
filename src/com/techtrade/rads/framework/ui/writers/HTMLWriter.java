@@ -148,6 +148,7 @@ public class HTMLWriter extends Writer{
 			" } \n" + 
 			 " </script>" ;
 	
+	
 	String jsLookupWindow = " <script language =\"javascript\"> \n " +
 			" function showLookupWindow(url,title,returntxt,height,width,additionalControl) {\n " +
 			" window.open(url,title,'resizable=0,toolbar=0,status=0,titlebar=0,height=' + height + ',width=' + width  );\n" +
@@ -165,7 +166,8 @@ public class HTMLWriter extends Writer{
 	String jsCloseLookupDialog = " <script> \n var clickedCellIndex =-1;  </script>\n" + 
 			" <script language =\"javascript\"> \n " +
 			"function closeLookupDialog(dialogId,parentControl, valueControl) { \n" +
-			 " var clkCell = window.parent.clickedCellIndex;\n" + 
+			 " var clkCell = window.parent.clickedCellIndex;\n" +
+			 " var additional = window.parent.clickedCellIndex;\n" + 
 			" console.log('clkCell =' + clkCell);\n"  + 
 		 " if (document.getElementById(valueControl).value != '' ){ \n" +
 		  "if (clkCell <= 0) { \n" +
@@ -181,7 +183,27 @@ public class HTMLWriter extends Writer{
 	"} \n" +
 	" </script>" ;
 	
-	
+	String jsCloseLookupDialogWithAdditions = " <script> \n var clickedCellIndex =-1;  </script>\n" + 
+			" <script language =\"javascript\"> \n " +
+			"function closeLookupDialogWithAdditions(dialogId,parentControl, valueControl, additionalValues) { \n" +
+			 " var clkCell = window.parent.clickedCellIndex;\n" + 
+			" console.log('clkCell =' + clkCell);\n"  + 
+			" console.log('additionalValues =' + additionalValues);\n"  + 
+		 " if (document.getElementById(valueControl).value != '' ){ \n" +
+		  "   var  selectedValue = document.getElementById(valueControl).value;\n" +
+		  "   var  splittedValue = selectedValue.split('|'); \n" + 
+		  "if (clkCell <= 0) { \n" +
+			 " window.parent.document.getElementById(parentControl).value = splittedValue[0]; \n" + 
+			 " window.parent.document.getElementById(dialogId).close(); \n" +
+			"  window.parent.document.getElementById(parentControl).focus(); \n" +
+		 " }else { \n" +
+			 " window.parent.document.getElementsByName(parentControl)[clkCell].value = splittedValue[0] ; \n" + 
+			 " window.parent.document.getElementById(dialogId).close(); \n" +
+			"  window.parent.document.getElementsByName(parentControl)[clkCell].focus(); \n" +
+		 " } \n" +
+		"} \n" +
+	"} \n" +
+	" </script>" ;
 	
 	
 	String jsCancelWindow = " <script language =\"javascript\"> \n " +
@@ -1046,6 +1068,47 @@ public class HTMLWriter extends Writer{
 	
 	}
 	
+	private String declareArrayforAdditionalControls(Map additionalKeys , String lookupText)
+	{
+		StringBuffer buffer = new StringBuffer("<script>\n");
+		if ( !Utils.isNullMap(additionalKeys)) {
+			buffer.append(" var " + RadsControlConstants.ADDITIONALOOKUPCTRLS + lookupText +"=[");
+			
+			Iterator iterator = additionalKeys.keySet().iterator() ;
+			while(iterator.hasNext())  {
+				String key = (String)iterator.next() ;
+				buffer.append("'" +  key  + "'");
+				if(iterator.hasNext())
+					 buffer.append(",");
+			}
+			buffer.append("];\n");
+		}
+		
+		buffer.append("</script>");
+		return buffer.toString() ;
+	}
+	
+	private String declareArrayforAdditionalFields(Map additionalKeys , String lookupText)
+	{
+		StringBuffer buffer = new StringBuffer("<script>\n");
+		if ( !Utils.isNullMap(additionalKeys)) {
+			buffer.append(" var " + RadsControlConstants.ADDITIONALOOKUPFIELDS + lookupText +"=[");
+			
+			Iterator iterator = additionalKeys.keySet().iterator() ;
+			while(iterator.hasNext())  {
+				String key = (String)iterator.next() ;
+				String property =(String) additionalKeys.get(key);
+				buffer.append("'" +  property  + "'");
+				if(iterator.hasNext())
+					 buffer.append(",");
+			}
+			buffer.append("];\n");
+		}
+		
+		buffer.append("</script>");
+		return buffer.toString() ;
+	}
+	
 	protected void writeLookupDialog(PrintWriter out, UILookupText textLookup) {
 		String dialogStyle = (!Utils.isNullString(textLookup.getDialogStyle()) ? "class=\"" + textLookup.getDialogStyle() + "\"" : "");
 		String frameStyle =(!Utils.isNullString(textLookup.getFrameStyle()) ? "class=\"" + textLookup.getFrameStyle() + "\"" : "");
@@ -1071,7 +1134,20 @@ public class HTMLWriter extends Writer{
 		//out.println("<button type =\"submit\"  src =\"" + textLookup.getImgSrc() + "\" onClick=\"showLookupWindow('"+textLookup.getId()+"');\" > </button>");
 		if (textLookup.isShowLookupAsDialog()) {
 			writeLookupDialog(out, textLookup);
-			out.println("<button  type =\"button\"   name=\"btn+"+ textLookup.getId() + "\" onClick=\"showLookupDialog('" + textLookup.getDialogId()  + "',this,'"+additionalControl+"');\" >" + "..." +" </button>");
+			if (Utils.isNullMap(textLookup.getSupplimentaryFields()))
+				out.println("<button  type =\"button\"   name=\"btn+"+ textLookup.getId() + "\" onClick=\"showLookupDialog('" + textLookup.getDialogId()  + "',this,'"+additionalControl+"');\" >" + "..." +" </button>");
+			else {
+				String additionalLookupCtrls = declareArrayforAdditionalControls(textLookup.getSupplimentaryFields(), textLookup.getId());
+				out.println(additionalLookupCtrls);
+				String additionalLookupFields= declareArrayforAdditionalFields(textLookup.getSupplimentaryFields(), textLookup.getId());
+				out.println(additionalLookupFields);
+				String variableCtrlName = RadsControlConstants.ADDITIONALOOKUPCTRLS +  textLookup.getId();
+				String variableFieldsName = RadsControlConstants.ADDITIONALOOKUPFIELDS +  textLookup.getId();
+				out.println("<button  type =\"button\"   name=\"btn+"+ textLookup.getId() + "\" onClick=\"showLookupDialogWithAdditionalFields('" + textLookup.getDialogId()
+						+ "',this,'"+additionalControl+"',"+variableCtrlName+"," + variableFieldsName + ");\" >" + "..." +" </button>");
+				
+			}
+				
 		}else {
 			out.println("<button  type =\"button\"    name=\"btn+"+ textLookup.getId() + "\" onClick=\"showLookupWindow('"+ urlText +"','"+title+"','"+textLookup.getId()+"','"+height+"','"+ width+"','"+additionalControl+"');\" >" + "..." +" </button>");
 		}
@@ -1803,7 +1879,8 @@ public class HTMLWriter extends Writer{
 		out.println(jsCancelWindow);
 		out.println(jsCancelDialog);
 		out.println(jsCloseLookupWindow);
-		out.println(jsCloseLookupDialog);
+	//	out.println(jsCloseLookupDialog);
+	//	out.println(jsCloseLookupDialogWithAdditions);
 		writeJSIncludes(out,page);
 		out.println("<Body>") ;
 		out.println(jsapplyFixedActionServer.replaceAll("-FixedControl-", page.getTemplate().getFixedActionfield())
