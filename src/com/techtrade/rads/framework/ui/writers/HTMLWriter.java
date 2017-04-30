@@ -94,6 +94,7 @@ public class HTMLWriter extends Writer{
 	UIPage currentPage;
 	String appURL;
 	IRadsContext context ;
+	String portalPrefix;
 	protected boolean useGoogleforGraphs;
 	
 	// " span.style.backgroundColor  = \"#53868B\"; \n"+  
@@ -261,6 +262,17 @@ public class HTMLWriter extends Writer{
 		this.appURL = appURL;
 	}
 	
+	
+
+	public String getPortalPrefix() {
+		return portalPrefix;
+	}
+
+
+	public void setPortalPrefix(String portalPrefix) {
+		this.portalPrefix = portalPrefix;
+	}
+
 
 	public boolean isUseGoogleforGraphs() {
 		return useGoogleforGraphs;
@@ -1112,7 +1124,7 @@ public class HTMLWriter extends Writer{
 	protected void writeLookupDialog(PrintWriter out, UILookupText textLookup) {
 		String dialogStyle = (!Utils.isNullString(textLookup.getDialogStyle()) ? "class=\"" + textLookup.getDialogStyle() + "\"" : "");
 		String frameStyle =(!Utils.isNullString(textLookup.getFrameStyle()) ? "class=\"" + textLookup.getFrameStyle() + "\"" : "");
-		String urlText = textLookup.getUrl() + "&lookupType=" + textLookup.getLookupType() + "&parentControl=" +  textLookup.getId() + 
+		String urlText = textLookup.getUrl(portalPrefix) + "&lookupType=" + textLookup.getLookupType() + "&parentControl=" +  textLookup.getId() + 
 				"&dialogId=" +textLookup.getDialogId()  ;
 		out.println("<Dialog id ='" + textLookup.getDialogId() + "' " +  dialogStyle+ " >");
 		out.println("<Iframe id ='idFRM" + textLookup.getDialogId() + "' src='" + urlText +  "' " + frameStyle +">" );
@@ -1130,7 +1142,7 @@ public class HTMLWriter extends Writer{
 		String width =textLookup.getWindowWidth() ;
 		String title= textLookup.getLookupWindowTitle();
 		String additionalControl = textLookup.getAdditionalInputControl() ;
-		String urlText = textLookup.getUrl() + "&lookupType=" + textLookup.getLookupType() + "&parentControl=" +  textLookup.getId();
+		String urlText = textLookup.getUrl(portalPrefix) + "&lookupType=" + textLookup.getLookupType() + "&parentControl=" +  textLookup.getId();
 		//out.println("<button type =\"submit\"  src =\"" + textLookup.getImgSrc() + "\" onClick=\"showLookupWindow('"+textLookup.getId()+"');\" > </button>");
 		if (textLookup.isShowLookupAsDialog()) {
 			writeLookupDialog(out, textLookup);

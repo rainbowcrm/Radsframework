@@ -50,6 +50,14 @@ public class UILookupText extends UIControl {
 		else
 			return url;
 	}
+	
+	public String getUrl(String prefix) {
+		String pre = prefix==null?"":"/"+prefix;
+		if (Utils.isNullString(url) )
+			return  pre+ RadsConstants.DEFAULT.getLookupURL() ;
+		else
+			return pre+ url;
+	}
 	public void setUrl(String url) {
 		this.url = url;
 	}
