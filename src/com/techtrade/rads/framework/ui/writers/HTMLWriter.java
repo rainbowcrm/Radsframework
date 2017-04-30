@@ -1973,7 +1973,7 @@ public class HTMLWriter extends Writer{
 	protected void writerAjaxGroup (PrintWriter out,UIPage page) {
 		if (Utils.isNullList(page.getAjaxGroups())) return ;
 		out.println("<script>") ;
-		out.println("var appURL = '" + appURL + "';");
+		out.println("var appURL = '" + appURL + ""+ (portalPrefix==null?"":portalPrefix+"/")   +"';");
 		out.println(" function loadAjaxServices()  {\n");
 		for (AjaxGroup grp : page.getAjaxGroups()){
 			String service   = grp.getAjaxService() ;
