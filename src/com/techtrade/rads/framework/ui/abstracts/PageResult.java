@@ -14,6 +14,9 @@ public class PageResult extends TransactionResult{
 	String nextPageKey; 
 	// boolean redirectToNext ; // true - redirect ; false - forward response ;
 	
+	long availableRecords;
+	long fetchedRecords;
+	
 	 public enum ResponseAction {
 		 DEFAULT,FULLRELOAD, RELOADSTATICCONTS , NORELOAD , NEWPAGE, FILEDOWNLOAD, POPUPRESPONSE;
 	 }  
@@ -53,6 +56,22 @@ public class PageResult extends TransactionResult{
 	}
 	public PageResult(TransactionResult transObject) {
 		this(transObject.getResult(),transObject.getErrors(),transObject.getObject());
+	}
+
+	public long getAvailableRecords() {
+		return availableRecords;
+	}
+
+	public void setAvailableRecords(long availableRecords) {
+		this.availableRecords = availableRecords;
+	}
+
+	public long getFetchedRecords() {
+		return fetchedRecords;
+	}
+
+	public void setFetchedRecords(long fetchedRecords) {
+		this.fetchedRecords = fetchedRecords;
 	}
 	
 		

@@ -170,7 +170,9 @@ public class JSONProcessor {
 			 JSONObject json = new JSONObject();
 			 json.put("authToken", authToken) ;
 			 if (result.getResult().equals(TransactionResult.Result.SUCCESS)) {
-				 	json.put("result", "success") ;			 
+				 	json.put("result", "success") ;			
+				 	json.put("availableRecords", result.getAvailableRecords());
+				 	json.put("fetchedRecords", result.getFetchedRecords());
 			 } else  {
 				 	json.put("result", "failure") ;
 				 	int index = 0 ;
