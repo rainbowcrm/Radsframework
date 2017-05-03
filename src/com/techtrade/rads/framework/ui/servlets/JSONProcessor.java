@@ -55,6 +55,7 @@ public class JSONProcessor {
 			String modeKey  =root.optString("currentmode") ;
 			String fixedActionStr = root.optString("fixedAction") ;
 			String pageNumber = root.optString("hdnPage");
+			String submitAction  = root.optString("submitAction");
 			String sortField = root.optString(RadsControlConstants.SORT_FIELD);
 			String sortDirection = root.optString(RadsControlConstants.SORT_DIRECTION);
 			String selectedRecords = root.optString(RadsControlConstants.JSON_SELECTEDIDS);
@@ -107,7 +108,11 @@ public class JSONProcessor {
 					 }
 					 writeOutput(response, object, result.getErrors(), authToken, result);
 				 }else {
-					 PageResult result =  page.submit() ;
+					 PageResult result;
+					 if( Utils.isNullString( submitAction)) {
+						 result =  page.submit() ;
+					 }else
+						 result = page.submit(submitAction);
 					 if (result.getResult().equals(TransactionResult.Result.SUCCESS)) {
 						 object = result.getObject() ;
 					 }
