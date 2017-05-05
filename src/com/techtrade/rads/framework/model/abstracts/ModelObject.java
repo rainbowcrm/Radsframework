@@ -371,7 +371,9 @@ public abstract class ModelObject {
 							    
 							 jsonString.append(",");
 						 } else {
-							 jsonString.append("{\n" +  itObject.toString()+ "}, " );
+							 if (itObject != null ) { 
+								 jsonString.append("{\n" +  itObject.toString()+ "}, " );
+							 }
 						 }
 					 }
 					 jsonString.setCharAt(jsonString.length()-1, ' ');
