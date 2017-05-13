@@ -4,10 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.techtrade.rads.framework.controller.abstracts.GeneralController;
+import com.techtrade.rads.framework.controller.abstracts.TransactionController;
 import com.techtrade.rads.framework.model.abstracts.ModelObject;
 import com.techtrade.rads.framework.ui.abstracts.PageResult;
 import com.techtrade.rads.framework.ui.abstracts.UIPage;
 import com.techtrade.rads.framework.ui.constants.FixedAction;
+import com.techtrade.rads.framework.utils.Utils;
 
 public class UIGeneralPage extends UIPage{
 	
@@ -44,8 +46,15 @@ public class UIGeneralPage extends UIPage{
 			return((GeneralController)getViewController()).read(object);
 		}else if (fixedAction != null && fixedAction == FixedAction.ACTION_DELETE) {
 			return((GeneralController)getViewController()).delete(object);
-		}else 
-			return submit();
+		}else  {
+			String fixedActionParam = this.getFixedActionParam() ;
+			if (Utils.isNullString(fixedActionParam)) {
+				return submit();
+			}else {
+				return submit(fixedActionParam);
+			}
+			
+		}
 	//	getViewController().
 	}
 
