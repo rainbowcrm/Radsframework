@@ -1634,6 +1634,9 @@ public class HTMLWriter extends Writer{
 		
 		out.println("<Body> ") ;
 		out.println("") ;
+		out.println("<script>") ;
+		out.println("var appURL = '" + appURL + ""+ (portalPrefix==null?"":portalPrefix+"/")   +"';");
+		out.println("</script>") ;
 		//writeFixedElementsofTemplate(out,page,value,controller);
 		String pageStyle= " style=\"" + page.getTemplate().getPageStyle() + "\"";
 		out.println("<Div " + pageStyle+ " > ");

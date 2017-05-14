@@ -1,5 +1,6 @@
 package com.techtrade.rads.framework.ui.servlets;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
@@ -14,6 +15,7 @@ import com.techtrade.rads.framework.context.IRadsContext;
 import com.techtrade.rads.framework.controller.abstracts.DataSheetController;
 import com.techtrade.rads.framework.controller.abstracts.GeneralController;
 import com.techtrade.rads.framework.controller.abstracts.IAjaxLookupService;
+import com.techtrade.rads.framework.controller.abstracts.IAjaxUpdateService;
 import com.techtrade.rads.framework.controller.abstracts.IExternalizeFacade;
 import com.techtrade.rads.framework.controller.abstracts.ListController;
 import com.techtrade.rads.framework.controller.abstracts.CRUDController;
@@ -44,6 +46,9 @@ import com.techtrade.rads.framework.ui.writers.HTMLWriter;
 import com.techtrade.rads.framework.utils.Utils;
 
 import javax.servlet.annotation.MultipartConfig;
+
+import org.json.JSONObject;
+import org.json.JSONTokener;
 
 
 @MultipartConfig
@@ -82,18 +87,33 @@ public class ControllerServlet extends HttpServlet{
 	protected void ajaxServiceRequest (HttpServletRequest req, HttpServletResponse resp, String ajaxServiceKey)
 			throws ServletException, IOException,Exception {
 		AjaxServiceConfig config = AppConfig.APPCONFIG.getAjaxServiceConfig(getServletContext().getRealPath("/"), ajaxServiceKey);
-		List<String > keys = config.getKeys() ;
-		Map<String,String> mp = new HashMap<String,String>();
-		for (String key : keys) {
-			String value =	req.getParameter(key) ;
-			if (!Utils.isNull(key) )
-				mp.put(key, value);
-		}
-		IAjaxLookupService srv = (IAjaxLookupService) Class.forName(config.getServiceClass()).newInstance() ;
-		IRadsContext ctx = srv.generateContext(req);
-		String val = srv.lookupValues(mp,ctx);
-		resp.getWriter().write(val);
 		
+		if (IAjaxLookupService.class.isAssignableFrom(Class.forName(config.getServiceClass()))  ) {
+			List<String > keys = config.getKeys() ;
+			Map<String,String> mp = new HashMap<String,String>();
+			for (String key : keys) {
+				String value =	req.getParameter(key) ;
+				if (!Utils.isNull(key) )
+					mp.put(key, value);
+			}
+			IAjaxLookupService srv = (IAjaxLookupService) Class.forName(config.getServiceClass()).newInstance() ;
+			IRadsContext ctx = srv.generateContext(req);
+			String val = srv.lookupValues(mp,ctx);
+			resp.getWriter().write(val);
+		} else if (IAjaxUpdateService.class.isAssignableFrom(Class.forName(config.getServiceClass()))  ) {
+			
+			StringBuffer jb = new StringBuffer();
+			String line = null;
+			BufferedReader reader = req.getReader();
+			while ((line = reader.readLine()) != null)
+				jb.append(line);
+			JSONTokener tokener = new JSONTokener(jb.toString());
+			JSONObject root = new JSONObject(tokener);
+			IAjaxUpdateService srv = (IAjaxUpdateService) Class.forName(config.getServiceClass()).newInstance();
+			IRadsContext ctx = srv.generateContext(req);
+			String val = srv.update(root.toString(), ctx);
+			resp.getWriter().write(val);
+		}
 		
 	}
 	protected UIPage reloadPage(UIPage page, ModelObject object, HttpServletRequest req,HttpServletResponse resp,ViewController.Mode mode) throws Exception {
