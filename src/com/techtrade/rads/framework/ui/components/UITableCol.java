@@ -74,6 +74,7 @@ public class UITableCol extends UIControl{
 		col.setAlign(this.getAlign());
 		col.setDataProperty(this.getDataProperty());
 		col.setColSpan(this.getDataProperty());
+		col.setWidth(this.getWidth());
 		if (!Utils.isNullList(this.getElements())) {
 			for (UIElement element : this.getElements()) {
 				UIElement newElement = (UIElement)element.clone();
