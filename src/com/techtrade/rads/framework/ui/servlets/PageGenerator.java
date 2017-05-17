@@ -715,10 +715,17 @@ public class PageGenerator {
 		
 		if (sectionElementList != null && !sectionElementList.isEmpty()) {
 			for (XMLElement xmlElement : sectionElementList) {
-		 		UIElement element = UIElementGenerator.getUIElement(xmlElement, objController,page,false,null);
-		 		if (element != null )  {
-		 			div.addElement(element);
-		 		}
+				if (xmlElement.getTag().equals(TAG_ERRORSECTION)) {
+					UIErrorList  errorList = page.getErrorList() ;
+					//UIDiv errorSection = readSection(xmlElement, template, objController, page);
+					errorList.setStyle(template.getErrorSection().getStyle());
+					div.addElement(new UIElement(errorList));
+				} else  {
+					UIElement element = UIElementGenerator.getUIElement(xmlElement, objController,page,false,null);
+			 		if (element != null )  {
+			 			div.addElement(element);
+			 		}
+				}
 		 	}
 		}
 		
