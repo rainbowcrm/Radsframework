@@ -23,6 +23,7 @@ public enum AppConfig {
 	protected static final String TAG_KEY = "key";
 	protected static final String TAG_DEF = "definition";
 	protected static final String TAG_MODELCLASS = "modelclass";
+	protected static final String TAG_AUTHREQUIRED = "authRequired";
 	protected static final String TAG_LOOKUPS = "Lookups";
 	protected static final String TAG_LOOKUP = "Lookup";
 	protected static final String TAG_TYPE = "type";
@@ -86,10 +87,14 @@ public enum AppConfig {
 			String pageID = page.getAttributeValue(TAG_ID);
 			String def =  page.getAttributeValue(TAG_DEF);
 			String modelClass = page.getAttributeValue(TAG_MODELCLASS);
+			String auth = page.getAttributeValue(TAG_AUTHREQUIRED) ; 
 			PageConfig config = new PageConfig();
 			config.setConfigId(pageID);
 			config.setDefinition(def);
 			config.setModelClass(modelClass);
+			if(!Utils.isNullString(auth) && "false".equalsIgnoreCase(auth) ) {
+				config.setAuthRequired(false);  
+			}
 			configMap.put(pageID, config);
 		}
 		XMLElement lookups = conf.getFirstChildElement(TAG_LOOKUPS);

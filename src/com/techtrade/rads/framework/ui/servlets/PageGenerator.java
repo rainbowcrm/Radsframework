@@ -159,7 +159,7 @@ public class PageGenerator {
 		UIPage page = null;
 		String pageDef = config.getDefinition() ;
 		page = PageGenerator.generatePage(context.getRealPath("/") +
-			pageDef , context.getRealPath("/"),object,req,mode,response) ;
+			pageDef , context.getRealPath("/"),object,req,mode,response,config) ;
 		return page ;
 	}
 	  
@@ -187,7 +187,7 @@ public class PageGenerator {
 	}
 	
 	public static UIPage generatePage(String xmlFile, String contextPath,ModelObject object,HttpServletRequest req ,
-			ViewController.Mode mode,HttpServletResponse response) throws Exception {
+			ViewController.Mode mode,HttpServletResponse response,PageConfig config) throws Exception {
 
 		File fXmlFile = new File(xmlFile);
 		DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
@@ -204,15 +204,15 @@ public class PageGenerator {
 		UIPage page = null ;
 		
 		if(TEMPLATETYPE_CRUD.equalsIgnoreCase(templateType))  {
-			page =  generateCRUDPage( doc ,contextPath +  TEMPLATE_PATH  + templateName  + ".xml",object,req,mode,response);
+			page =  generateCRUDPage( doc ,contextPath +  TEMPLATE_PATH  + templateName  + ".xml",object,req,mode,response,config);
 		}else if(TEMPLATETYPE_LIST.equalsIgnoreCase(templateType) || TEMPLATETYPE_DATASHEET.equalsIgnoreCase(templateType) )  {
-			page = generateListPage( doc ,contextPath +  TEMPLATE_PATH  + templateName  + ".xml",req,mode,templateType,response);
+			page = generateListPage( doc ,contextPath +  TEMPLATE_PATH  + templateName  + ".xml",req,mode,templateType,response,config);
 		}else if(TEMPLATETYPE_GENERAL.equalsIgnoreCase(templateType))  {
-			page = generateGeneralPage( doc ,contextPath +  TEMPLATE_PATH  + templateName  + ".xml",object,req,mode,response);
+			page = generateGeneralPage( doc ,contextPath +  TEMPLATE_PATH  + templateName  + ".xml",object,req,mode,response,config);
 		}else if(TEMPLATETYPE_TRANSACTION.equalsIgnoreCase(templateType))  {
-			page = generateTransactionPage( doc ,contextPath +  TEMPLATE_PATH  + templateName  + ".xml",object,req,mode,response);
+			page = generateTransactionPage( doc ,contextPath +  TEMPLATE_PATH  + templateName  + ".xml",object,req,mode,response,config);
 		}else if(TEMPLATETYPE_LOOKUP.equalsIgnoreCase(templateType))  {
-			page = generateLookupPage( doc ,contextPath +  TEMPLATE_PATH  + templateName  + ".xml",object,req,mode);
+			page = generateLookupPage( doc ,contextPath +  TEMPLATE_PATH  + templateName  + ".xml",object,req,mode,config);
 		}
 
 		
@@ -252,7 +252,7 @@ public class PageGenerator {
 	}*/
 	
 	protected static UIListPage generateListPage (Document  pageElement,String templateName,HttpServletRequest req,
-			ViewController.Mode mode,String templateType,HttpServletResponse response){
+			ViewController.Mode mode,String templateType,HttpServletResponse response,PageConfig config){
 		UIListPage page = null;
 		try {
 			ListTemplateType listTemplate = null ;
@@ -292,7 +292,7 @@ public class PageGenerator {
 			}else {
 				ctx  = page.getViewController().generateContext(req,response);
 			}
-			if ( ctx == null || !ctx.isAuthenticated()) {
+			if ( (ctx == null || !ctx.isAuthenticated()) && config.isAuthRequired()) {
 				throw new ServletException("Authentication Failed- Rads Level");
 			}
 			listController.setContext(ctx);
@@ -767,7 +767,8 @@ public class PageGenerator {
 		return div;
 	}
 	
-	protected static UILookupPage generateLookupPage (Document  pageElement,String templateName,ModelObject object,HttpServletRequest req,ViewController.Mode mode) throws Exception{
+	protected static UILookupPage generateLookupPage (Document  pageElement,String templateName,ModelObject object,HttpServletRequest req,
+			ViewController.Mode mode,PageConfig config) throws Exception{
 		UILookupPage page = new UILookupPage() ;
 		TemplateType template = (TemplateType) TemplateReader.INSTANCE.readTemplate( templateName);
 		page.setTemplate(template);
@@ -810,7 +811,7 @@ public class PageGenerator {
 	}
 	
 	protected static UIGeneralPage generateGeneralPage (Document  pageElement,String templateName,ModelObject object,HttpServletRequest req,
-			ViewController.Mode mode,HttpServletResponse response) throws Exception{
+			ViewController.Mode mode,HttpServletResponse response,PageConfig config) throws Exception{
 		UIGeneralPage page = new UIGeneralPage() ;
 		TemplateType template = (TemplateType) TemplateReader.INSTANCE.readTemplate( templateName);
 		page.setTemplate(template);
@@ -826,7 +827,7 @@ public class PageGenerator {
 		}else {
 			ctx  = page.getViewController().generateContext(req,response);
 		}
-		if ( ctx == null || !ctx.isAuthenticated()) {
+		if ( (ctx == null || !ctx.isAuthenticated())  && config.isAuthRequired()) {
 			throw new ServletException("Authentication Failed- Rads Level");
 		}
 		objController.setContext(ctx);
@@ -854,7 +855,7 @@ public class PageGenerator {
 	}
 
 	protected static UICRUDPage generateCRUDPage (Document  pageElement,String templateName,ModelObject object,HttpServletRequest req,
-			ViewController.Mode mode,HttpServletResponse response) 
+			ViewController.Mode mode,HttpServletResponse response,PageConfig config) 
 			throws RadsException,ServletException{
 		UICRUDPage page = new UICRUDPage();
 		try  {
@@ -872,7 +873,7 @@ public class PageGenerator {
 			}else {
 				ctx  = page.getViewController().generateContext(req,response);
 			}
-			if ( ctx == null || !ctx.isAuthenticated()) {
+			if ( (ctx == null || !ctx.isAuthenticated()) && config.isAuthRequired()) {
 				throw new ServletException("Authentication Failed- Rads Level");
 			}
 			objController.setContext(ctx);
@@ -943,7 +944,7 @@ public class PageGenerator {
 	
 	
 	protected static UITransactionPage generateTransactionPage (Document  pageElement,String templateName,ModelObject object,HttpServletRequest req,
-			ViewController.Mode mode,HttpServletResponse response) 
+			ViewController.Mode mode,HttpServletResponse response,PageConfig config) 
 			throws RadsException{
 		UITransactionPage page = new UITransactionPage();
 		try  {
@@ -961,7 +962,7 @@ public class PageGenerator {
 			}else {
 				ctx  = page.getViewController().generateContext(req,response);
 			}
-			if ( ctx == null || !ctx.isAuthenticated()) {
+			if ( (ctx == null || !ctx.isAuthenticated()) && config.isAuthRequired()) {
 				throw new ServletException("Authentication Failed- Rads Level");
 			}
 			objController.setContext(ctx);

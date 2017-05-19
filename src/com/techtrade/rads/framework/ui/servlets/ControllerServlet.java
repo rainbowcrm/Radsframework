@@ -281,7 +281,7 @@ public class ControllerServlet extends HttpServlet{
 			page.setPageKey(pageID);
 			page.getViewController().init(req);
 			IRadsContext ctx  = page.getViewController().generateContext(req,resp);
-			if ( ctx == null || !ctx.isAuthenticated()) {
+			if ( (ctx == null || !ctx.isAuthenticated()) && config.isAuthRequired() ) {
 				throw new ServletException("Authentication Failed- Rads Level");
 			}
 			page.getViewController().setContext(ctx);

@@ -21,9 +21,11 @@ public class UIHyperLink extends UIControl {
 		setId(id);
 		this.hyperLink = hyperLink;
 		this.innerText = innerText;
+		setExternalize(true);
 	}
 	public UIHyperLink(String id) {
 		setId(id);
+		setExternalize(true);
 	}
 	
 	

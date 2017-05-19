@@ -1177,8 +1177,16 @@ public class HTMLWriter extends Writer{
 	}
 	
 	protected void writeHyperLink(PrintWriter out, UIHyperLink link) throws IOException {
-		out.println("<a id=\"" + link.getId() + "\" href=\""+ 
+		if(!link.isExternalize())  {
+			out.println("<a id=\"" + link.getId() + "\" href=\""+ 
 				link.getHyperLink() +"\"/>" + link.getInnerText() +"</a>");
+		}else {
+			String labelKey = link.getInnerText();
+			IExternalizeFacade facade  = currentPage.getExternalizeFacade() ;
+			String labelValue =  facade.externalize(context, labelKey);
+			out.println("<a id=\"" + link.getId() + "\" href=\""+ 
+					link.getHyperLink() +"\"/>" + labelValue +"</a>");
+		}
 	
 	}
 	protected void writeHidden(PrintWriter out, UIHidden hidden) throws IOException {
