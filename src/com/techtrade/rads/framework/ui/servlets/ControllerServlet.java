@@ -109,6 +109,8 @@ public class ControllerServlet extends HttpServlet{
 				jb.append(line);
 			JSONTokener tokener = new JSONTokener(jb.toString());
 			JSONObject root = new JSONObject(tokener);
+			String authToken =  root.optString("authToken");
+			req.setAttribute("authToken", authToken);
 			IAjaxUpdateService srv = (IAjaxUpdateService) Class.forName(config.getServiceClass()).newInstance();
 			IRadsContext ctx = srv.generateContext(req);
 			String val = srv.update(root.toString(), ctx);
