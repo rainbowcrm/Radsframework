@@ -25,6 +25,7 @@ import org.json.JSONTokener;
 
 import com.techtrade.rads.framework.annotations.RadsPropertySet;
 import com.techtrade.rads.framework.context.IRadsContext;
+import com.techtrade.rads.framework.ui.constants.RadsConstants;
 import com.techtrade.rads.framework.utils.Utils;
 import com.techtrade.rads.framework.utils.XMLDocument;
 import com.techtrade.rads.framework.utils.XMLElement;
@@ -378,6 +379,9 @@ public abstract class ModelObject {
 					 }
 					 jsonString.setCharAt(jsonString.length()-1, ' ');
 					 jsonString.append("],\n");
+				}else if(java.util.Date.class.equals(currMethod.getReturnType())) {
+					String dateFormatted =  Utils.dateToString((java.util.Date)ret,RadsConstants.DEFAULT.getDateFormat());
+					jsonString.append("\"" + jsonTag + "\":\"" + dateFormatted+ "\",\n" );
 				}else  if (!isNumericClass(currMethod.getReturnType()))
 					jsonString.append("\"" + jsonTag + "\":\"" +  ret.toString()+ "\",\n" );
 				else

@@ -147,6 +147,10 @@ public class JSONProcessor {
 					node.setOperater(FilterNode.Operator.LESS_THAN_EQUAL);
 				else if ("EQUALS".equals(operator))
 					node.setOperater(FilterNode.Operator.EQUALS);
+				else if ("IN".equals(operator))
+					node.setOperater(FilterNode.Operator.IN);
+				else if ("NOT IN".equals(operator))
+					node.setOperater(FilterNode.Operator.NOT_IN);
 				 filter.addNode(node);
 			 }
 		 }

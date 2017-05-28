@@ -15,6 +15,8 @@ import java.util.StringTokenizer;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
+import com.techtrade.rads.framework.ui.constants.RadsConstants;
+
 public class Utils {
 
 	public static Object[] MapToJSONArray(Map<? extends Object, ? extends Object> map) {
@@ -135,7 +137,7 @@ public class Utils {
 			}else 
 			return Integer.parseInt(str); 
 		}else if("java.util.Date".equals(retType.getName())){
-			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd"); 
+			SimpleDateFormat sdf = new SimpleDateFormat(RadsConstants.DEFAULT.getDateFormat()); 
 			return sdf.parse(str) ;
 		}else if("double".equals(retType.getName()) || java.lang.Double.class.equals(retType)){
 			return Double.parseDouble(str);

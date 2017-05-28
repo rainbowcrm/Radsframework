@@ -581,6 +581,12 @@ public class HTMLReader extends Reader{
 						node.setOperater(FilterNode.Operator.LESS_THAN);
 					else if ("<=".equals(op))
 						node.setOperater(FilterNode.Operator.LESS_THAN_EQUAL);
+					else if ("EQUALS".equals(op))
+						node.setOperater(FilterNode.Operator.EQUALS);
+					else if ("IN".equals(op))
+						node.setOperater(FilterNode.Operator.IN);
+					else if ("NOT IN".equals(op))
+						node.setOperater(FilterNode.Operator.IN);
 				}else {
 					node.setOperater(FilterNode.Operator.EQUALS);
 				}

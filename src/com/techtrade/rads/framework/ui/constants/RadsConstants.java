@@ -7,7 +7,7 @@ public enum RadsConstants {
      
 	DEFAULT;
 	
-	private  String dateFormat ="mm/dd/yyyy";
+	private  String dateFormat ="yyyy-MM-dd";
 	private  String dateTimeFormat="mm/dd/yyyy 24hh:mm";
 	private  TimeZone timeZone = TimeZone.getDefault();
 	private  Locale locale = Locale.getDefault();

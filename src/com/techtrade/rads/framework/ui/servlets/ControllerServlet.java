@@ -150,7 +150,7 @@ public class ControllerServlet extends HttpServlet{
 		 }else if (newPage.getViewController() instanceof TransactionController)
 			 object = ((TransactionController)newPage.getViewController()).getObject() ;
 		 else if (newPage.getViewController() instanceof GeneralController)
-			 object = ((GeneralController)page.getViewController()).getObject() ;
+			 object = ((GeneralController)newPage.getViewController()).getObject() ;
 		 else if (newPage.getViewController() instanceof ListController)
 			 object = null;
 		 
