@@ -10,6 +10,7 @@ public interface IRadsContext {
 	public void setUser(String user) ;
 	public Map getProperties() ;
 	public void setProperties(Map properties) ;
+	public void addProperty(String key, String value) ;
 	public boolean isAuthenticated() ;
 	public void setAuthenticated(boolean isAuth) ;
 	public Locale getLocale();

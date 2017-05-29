@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.StringTokenizer;
 
@@ -40,6 +41,20 @@ import com.techtrade.rads.framework.utils.Utils;
 
 public class JSONProcessor {
 
+	 private static void populateContextParams(JSONObject contextParameters, IRadsContext pageContext)
+	 {
+		 if (contextParameters != null && pageContext != null ) {
+			 Iterator itkeys = contextParameters.keys() ;
+			 if (itkeys == null ) return ;
+			 while(itkeys.hasNext()) {
+				 String token = String.valueOf(itkeys.next()) ;
+				 String value = contextParameters.optString(token);
+				 pageContext.addProperty(token, value);
+			 }
+		 }
+		 
+	 }
+	
 	 public static void processRequest (HttpServletRequest request , HttpServletResponse response, ServletContext context ) 
 	 {
 		 StringBuffer jb = new StringBuffer();
@@ -59,6 +74,7 @@ public class JSONProcessor {
 			String sortField = root.optString(RadsControlConstants.SORT_FIELD);
 			String sortDirection = root.optString(RadsControlConstants.SORT_DIRECTION);
 			String selectedRecords = root.optString(RadsControlConstants.JSON_SELECTEDIDS);
+			JSONObject contextParameters =root.optJSONObject("contextParameters") ;
 			JSONObject json =root.optJSONObject("dataObject") ;
 			JSONArray filterArray = root.optJSONArray("filter")	;
 			ViewController.Mode initialMode = PageGenerator.getModeFromString(modeKey);
@@ -68,7 +84,9 @@ public class JSONProcessor {
 			UIPage page = PageGenerator.getPagefromKey(config,object,request,initialMode,response,context);
 			page.setPageKey(pageID);
 			IRadsContext pageContext = page.getViewController().generateContext(authToken);
+			populateContextParams(contextParameters,pageContext);
 			if (page.getViewController() != null ) {
+				page.getViewController().setContext(pageContext);
 				if(json !=null && !Utils.isNullString(json.toString())) {
 					object = object.instantiateObjectfromJSON(json.toString(), object.getClass().getName(), pageContext);
 				}
