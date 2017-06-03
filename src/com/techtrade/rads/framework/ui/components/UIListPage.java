@@ -397,7 +397,7 @@ public class UIListPage extends UIPage
 		}
 		
 	    objects = ((ListController)getViewController()).getData(pageNumber,filter,sortCriteria);
-	    long totalRecords = ((ListController)getViewController()).getTotalNumberofRecords() ;
+	    long totalRecords = ((ListController)getViewController()).getTotalNumberofRecords(filter) ;
 		applyListValues(objects,action);
 		res.setAvailableRecords(totalRecords);
 		if(objects != null)

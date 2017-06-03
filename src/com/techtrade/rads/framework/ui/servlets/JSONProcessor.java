@@ -83,6 +83,7 @@ public class JSONProcessor {
 			request.setAttribute("authToken", authToken);
 			UIPage page = PageGenerator.getPagefromKey(config,object,request,initialMode,response,context);
 			page.setPageKey(pageID);
+			page.getViewController().init(request);
 			IRadsContext pageContext = page.getViewController().generateContext(authToken);
 			populateContextParams(contextParameters,pageContext);
 			if (page.getViewController() != null ) {
@@ -111,7 +112,7 @@ public class JSONProcessor {
 						  }
 						  ((UIListPage) page).setSelectedRows(selRows);
 					  }
-					 writeListPage((UIListPage) page, fixedActionStr,response,authToken,filterArray);
+					 writeListPage((UIListPage) page, fixedActionStr,submitAction,response,authToken,filterArray);
 					 return;
 				 } else  if (page.getViewController() instanceof GeneralController){
 					 ((GeneralController)page.getViewController()).setObject(object);
@@ -143,7 +144,7 @@ public class JSONProcessor {
 		  }
 	 }
 	 
-	 private static void writeListPage (UIListPage page, String fixedActionStr,HttpServletResponse response , String authToken, JSONArray filterArray) throws Exception
+	 private static void writeListPage (UIListPage page, String fixedActionStr, String submitAction,HttpServletResponse response , String authToken, JSONArray filterArray) throws Exception
 	 {
 		Filter filter = new Filter();
 		 if (filterArray != null) {
@@ -182,6 +183,7 @@ public class JSONProcessor {
 			 }
 			 
 		 }else {
+			 page.setSubmitAction(submitAction);
 			 PageResult result =  page.submit() ;
 			 if (result.getResult().equals(TransactionResult.Result.SUCCESS)) {
 				 writeOutput(response, page.getObjects(), result.getErrors(), authToken, result);

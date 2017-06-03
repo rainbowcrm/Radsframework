@@ -15,6 +15,11 @@ public class RadsContext  implements IRadsContext{
 
 	
 	
+	@Override
+	public void addProperty(String key, String value) {
+		// TODO Auto-generated method stub
+		
+	}
 	public String getUser() {
 		// TODO Auto-generated method stub
 		return user;

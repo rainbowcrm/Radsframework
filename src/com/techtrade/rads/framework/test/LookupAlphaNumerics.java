@@ -2,6 +2,7 @@ package com.techtrade.rads.framework.test;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -14,6 +15,13 @@ public class LookupAlphaNumerics implements ILookupService{
 	
 	
 	@Override
+	public Map<String, String> lookupData(IRadsContext ctx,
+			String searchString, int from, int noRecords, String lookupParam,
+			List<String> additionalFieldsRequired) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 	public List<Object> lookupData(IRadsContext ctx, String searchString,
 			int from, int noRecords, String lookupParam) {
 		// TODO Auto-generated method stub

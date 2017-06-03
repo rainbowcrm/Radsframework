@@ -35,7 +35,9 @@ public abstract class ListController extends ViewController{
 	
 	public abstract int getTotalNumberofPages();
 	
-	public abstract long getTotalNumberofRecords();
+	public abstract long getTotalNumberofRecords(Filter filter);
+	
+	//public abstract long getTotalNumberofRecords();
 	
 	
 	public abstract PageResult delete(List<ModelObject> objects) ;

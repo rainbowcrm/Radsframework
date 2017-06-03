@@ -58,6 +58,14 @@ public class CustomerListController extends ListController{
 
 
 	@Override
+	public long getTotalNumberofRecords(Filter filter) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+
+
+	@Override
 	public IRadsContext generateContext(HttpServletRequest request,HttpServletResponse response) {
 		// TODO Auto-generated method stub
 		return new RadsContext();
