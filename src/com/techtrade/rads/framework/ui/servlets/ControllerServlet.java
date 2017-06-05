@@ -87,7 +87,8 @@ public class ControllerServlet extends HttpServlet{
 	protected void ajaxServiceRequest (HttpServletRequest req, HttpServletResponse resp, String ajaxServiceKey)
 			throws ServletException, IOException,Exception {
 		AjaxServiceConfig config = AppConfig.APPCONFIG.getAjaxServiceConfig(getServletContext().getRealPath("/"), ajaxServiceKey);
-		
+		resp.setContentType("application/json");
+		resp.setHeader("Access-Control-Allow-Origin", "*");
 		if (IAjaxLookupService.class.isAssignableFrom(Class.forName(config.getServiceClass()))  ) {
 			List<String > keys = config.getKeys() ;
 			Map<String,String> mp = new HashMap<String,String>();
