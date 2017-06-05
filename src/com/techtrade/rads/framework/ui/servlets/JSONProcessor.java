@@ -6,9 +6,11 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.StringTokenizer;
 
 import javax.servlet.ServletContext;
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -20,6 +22,7 @@ import org.json.JSONTokener;
 import com.techtrade.rads.framework.context.IRadsContext;
 import com.techtrade.rads.framework.controller.abstracts.CRUDController;
 import com.techtrade.rads.framework.controller.abstracts.GeneralController;
+import com.techtrade.rads.framework.controller.abstracts.IExternalizeFacade;
 import com.techtrade.rads.framework.controller.abstracts.ListController;
 import com.techtrade.rads.framework.controller.abstracts.TransactionController;
 import com.techtrade.rads.framework.controller.abstracts.ViewController;
@@ -27,16 +30,22 @@ import com.techtrade.rads.framework.filter.Filter;
 import com.techtrade.rads.framework.filter.FilterNode;
 import com.techtrade.rads.framework.model.abstracts.ModelObject;
 import com.techtrade.rads.framework.model.abstracts.RadsError;
+import com.techtrade.rads.framework.model.simple.LookupObject;
 import com.techtrade.rads.framework.model.transaction.TransactionResult;
+import com.techtrade.rads.framework.ui.abstracts.ILookupService;
 import com.techtrade.rads.framework.ui.abstracts.PageResult;
 import com.techtrade.rads.framework.ui.abstracts.UIPage;
 import com.techtrade.rads.framework.ui.components.SortCriteria;
 import com.techtrade.rads.framework.ui.components.UIGeneralPage;
 import com.techtrade.rads.framework.ui.components.UIListPage;
+import com.techtrade.rads.framework.ui.components.UILookupPage;
 import com.techtrade.rads.framework.ui.config.AppConfig;
+import com.techtrade.rads.framework.ui.config.LookupConfig;
 import com.techtrade.rads.framework.ui.config.PageConfig;
 import com.techtrade.rads.framework.ui.constants.FixedAction;
 import com.techtrade.rads.framework.ui.constants.RadsControlConstants;
+import com.techtrade.rads.framework.ui.readers.HTMLReader;
+import com.techtrade.rads.framework.ui.writers.HTMLWriter;
 import com.techtrade.rads.framework.utils.Utils;
 
 public class JSONProcessor {
@@ -54,6 +63,56 @@ public class JSONProcessor {
 		 }
 		 
 	 }
+	 
+	 public static void processLookupRequest(HttpServletRequest req, ServletContext context , HttpServletResponse resp)
+	 {
+		
+			//String dialogId= req.getParameter("dialogId");
+			//UIPage page = null ;
+			//ModelObject object = null ;
+			try {
+			String line = null;
+			
+			StringBuffer jb = new StringBuffer();
+			BufferedReader reader = req.getReader();
+		    while ((line = reader.readLine()) != null)
+		      jb.append(line);
+		    JSONTokener  tokener = new JSONTokener(jb.toString());
+			JSONObject root = new JSONObject(tokener);
+			String lookupType  = root.optString("lookupType");
+			LookupConfig lookupConfig = AppConfig.APPCONFIG.getLookupConfig(context.getRealPath("/"), lookupType);
+			String lookupPageID =  lookupConfig.getLookupPage() ;
+			PageConfig config = AppConfig.APPCONFIG.getPageConfig(context.getRealPath("/"), lookupPageID);
+			LookupObject object =(LookupObject)PageGenerator.readObjectfromPageConfig(config);
+			String  lookupServiceClass = lookupConfig.getService() ;
+			/*UILookupPage lookupPage =  (UILookupPage)PageGenerator.getPagefromKey(config,object,req,null,resp,context);
+			lookupPage.setDialogId(dialogId);*/
+			ILookupService  lookupService = (ILookupService) Class.forName(lookupServiceClass).newInstance() ;
+			/*lookupPage.setLookupSevice(lookupService);
+			page = lookupPage;*/
+			//HTMLReader reader = new  HTMLReader(req) ;
+			 //reader.read(page,object,null);
+			String authToken =  root.optString("authToken");
+			String searchString   =  root.optString("searchString") ;
+			String additionalParam = root.optString("additionalParam");
+			object.setAdditionalParam(additionalParam);
+			String additionalFields = root.optString("additionalFields");
+			object.setAdditionalFields(additionalFields);
+			String additionalControls = root.optString("additionalControls");
+			object.setAdditionalControls(additionalControls);
+			List<String> listAddFields = Utils.getListfromStringtokens(additionalFields, ",");
+			int from  =root.optInt("from", 0);
+			int noRecords = root.optInt("noRecords", 20);
+			IRadsContext ctx = lookupService.generateContext(req);
+			Map mapValues = lookupService.lookupData(ctx,searchString, from, noRecords,additionalParam,listAddFields);
+			writeLookupOutput(resp, mapValues, null, authToken, new PageResult());
+			}catch(Exception ex) {
+				ex.printStackTrace();
+				
+			}
+		 
+	 }
+	 
 	
 	 public static void processRequest (HttpServletRequest request , HttpServletResponse response, ServletContext context ) 
 	 {
@@ -223,6 +282,56 @@ public class JSONProcessor {
 		 
 	 }
 	 
+	 
+	 private  static void writeLookupOutput(HttpServletResponse response, Map values , List<RadsError> errors, String authToken, PageResult result) {
+		 response.setContentType("application/json");
+		 response.setHeader("Access-Control-Allow-Origin", "*");
+		 try {
+			 JSONObject json = new JSONObject();
+			 json.put("authToken", authToken) ;
+			 if (result.getResult().equals(TransactionResult.Result.SUCCESS)) {
+				 	json.put("result", "success") ;			 
+			 } else  {
+				 	json.put("result", "failure") ;
+				 	int index = 0 ;
+				 	JSONArray array = new JSONArray();
+				 	for (RadsError error : errors) {
+				 		array.put(index ++ , error.getMessage()) ;
+				 	}
+			 }
+			 /*JSONObject root = new JSONObject();
+			 JSONArray lookedUps = new JSONArray();
+			 lookedUps.put(values);
+			 root.put("lookups", lookedUps);
+			 if(values != null ) {
+				 values.keySet().forEach( key ->  { 
+					 Object value = values.get(key) ;
+					 root.put("", value);
+					 
+				 } );
+			}*/
+			 
+			 JSONArray array = new JSONArray();
+			 if(values != null ) {
+				 values.keySet().forEach( key ->  {
+				 JSONObject objJSON = new JSONObject();
+				 Object value = values.get(key) ;
+				 try  {
+				 objJSON.put("code", key);
+				 objJSON.put("value", value);
+				 }catch(Exception ex) {
+					 ex.printStackTrace(); 
+				 }
+				 array.put(objJSON);
+				 }	); 
+			 }
+			 json.put("dataObject", array ) ;
+			 response.getWriter().write(json.toString());
+		 }catch(Exception ex) {
+			 ex.printStackTrace();
+		 }
+		 
+	 }
 	 private  static void writeOutput(HttpServletResponse response, ModelObject object , List<RadsError> errors, String authToken, PageResult result) {
 		 response.setContentType("application/json");
 		 response.setHeader("Access-Control-Allow-Origin", "*");

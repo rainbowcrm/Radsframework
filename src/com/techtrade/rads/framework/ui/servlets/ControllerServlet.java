@@ -259,8 +259,14 @@ public class ControllerServlet extends HttpServlet{
 		ModelObject object = null ;
 		UIPage page =null  ;
 		if("Lookup".equals(pageID)) {
+			String contentType = req.getContentType();
+			if (!Utils.isNullString(contentType) && "application/json".equalsIgnoreCase(contentType)) {
+			 	JSONProcessor.processLookupRequest(req, getServletContext(), resp);
+			 	return;
+			}else {
 			  writeLookupPage(req, resp);
 			  return ;
+			}
 		}else {
 			try {
 				if (!Utils.isNullString(ajaxService)) {
