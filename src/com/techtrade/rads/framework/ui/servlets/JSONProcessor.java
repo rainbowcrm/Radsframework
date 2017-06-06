@@ -93,6 +93,7 @@ public class JSONProcessor {
 			//HTMLReader reader = new  HTMLReader(req) ;
 			 //reader.read(page,object,null);
 			String authToken =  root.optString("authToken");
+			req.setAttribute("authToken", authToken);
 			String searchString   =  root.optString("searchString") ;
 			String additionalParam = root.optString("additionalParam");
 			object.setAdditionalParam(additionalParam);
@@ -348,8 +349,10 @@ public class JSONProcessor {
 				 		array.put(index ++ , error.getMessage()) ;
 				 	}
 			 }
-			 JSONObject root = new JSONObject(object.toJSON());
-			 json.put("dataObject", root ) ;
+			 if(null != object){
+				JSONObject root = new JSONObject(object.toJSON());
+				json.put("dataObject", root ) ; 
+			 }
 			 response.getWriter().write(json.toString());
 		 }catch(Exception ex) {
 			 ex.printStackTrace();
