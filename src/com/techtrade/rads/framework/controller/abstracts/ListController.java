@@ -33,7 +33,7 @@ public abstract class ListController extends ViewController{
 	
 	public abstract void saveFilter(Filter filter);
 	
-	public abstract int getTotalNumberofPages();
+	public abstract int getTotalNumberofPages(Filter filter);
 	
 	public abstract long getTotalNumberofRecords(Filter filter);
 	

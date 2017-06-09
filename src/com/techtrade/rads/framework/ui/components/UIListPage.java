@@ -358,10 +358,10 @@ public class UIListPage extends UIPage
 			if (pageNumber >=  2)
 				pageNumber -- ;
 		} else if (action ==  FixedAction.NAV_NEXTPAGE) {
-			if (pageNumber <  ((ListController)getViewController()).getTotalNumberofPages())
+			if (pageNumber <  ((ListController)getViewController()).getTotalNumberofPages(filter))
 			pageNumber ++ ;
 		} else if  (action ==  FixedAction.NAV_LASTPAGE) {
-			pageNumber = ((ListController)getViewController()).getTotalNumberofPages();
+			pageNumber = ((ListController)getViewController()).getTotalNumberofPages(filter);
 		}else if  (action ==  FixedAction.ACTION_GOEDITMODE  || action ==  FixedAction.ACTION_PRINT) { 
 			objects =((ListController)getViewController()).populateFullObjectfromPK(objects);
 			List<RadsError> errors = null ;
