@@ -46,7 +46,7 @@ public class BootstrapWriter  extends  HTMLWriter{
 
 
 	protected void writeTable(PrintWriter out, UITable table, Object value,ViewController controller) throws IOException,CloneNotSupportedException  {
-		out.println("<table id=\"" + table.getId() + "\" class=\"table table-condensed\">");
+		out.println("<table id=\"" + table.getId() + "\" class=\"table table-condensed " +table.getStyle() + "\">");
 		if (! Utils.isNullList(table.getHeaders())){
 			for (UITableHead head : table.getHeaders()) {
 				writeElement(new UIElement(head), value,controller);
