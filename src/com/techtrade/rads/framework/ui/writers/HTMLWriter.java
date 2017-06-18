@@ -439,6 +439,7 @@ public class HTMLWriter extends Writer{
 				UIPieChart chart = UIPieChart.makeUIPieChart(pieChart,prop.getHeight(),prop.getWidth(), prop.getCenterX(), prop.getCenterY(), prop.getRadius());
 				chart.setId(prop.getId());
 				chart.setUseGoogleChart(prop.isUseGoogleChart());
+				chart.setDonutChart(prop.isDonutChart());
 				writePieChart(out, chart, displayValue, controller);
 			}else if ( control instanceof UIBarChart) {
 				//writeHidden(out, (UIHidden) control);

@@ -18,9 +18,22 @@ public class UIPieChart extends UIControl{
 	int centerX, centerY, radius;
 	UIGraphText footerNote ;
 	
+	
 	GooglePieChartData googlePieChartData;
 	
 	boolean useGoogleChart = true;
+	
+	boolean donutChart;
+	
+	
+	
+	
+	public boolean isDonutChart() {
+		return donutChart;
+	}
+	public void setDonutChart(boolean donutChart) {
+		this.donutChart = donutChart;
+	}
 	
 	public UIGraphCircle getCircle() {
 		return circle;

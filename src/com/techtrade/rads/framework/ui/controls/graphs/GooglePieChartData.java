@@ -11,7 +11,15 @@ public class GooglePieChartData extends PieChartData {
 	int height;
 	int width;
 	
+	boolean ThreeD =true;
 	
+	
+	public boolean isThreeD() {
+		return ThreeD;
+	}
+	public void setThreeD(boolean threeD) {
+		ThreeD = threeD;
+	}
 	public String getTitle() {
 		return title;
 	}

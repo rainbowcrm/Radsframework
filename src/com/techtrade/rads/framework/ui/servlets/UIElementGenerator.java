@@ -113,6 +113,7 @@ public class UIElementGenerator {
 	protected static String TAG_USEGOOGLEGRAPH = "useGoogleGraph";
 	protected static String TAG_XSTART = "xStart";
 	protected static String TAG_YSTART = "yStart";
+	protected static String TAG_USEDONUT = "useDonutChart";
 	protected static String TAG_CENTERX = "centerX";
 	protected static String TAG_CENTERY = "centerY";
 	protected static String TAG_RADIUS = "radius";
@@ -706,6 +707,7 @@ public class UIElementGenerator {
 			String rangeWidth = doc.getChildAttributeValue(TAG_RANGEWIDTH);
 			String rangeHeight = doc.getChildAttributeValue(TAG_RANGEHEIGT);
 			String dataProvider = doc.getAttributeValue(TAG_DATAPROVIDER);
+			String donutChar = doc.getAttributeValue(TAG_USEDONUT);
 			if (Utils.isPositiveInt(rangeWidth)) {
 				chart.setWidth(Integer.parseInt(rangeWidth));
 			}
@@ -715,6 +717,7 @@ public class UIElementGenerator {
 			if (Utils.isPositiveInt(centerX)) {
 				chart.setCenterX(Integer.parseInt(centerX));
 			}
+			chart.setDonutChart(Utils.getBooleanValue(donutChar));
 			if (Utils.isPositiveInt(centerY)) {
 				chart.setCenterY(Integer.parseInt(centerY));
 			}

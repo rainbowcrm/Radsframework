@@ -128,8 +128,10 @@ public class BootstrapWriter  extends  HTMLWriter{
 	protected void writePieChart(PrintWriter out, UIPieChart chart, Object value,ViewController controller) throws IOException {
 		if (!chart.isUseGoogleChart() )
 			super.writePieChart(out, chart, value, controller);
-		else
+		else if (!chart.isDonutChart()) {
 			GoogleChartWriter.writePieChart(out, chart.getGooglePieChartData(), value, controller,chart.getId());
+		}else 
+			GoogleChartWriter.writeDonutChart(out, chart.getGooglePieChartData(), value, controller,chart.getId());
 	}
 	
 

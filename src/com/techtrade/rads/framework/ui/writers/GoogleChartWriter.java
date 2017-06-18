@@ -121,7 +121,39 @@ public class GoogleChartWriter {
 		out.println("]);");
 		
 		out.println("var options = {");
-		out.println("  	title: '" +chart.getTitle() + "'");
+		out.println("  	title: '" +chart.getTitle() + "'" + (chart.isThreeD()?",":""));
+		if(chart.isThreeD())
+			out.println("is3D: true");
+		out.println("};");
+				
+		out.println("var chart = new google.visualization.PieChart(document.getElementById('"+id+"'));");
+		out.println("chart.draw(data, options);");
+		out.println("}");
+		out.println("</script>");
+		
+		out.println("<div id=\""+id+"\" style=\"width: " + chart.getWidth() + "px; height: "+ chart.getHeight()+ "px;\"></div>");
+		  
+	}
+	
+	public static void writeDonutChart(PrintWriter out, GooglePieChartData chart, Object value,ViewController controller,String id) throws IOException {
+		out.println("<script type=\"text/javascript\" src=\"https://www.gstatic.com/charts/loader.js\"></script>");
+		out.println(" <script type=\"text/javascript\">");
+		out.println(" google.charts.load('current', {'packages':['corechart']});");
+		out.println("  google.charts.setOnLoadCallback(drawChart); ");
+		out.println(" function drawChart() { ");
+		out.println(" var data = google.visualization.arrayToDataTable([ ");
+		out.println( "['Options','Values']," );
+		for ( int  i = 0 ; i < chart.getPieSlices().size() ; i ++  ) {
+			String comma = (i < chart.getPieSlices().size()-1)?",":"";
+			PieSliceData pieSlicdeData  =(PieSliceData)chart.getPieSlices().get(i); 
+			out.println( "['"  + pieSlicdeData.getText() + "',"  + pieSlicdeData.getVolume() + "]" + comma);
+			
+		}
+		out.println("]);");
+		
+		out.println("var options = {");
+		out.println("  	title: '" +chart.getTitle() + "',");
+		out.println("pieHole: 0.4");
 		out.println("};");
 				
 		out.println("var chart = new google.visualization.PieChart(document.getElementById('"+id+"'));");
