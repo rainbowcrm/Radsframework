@@ -91,6 +91,15 @@ public class ControllerServlet extends HttpServlet{
 		resp.setHeader("Access-Control-Allow-Origin", "*");
 		if (IAjaxLookupService.class.isAssignableFrom(Class.forName(config.getServiceClass()))  ) {
 			List<String > keys = config.getKeys() ;
+			BufferedReader reader = req.getReader();
+			StringBuffer jb = new StringBuffer();
+			String line = null;
+			while ((line = reader.readLine()) != null)
+				jb.append(line);
+			JSONTokener tokener = new JSONTokener(jb.toString());
+			JSONObject root = new JSONObject(tokener);
+			String authToken =  root.optString("authToken");
+			req.setAttribute("authToken", authToken);
 			Map<String,String> mp = new HashMap<String,String>();
 			for (String key : keys) {
 				String value =	req.getParameter(key) ;
