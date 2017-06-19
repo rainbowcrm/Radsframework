@@ -26,6 +26,7 @@ import com.techtrade.rads.framework.controller.abstracts.ListController;
 import com.techtrade.rads.framework.controller.abstracts.CRUDController;
 import com.techtrade.rads.framework.controller.abstracts.TransactionController;
 import com.techtrade.rads.framework.controller.abstracts.ViewController;
+import com.techtrade.rads.framework.exceptions.RadsAuthenticationException;
 import com.techtrade.rads.framework.exceptions.RadsException;
 import com.techtrade.rads.framework.model.abstracts.ModelObject;
 import com.techtrade.rads.framework.ui.abstracts.PageForward;
@@ -293,7 +294,8 @@ public class PageGenerator {
 				ctx  = page.getViewController().generateContext(req,response);
 			}
 			if ( (ctx == null || !ctx.isAuthenticated()) && config.isAuthRequired()) {
-				throw new ServletException("Authentication Failed- Rads Level");
+				//throw new ServletException("Authentication Failed- Rads Level");
+				throw new RadsAuthenticationException();
 			}
 			listController.setContext(ctx);
 			if(mode != null)
@@ -828,7 +830,7 @@ public class PageGenerator {
 			ctx  = page.getViewController().generateContext(req,response);
 		}
 		if ( (ctx == null || !ctx.isAuthenticated())  && config.isAuthRequired()) {
-			throw new ServletException("Authentication Failed- Rads Level");
+			throw new RadsAuthenticationException();
 		}
 		objController.setContext(ctx);
 		if(mode != null)
@@ -874,7 +876,7 @@ public class PageGenerator {
 				ctx  = page.getViewController().generateContext(req,response);
 			}
 			if ( (ctx == null || !ctx.isAuthenticated()) && config.isAuthRequired()) {
-				throw new ServletException("Authentication Failed- Rads Level");
+				throw new RadsAuthenticationException();
 			}
 			objController.setContext(ctx);
 			if(mode != null)
@@ -945,7 +947,7 @@ public class PageGenerator {
 	
 	protected static UITransactionPage generateTransactionPage (Document  pageElement,String templateName,ModelObject object,HttpServletRequest req,
 			ViewController.Mode mode,HttpServletResponse response,PageConfig config) 
-			throws RadsException{
+			throws RadsAuthenticationException, RadsException{
 		UITransactionPage page = new UITransactionPage();
 		try  {
 			TransactionTemplateType  pageTemplate = (TransactionTemplateType)TemplateReader.INSTANCE.readTemplate( templateName);
@@ -963,7 +965,8 @@ public class PageGenerator {
 				ctx  = page.getViewController().generateContext(req,response);
 			}
 			if ( (ctx == null || !ctx.isAuthenticated()) && config.isAuthRequired()) {
-				throw new ServletException("Authentication Failed- Rads Level");
+				//throw new ServletException("Authentication Failed- Rads Level");
+				throw new RadsAuthenticationException();
 			}
 			objController.setContext(ctx);
 			if(mode != null)
@@ -1024,6 +1027,9 @@ public class PageGenerator {
 		 		
 		 	page.setViewController(objController);
 			return page;
+		}catch (RadsAuthenticationException ex) {
+			ex.printStackTrace();
+			throw new RadsAuthenticationException () ;
 		}catch (Exception ex) {
 			ex.printStackTrace();
 			throw new RadsException (ex.getMessage()) ;
