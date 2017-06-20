@@ -144,7 +144,7 @@ public class JSONProcessor {
 			UIPage page = PageGenerator.getPagefromKey(config,object,request,initialMode,response,context);
 			page.setPageKey(pageID);
 			page.getViewController().init(request);
-			IRadsContext pageContext = page.getViewController().generateContext(authToken);
+			IRadsContext pageContext = page.getViewController().generateContext(authToken,page);
 			populateContextParams(contextParameters,pageContext);
 			if (page.getViewController() != null ) {
 				page.getViewController().setContext(pageContext);

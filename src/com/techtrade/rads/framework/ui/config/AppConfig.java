@@ -19,6 +19,7 @@ public enum AppConfig {
 	
 	protected static final String TAG_PAGES = "Pages";
 	protected static final String TAG_PAGE = "Page";
+	protected static final String TAG_ACCESSCODE = "accessCode";
 	protected static final String TAG_ID = "id";
 	protected static final String TAG_KEY = "key";
 	protected static final String TAG_DEF = "definition";
@@ -86,12 +87,14 @@ public enum AppConfig {
 		for (XMLElement page :  pageList ) {
 			String pageID = page.getAttributeValue(TAG_ID);
 			String def =  page.getAttributeValue(TAG_DEF);
+			String accessCode = page.getAttributeValue(TAG_ACCESSCODE);
 			String modelClass = page.getAttributeValue(TAG_MODELCLASS);
 			String auth = page.getAttributeValue(TAG_AUTHREQUIRED) ; 
 			PageConfig config = new PageConfig();
 			config.setConfigId(pageID);
 			config.setDefinition(def);
 			config.setModelClass(modelClass);
+			config.setAccessCode(accessCode);
 			if(!Utils.isNullString(auth) && "false".equalsIgnoreCase(auth) ) {
 				config.setAuthRequired(false);  
 			}

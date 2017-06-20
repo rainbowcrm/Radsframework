@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.techtrade.rads.framework.context.IRadsContext;
 import com.techtrade.rads.framework.model.abstracts.ModelObject;
 import com.techtrade.rads.framework.ui.abstracts.PageResult;
+import com.techtrade.rads.framework.ui.abstracts.UIPage;
 
 public abstract class ViewController {
    	
@@ -79,9 +80,9 @@ public abstract class ViewController {
    
    
    
-    public abstract IRadsContext generateContext(HttpServletRequest request,HttpServletResponse response);
+    public abstract IRadsContext generateContext(HttpServletRequest request,HttpServletResponse response, UIPage page);
     
-    public abstract IRadsContext generateContext(String authToken);
+    public abstract IRadsContext generateContext(String authToken, UIPage page);
 	   
   
 }

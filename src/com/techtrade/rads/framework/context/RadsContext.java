@@ -12,9 +12,14 @@ public class RadsContext  implements IRadsContext{
 	Map properties;
 	String user;
 	boolean isAuthenticated=true;
-
+	boolean isAuthorized =true;
 	
 	
+	@Override
+	public boolean isAuthorized() {
+		// TODO Auto-generated method stub
+		return isAuthorized;
+	}
 	@Override
 	public void addProperty(String key, String value) {
 		// TODO Auto-generated method stub

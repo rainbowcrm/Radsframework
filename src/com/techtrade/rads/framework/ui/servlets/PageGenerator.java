@@ -27,6 +27,7 @@ import com.techtrade.rads.framework.controller.abstracts.CRUDController;
 import com.techtrade.rads.framework.controller.abstracts.TransactionController;
 import com.techtrade.rads.framework.controller.abstracts.ViewController;
 import com.techtrade.rads.framework.exceptions.RadsAuthenticationException;
+import com.techtrade.rads.framework.exceptions.RadsAuthorizationException;
 import com.techtrade.rads.framework.exceptions.RadsException;
 import com.techtrade.rads.framework.model.abstracts.ModelObject;
 import com.techtrade.rads.framework.ui.abstracts.PageForward;
@@ -215,7 +216,8 @@ public class PageGenerator {
 		}else if(TEMPLATETYPE_LOOKUP.equalsIgnoreCase(templateType))  {
 			page = generateLookupPage( doc ,contextPath +  TEMPLATE_PATH  + templateName  + ".xml",object,req,mode,config);
 		}
-
+		if(page != null)
+			page.setAccessCode(config.getAccessCode());
 		
 		return page;
 	}
@@ -289,13 +291,15 @@ public class PageGenerator {
 			IRadsContext ctx = null;
 			String auth = String.valueOf(req.getAttribute("authToken")) ;
 			if (!Utils.isNullString(auth)) {
-				ctx  = page.getViewController().generateContext(auth);
+				ctx  = page.getViewController().generateContext(auth,page);
 			}else {
-				ctx  = page.getViewController().generateContext(req,response);
+				ctx  = page.getViewController().generateContext(req,response,page);
 			}
 			if ( (ctx == null || !ctx.isAuthenticated()) && config.isAuthRequired()) {
 				//throw new ServletException("Authentication Failed- Rads Level");
 				throw new RadsAuthenticationException();
+			}else if(! ctx.isAuthorized()) {
+				throw new RadsAuthorizationException();
 			}
 			listController.setContext(ctx);
 			if(mode != null)
@@ -825,12 +829,14 @@ public class PageGenerator {
 		IRadsContext ctx =null;
 		String auth = String.valueOf(req.getAttribute("authToken")) ;
 		if (!Utils.isNullString(auth)) {
-			ctx  = page.getViewController().generateContext(auth);
+			ctx  = page.getViewController().generateContext(auth,page);
 		}else {
-			ctx  = page.getViewController().generateContext(req,response);
+			ctx  = page.getViewController().generateContext(req,response,page);
 		}
 		if ( (ctx == null || !ctx.isAuthenticated())  && config.isAuthRequired()) {
 			throw new RadsAuthenticationException();
+		}else if(! ctx.isAuthorized()) {
+			throw new RadsAuthorizationException();
 		}
 		objController.setContext(ctx);
 		if(mode != null)
@@ -871,12 +877,14 @@ public class PageGenerator {
 			IRadsContext ctx = null;
 			String auth = String.valueOf(req.getAttribute("authToken")) ;
 			if (!Utils.isNullString(auth)) {
-				ctx  = page.getViewController().generateContext(auth);
+				ctx  = page.getViewController().generateContext(auth,page);
 			}else {
-				ctx  = page.getViewController().generateContext(req,response);
+				ctx  = page.getViewController().generateContext(req,response,page);
 			}
 			if ( (ctx == null || !ctx.isAuthenticated()) && config.isAuthRequired()) {
 				throw new RadsAuthenticationException();
+			}else if(! ctx.isAuthorized()) {
+				throw new RadsAuthorizationException();
 			}
 			objController.setContext(ctx);
 			if(mode != null)
@@ -960,13 +968,15 @@ public class PageGenerator {
 			IRadsContext ctx =null;
 			String auth = String.valueOf(req.getAttribute("authToken")) ;
 			if (!Utils.isNullString(auth)) {
-				ctx  = page.getViewController().generateContext(auth);
+				ctx  = page.getViewController().generateContext(auth,page);
 			}else {
-				ctx  = page.getViewController().generateContext(req,response);
+				ctx  = page.getViewController().generateContext(req,response,page);
 			}
 			if ( (ctx == null || !ctx.isAuthenticated()) && config.isAuthRequired()) {
 				//throw new ServletException("Authentication Failed- Rads Level");
 				throw new RadsAuthenticationException();
+			}else if(! ctx.isAuthorized()) {
+				throw new RadsAuthorizationException();
 			}
 			objController.setContext(ctx);
 			if(mode != null)
@@ -1027,6 +1037,9 @@ public class PageGenerator {
 		 		
 		 	page.setViewController(objController);
 			return page;
+		}catch(RadsAuthorizationException ex){
+			ex.printStackTrace();
+			throw new RadsAuthenticationException () ;
 		}catch (RadsAuthenticationException ex) {
 			ex.printStackTrace();
 			throw new RadsAuthenticationException () ;

@@ -6,6 +6,7 @@ public class PageConfig {
 	String  definition;
 	String modelClass;
 	boolean authRequired = true;
+	String accessCode; 
 	
 	public String getConfigId() {
 		return configId;
@@ -30,6 +31,12 @@ public class PageConfig {
 	}
 	public void setAuthRequired(boolean authRequired) {
 		this.authRequired = authRequired;
+	}
+	public String getAccessCode() {
+		return accessCode;
+	}
+	public void setAccessCode(String accessCode) {
+		this.accessCode = accessCode;
 	}
 	
 	

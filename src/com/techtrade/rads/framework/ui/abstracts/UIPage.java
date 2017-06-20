@@ -36,7 +36,8 @@ public abstract class UIPage  extends UIControl {
 	FixedAction fixedAction;
 	String submitAction;
 	String pageKey ;
-	String pageMode; 
+	String pageMode;
+	String accessCode; 
 	
 	List<PageForward> pageForwards ;
 	List<RadsError> errors;
@@ -84,6 +85,14 @@ public abstract class UIPage  extends UIControl {
 	}
 	
 	
+	public String getAccessCode() {
+		return accessCode;
+	}
+
+	public void setAccessCode(String accessCode) {
+		this.accessCode = accessCode;
+	}
+
 	public FixedAction getFixedAction() {
 		return fixedAction;
 	}

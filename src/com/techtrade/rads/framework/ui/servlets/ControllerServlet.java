@@ -22,6 +22,7 @@ import com.techtrade.rads.framework.controller.abstracts.CRUDController;
 import com.techtrade.rads.framework.controller.abstracts.TransactionController;
 import com.techtrade.rads.framework.controller.abstracts.ViewController;
 import com.techtrade.rads.framework.exceptions.RadsAuthenticationException;
+import com.techtrade.rads.framework.exceptions.RadsAuthorizationException;
 import com.techtrade.rads.framework.exceptions.RadsException;
 import com.techtrade.rads.framework.model.abstracts.ModelObject;
 import com.techtrade.rads.framework.model.simple.LookupObject;
@@ -134,10 +135,12 @@ public class ControllerServlet extends HttpServlet{
 	protected UIPage reloadPage(UIPage page, ModelObject object, HttpServletRequest req,HttpServletResponse resp,ViewController.Mode mode) throws Exception {
 		PageConfig config = AppConfig.APPCONFIG.getPageConfig(getServletContext().getRealPath("/"), page.getPageKey());
 		UIPage newPage = PageGenerator.getPagefromKey(config,object,req,mode,resp,getServletContext());
-		 IRadsContext ctx = newPage.getViewController().generateContext(req,resp);
+		 IRadsContext ctx = newPage.getViewController().generateContext(req,resp,newPage);
 		 if ( ctx == null || !ctx.isAuthenticated()) {
 				//throw new ServletException("Authentication Failed- Rads Level");
 			 throw new RadsAuthenticationException();
+			}else if(! ctx.isAuthorized()) {
+				throw new RadsAuthorizationException();
 			}
 		 newPage.getViewController().setContext(ctx);
 		 if (newPage instanceof UIDataSheetPage  && page instanceof UIDataSheetPage) {
@@ -168,10 +171,12 @@ public class ControllerServlet extends HttpServlet{
 		 else if (newPage.getViewController() instanceof ListController)
 			 object = null;
 		 
-		 IRadsContext ctx = newPage.getViewController().generateContext(req,resp);
+		 IRadsContext ctx = newPage.getViewController().generateContext(req,resp,newPage);
 		 if ( ctx == null || !ctx.isAuthenticated()) {
 				//throw new ServletException("Authentication Failed- Rads Level");
 			 throw new RadsAuthenticationException();
+			}else if(! ctx.isAuthorized()) {
+				throw new RadsAuthorizationException();
 			}
 		 newPage.getViewController().setContext(ctx);
 		 newPage.submit();
@@ -303,10 +308,12 @@ public class ControllerServlet extends HttpServlet{
 			page = PageGenerator.getPagefromKey(config,object,req,initialMode,resp,getServletContext());
 			page.setPageKey(pageID);
 			page.getViewController().init(req);
-			IRadsContext ctx  = page.getViewController().generateContext(req,resp);
+			IRadsContext ctx  = page.getViewController().generateContext(req,resp,page);
 			if ( (ctx == null || !ctx.isAuthenticated()) && config.isAuthRequired() ) {
 				//throw new ServletException("Authentication Failed- Rads Level");
 				throw new RadsAuthenticationException();
+			}else if(! ctx.isAuthorized()) {
+				throw new RadsAuthorizationException();
 			}
 			page.getViewController().setContext(ctx);
 			HTMLAlternativeReader reader = new  HTMLAlternativeReader(req) ;	
@@ -456,6 +463,8 @@ public class ControllerServlet extends HttpServlet{
 		 write(resp,page,page,object) ;
 		} catch(RadsAuthenticationException ex){
 			resp.sendError(401);
+		}catch(RadsAuthorizationException ex){
+			resp.sendError(403);
 		}catch (RadsException ex) {
 			ex.printStackTrace();
 			throw new ServletException(ex.getMessage());
