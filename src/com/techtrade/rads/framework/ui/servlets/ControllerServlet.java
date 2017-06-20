@@ -244,7 +244,7 @@ public class ControllerServlet extends HttpServlet{
 		List<String> listAddFields = Utils.getListfromStringtokens(additionalFields, ",");
 		int from  =lookupPage.getFrom() ;
 		int noRecords = lookupPage.getNoRecords() ;
-		IRadsContext ctx = lookupService.generateContext(req);
+		IRadsContext ctx = lookupService.generateContext(req,lookupPage);
 		Map mapValues = lookupService.lookupData(ctx,searchString, from, noRecords,additionalParam,listAddFields);
 		lookupPage.applyMapValues(mapValues);
 		 String appURL = AppConfig.APPCONFIG.getAppURL(getServletContext().getRealPath("/"));

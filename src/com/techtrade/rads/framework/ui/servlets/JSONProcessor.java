@@ -104,7 +104,7 @@ public class JSONProcessor {
 			List<String> listAddFields = Utils.getListfromStringtokens(additionalFields, ",");
 			int from  =root.optInt("from", 0);
 			int noRecords = root.optInt("noRecords", 20);
-			IRadsContext ctx = lookupService.generateContext(req);
+			IRadsContext ctx = lookupService.generateContext(req,null);
 			Map mapValues = lookupService.lookupData(ctx,searchString, from, noRecords,additionalParam,listAddFields);
 			writeLookupOutput(resp, mapValues, null, authToken, new PageResult());
 			}catch(Exception ex) {

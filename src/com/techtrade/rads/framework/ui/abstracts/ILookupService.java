@@ -13,5 +13,5 @@ public interface ILookupService {
 	public  Map<String, String> lookupData(IRadsContext ctx,String searchString, int from , int noRecords , String lookupParam , 
 			List<String> additionalFieldsRequired);
 	
-	public abstract IRadsContext generateContext(HttpServletRequest request);
+	public abstract IRadsContext generateContext(HttpServletRequest request, UIPage page );
 }
