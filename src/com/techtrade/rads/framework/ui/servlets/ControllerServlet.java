@@ -307,6 +307,7 @@ public class ControllerServlet extends HttpServlet{
 			object =PageGenerator.readObjectfromPageConfig(config);
 			page = PageGenerator.getPagefromKey(config,object,req,initialMode,resp,getServletContext());
 			page.setPageKey(pageID);
+			page.setAccessCode(config.getAccessCode());
 			page.getViewController().init(req);
 			IRadsContext ctx  = page.getViewController().generateContext(req,resp,page);
 			if ( (ctx == null || !ctx.isAuthenticated()) && config.isAuthRequired() ) {

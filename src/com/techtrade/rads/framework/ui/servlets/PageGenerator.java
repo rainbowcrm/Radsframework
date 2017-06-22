@@ -288,6 +288,7 @@ public class PageGenerator {
 				listController = (DataSheetController) Class.forName(controller).newInstance() ;
 			}
 			page.setViewController(listController);
+			page.setAccessCode(config.getAccessCode());
 			IRadsContext ctx = null;
 			String auth = String.valueOf(req.getAttribute("authToken")) ;
 			if (!Utils.isNullString(auth)) {
@@ -826,6 +827,7 @@ public class PageGenerator {
 		String controller  = root.getAttributeValue(TAG_CONTROLLER);
 		ViewController objController  = (ViewController) Class.forName(controller).newInstance() ;
 		page.setViewController(objController);
+		page.setAccessCode(config.getAccessCode());
 		IRadsContext ctx =null;
 		String auth = String.valueOf(req.getAttribute("authToken")) ;
 		if (!Utils.isNullString(auth)) {
@@ -874,6 +876,7 @@ public class PageGenerator {
 			String controller  = root.getAttributeValue(TAG_CONTROLLER);
 			ViewController objController  = (ViewController) Class.forName(controller).newInstance() ;
 			page.setViewController(objController);
+			page.setAccessCode(config.getAccessCode());
 			IRadsContext ctx = null;
 			String auth = String.valueOf(req.getAttribute("authToken")) ;
 			if (!Utils.isNullString(auth)) {
@@ -965,6 +968,7 @@ public class PageGenerator {
 			String controller  = root.getAttributeValue(TAG_CONTROLLER);
 			ViewController objController  = (ViewController) Class.forName(controller).newInstance() ;
 			page.setViewController(objController);
+			page.setAccessCode(config.getAccessCode());
 			IRadsContext ctx =null;
 			String auth = String.valueOf(req.getAttribute("authToken")) ;
 			if (!Utils.isNullString(auth)) {
