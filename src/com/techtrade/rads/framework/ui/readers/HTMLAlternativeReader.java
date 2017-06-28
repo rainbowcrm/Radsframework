@@ -1,5 +1,6 @@
 package com.techtrade.rads.framework.ui.readers;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -11,7 +12,9 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.Vector;
+import java.util.concurrent.atomic.AtomicInteger;
 
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.Part;
 
@@ -142,20 +145,21 @@ public class HTMLAlternativeReader  extends HTMLReader{
 		return null;
 	}
 	
-	protected void readCollections(UIElement element ,HttpServletRequest request, ModelObject object ) throws Exception{
-		String[] values ;
-		if (element.getControl() instanceof UIBooleanCheckBox) {
-			values = request.getParameterValues(((UIBooleanCheckBox)element.getControl()).getHiddenControlId());
-		}else {
-			values = request.getParameterValues(element.getControl().getId());
+	private List<Part> getParts(HttpServletRequest request, String controlId) throws ServletException,IOException
+	{
+		List<Part> parts = new ArrayList<Part>();
+		if (request.getParts() != null ) {
+			for (Part part : request.getParts()) { 
+				if(part.getName().equals(controlId)) {
+					parts.add(part);
+				}
+			}
 		}
-		if (values == null ) return ;
-		String modelProperty = element.getExtendedmodelProperty();
-		String collectionProperty = modelProperty.substring(0, modelProperty.indexOf("["));
-		String subObjectDataType = modelProperty.substring(modelProperty.indexOf("[")+1, modelProperty.indexOf("]"));
-		String finalProperty = modelProperty.substring(modelProperty.indexOf("].")+2, modelProperty.length());
-		Method collectionObjectRead =  object.getClass().getMethod("get" + Utils.initupper(collectionProperty));
-		Collection collObject = (Collection)collectionObjectRead.invoke(object);
+		return parts;
+	}
+	
+	private Collection instantiateCollObject(Collection collObject,Method collectionObjectRead)
+	{
 		if (List.class.isAssignableFrom(collectionObjectRead.getReturnType())) {
 			if (collObject  == null)
 				collObject = new ArrayList ();
@@ -168,6 +172,54 @@ public class HTMLAlternativeReader  extends HTMLReader{
 			if (collObject  == null)
 				collObject = new LinkedHashSet ();
 		}
+		return collObject;
+	}
+	
+	
+	protected void readCollections(UIElement element ,HttpServletRequest request, ModelObject object ) throws Exception{
+		String[] values ;
+		String modelProperty = element.getExtendedmodelProperty();
+		String collectionProperty = modelProperty.substring(0, modelProperty.indexOf("["));
+		String subObjectDataType = modelProperty.substring(modelProperty.indexOf("[")+1, modelProperty.indexOf("]"));
+		String finalProperty = modelProperty.substring(modelProperty.indexOf("].")+2, modelProperty.length());
+		Method collectionObjectRead =  object.getClass().getMethod("get" + Utils.initupper(collectionProperty));
+		Collection collObject = (Collection)collectionObjectRead.invoke(object);
+		//byte[] [] uploadedBytes; 
+		if (element.getControl() instanceof UIBooleanCheckBox) {
+			values = request.getParameterValues(((UIBooleanCheckBox)element.getControl()).getHiddenControlId());
+		}else {
+			values = request.getParameterValues(element.getControl().getId());
+		}
+		if (element.getControl() instanceof UIFileUpload) {
+			try { 
+				List<Part> fileParts = getParts(request, element.getControl().getId()) ;
+				AtomicInteger index=new AtomicInteger( 0) ;
+				byte[] [] uploadedBytes=  new byte[fileParts.size()] [30000];
+				for (Part filePart : fileParts ) {
+					InputStream  filecontent = filePart.getInputStream();
+					String fileName =getFileName(filePart);
+					final byte[] bytes = new byte[((UIFileUpload)element.getControl()).getMaxSize()];
+					filecontent.read(bytes);
+					uploadedBytes[index.getAndIncrement()] = bytes;
+					collObject = instantiateCollObject(collObject, collectionObjectRead);
+					Object subObject = indexElement(collObject, index.get() -1);
+					if (subObject == null ) {
+						subObject =  Class.forName(subObjectDataType).newInstance() ;
+						//collObject.add(subObject);
+					}
+					setByteArrayonSubObject(subObject, finalProperty, bytes, element);
+					String fileNameProp = element.getFileNameProperty() ;
+					if(!Utils.isNull(fileNameProp)) {
+						callSetter(subObject, fileNameProp, fileName);
+					}
+				}
+			}catch(Exception ex) {
+				// File not present"
+			}
+		}
+		if (values == null ) return ;
+		
+		collObject = instantiateCollObject(collObject, collectionObjectRead);
 		for (int i = 0 ; i < values.length ; i ++ ) {
 			Object subObject = indexElement(collObject, i);
 			if (subObject == null ) {

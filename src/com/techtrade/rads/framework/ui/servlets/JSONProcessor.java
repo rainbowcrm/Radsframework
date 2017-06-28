@@ -271,9 +271,11 @@ public class JSONProcessor {
 				 	}
 			 }
 			 JSONArray array = new JSONArray();
+			 if(!Utils.isNullList(objects)) {
 			 for (ModelObject object : objects) {
 				 JSONObject objJSON = new JSONObject(object.toJSON());
 				 array.put(objJSON);
+			 }
 			 }
 			 json.put("dataObject", array ) ;
 			 response.getWriter().write(json.toString());

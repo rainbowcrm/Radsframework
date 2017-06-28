@@ -128,6 +128,28 @@ public class HTMLReader extends Reader{
 		//return object;
 	}
 	
+	protected Object  setByteArrayonSubObject(Object object, String property, byte[] value,UIElement element ) throws Exception {
+		if(property.contains(".")) {
+			String subObjectProperty = property.substring(0, property.indexOf("."));
+			String remainingProperty = property.substring(property.indexOf(".")+1,property.length());
+			Method subObjectRead =  getterMethod(object.getClass(),Utils.initupper(subObjectProperty));  //object.getClass().getMethod("get" + Utils.initupper(subObjectProperty));
+			Object curObject = subObjectRead.invoke(object);
+			if (curObject == null ) {
+				curObject =   Class.forName(subObjectRead.getReturnType().getName()).newInstance();  //curObject.getClass().newInstance() ; 
+				Method methodSet = object.getClass().getMethod("set" +  Utils.initupper(subObjectProperty), new Class[] { subObjectRead.getReturnType() });
+				methodSet.invoke(object, curObject);
+			}
+			return setByteArrayonSubObject(curObject,remainingProperty, value,element );
+		}else {
+			 Method methodRead =   getterMethod(object.getClass(),Utils.initupper(property)); //object.getClass().getMethod("get" + Utils.initupper(property));
+			 Method method = object.getClass().getMethod("set" + Utils.initupper(property), new Class[] { methodRead.getReturnType() });
+			  
+			   method.invoke(object, value);
+			   return object ;
+		}
+		
+		//return object;
+	}
 	
 	
 	protected void callSetter (Object object ,UIElement element , byte[] bytes) {
