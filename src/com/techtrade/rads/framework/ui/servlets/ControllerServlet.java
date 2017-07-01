@@ -105,10 +105,12 @@ public class ControllerServlet extends HttpServlet{
 				req.setAttribute("authToken", authToken);
 			}
 			Map<String,String> mp = new HashMap<String,String>();
-			for (String key : keys) {
-				String value =	req.getParameter(key) ;
-				if (!Utils.isNull(key) )
-					mp.put(key, value);
+			if(!Utils.isNullList(keys)) {
+				for (String key : keys) {
+					String value =	req.getParameter(key) ;
+					if (!Utils.isNull(key) )
+						mp.put(key, value);
+				}
 			}
 			IAjaxLookupService srv = (IAjaxLookupService) Class.forName(config.getServiceClass()).newInstance() ;
 			IRadsContext ctx = srv.generateContext(req);
