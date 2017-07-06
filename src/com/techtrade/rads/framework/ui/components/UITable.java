@@ -134,6 +134,10 @@ public class UITable extends UIControl {
 					table = tabularizeElements(id, ((UICondition)element.getControl()).getTrueElements(), noCols);
 					continue;
 				}*/
+				if(element instanceof UICondition && element.getControl() == null && Utils.isNullList(((UICondition)element).getTrueElements())) {
+					queue.enqueue(element);
+					continue;
+				}
 				
 				if (element.getControl() !=null && element.getControl() instanceof UIHidden) {
 					queue.enqueue(element);

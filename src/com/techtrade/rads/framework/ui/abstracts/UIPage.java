@@ -238,15 +238,28 @@ public abstract class UIPage  extends UIControl {
 	
 	private List<UIElement> getConditionInputElements(UICondition condition) {
 		List<UIElement> conditionElements = new ArrayList<UIElement>();
-		if (condition == null ||  Utils.isNullList(condition.getTrueElements()   )){
+		if (condition == null || ( Utils.isNullList(condition.getTrueElements()) &&  Utils.isNullList(condition.getFalseElements())  )){
 			return conditionElements;
 		}
-		for (UIElement elem : condition.getTrueElements())  {
-			List<UIElement> innerElements = recurseForInputElements(elem) ;
-			if (!Utils.isNullList(innerElements)) {
-				conditionElements.addAll(innerElements);
+		
+		if(!Utils.isNullList(condition.getTrueElements())) {
+			for (UIElement elem : condition.getTrueElements())  {
+				List<UIElement> innerElements = recurseForInputElements(elem) ;
+				if (!Utils.isNullList(innerElements)) {
+					conditionElements.addAll(innerElements);
+				}
 			}
 		}
+		
+		if(!Utils.isNullList(condition.getFalseElements())) {
+			for (UIElement elem : condition.getFalseElements())  {
+				List<UIElement> innerElements = recurseForInputElements(elem) ;
+				if (!Utils.isNullList(innerElements)) {
+					conditionElements.addAll(innerElements);
+				}
+			}
+		}
+		
 		return conditionElements;
 
 	}

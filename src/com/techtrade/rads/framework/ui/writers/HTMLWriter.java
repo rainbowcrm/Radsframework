@@ -1220,6 +1220,10 @@ public class HTMLWriter extends Writer{
 	}
 	
 	protected void writeTableCol(PrintWriter out, UITableCol col, Object value,ViewController controller) throws IOException {
+		/*if(col.getElements() != null && col.getElements().size() == 1  && col.getElements().get(0) instanceof UICondition &&
+				((UICondition)col.getElements().get(0)).getControl() == null ) {
+			return; 
+		}*/
 		writeTablediv(out, col, "td",value,controller);
 	}
 	

@@ -15,6 +15,8 @@ public class UICondition extends UIElement{
 	
 	List<UIElement> trueElements = null;
 	
+	List<UIElement> falseElements = null;
+	
 	public List<UIElement> getTrueElements() {
 		return trueElements;
 	}
@@ -26,7 +28,17 @@ public class UICondition extends UIElement{
 			trueElements = new ArrayList<UIElement>();
 		trueElements.add(trueElement);
 	}
-	
+	public List<UIElement> getFalseElements() {
+		return falseElements;
+	}
+	public void setFalseElements(List<UIElement> falseElements) {
+		this.falseElements = falseElements;
+	}
+	public void addFalseElement (UIElement falseElement) {
+		if (falseElements == null) 
+			falseElements = new ArrayList<UIElement>();
+		falseElements.add(falseElement);
+	}
 	
 
 }

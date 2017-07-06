@@ -762,7 +762,8 @@ public class PageGenerator {
 			 			/*UITable tableDet  = UITable.tabularizeElements("TBLCnd" + cond++, ((UICondition)element).getTrueElements(), tempSection.getNoCols()) ;
 			 			((UICondition)element).setTrueElements(null);
 			 			((UICondition)element).addTrueElement(new UIElement(tableDet));*/
-			 			div.insertAt(element, ((UICondition)element).getTrueElements());
+			 			if(!Utils.isNullList(((UICondition)element).getTrueElements()))
+			 				div.insertAt(element, ((UICondition)element).getTrueElements());
 			 		}
 			 	}
 			}

@@ -525,7 +525,14 @@ public class UIElementGenerator {
 				}
 				elem = condition;
 			}else {
-				return null ;
+				List <XMLElement> childElements = doc.getAllChildElements();
+				for (XMLElement xmlElement : childElements) {
+			 		UIElement element = getUIElement(xmlElement, controller,page,styleonChildren,style);
+			 		if (element != null )  {
+			 			condition.addFalseElement(element);
+			 		}
+				}
+				elem = condition;
 			}
 		}else if (("UITextArea").equalsIgnoreCase(type)) {
 			String rows =  Utils.getNodeValuefromXML(doc, TAG_ROWS) ;
