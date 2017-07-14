@@ -57,6 +57,7 @@ import com.techtrade.rads.framework.ui.controls.UITabSet;
 import com.techtrade.rads.framework.ui.controls.UIText;
 import com.techtrade.rads.framework.ui.controls.UITextArea;
 import com.techtrade.rads.framework.ui.controls.graphs.UIBarChart;
+import com.techtrade.rads.framework.ui.controls.graphs.UIGaugeChart;
 import com.techtrade.rads.framework.ui.controls.graphs.UILineChart;
 import com.techtrade.rads.framework.ui.controls.graphs.UIPieChart;
 import com.techtrade.rads.framework.utils.Utils;
@@ -117,6 +118,7 @@ public class UIElementGenerator {
 	protected static String TAG_CENTERX = "centerX";
 	protected static String TAG_CENTERY = "centerY";
 	protected static String TAG_RADIUS = "radius";
+	protected static String TAG_TICKS = "ticks";
 	protected static String TAG_RANGEHEIGT = "rangeHeight";
 	protected static String TAG_RANGEWIDTH = "rangeWidth";
 	protected static String TAG_CANVASHEIGT = "canvasHeight";
@@ -702,6 +704,24 @@ public class UIElementGenerator {
 				tab.addElement(new UIElement(tabOrganized));
 			}
 			
+		}else if ("UIGaugeChart".equalsIgnoreCase(type)) {
+			UIGaugeChart chart = new UIGaugeChart();
+			chart.setId(id);
+			String rangeWidth = doc.getChildAttributeValue(TAG_RANGEWIDTH);
+			String rangeHeight = doc.getChildAttributeValue(TAG_RANGEHEIGT);
+			String ticks = doc.getChildAttributeValue(TAG_TICKS);
+			if (Utils.isPositiveInt(rangeWidth)) {
+				chart.setWidth(Integer.parseInt(rangeWidth));
+			}
+			if (Utils.isPositiveInt(rangeHeight)) {
+				chart.setHeight(Integer.parseInt(rangeHeight));
+			}
+			if (Utils.isPositiveInt(ticks)) {
+				chart.setMinorTicks(Integer.parseInt(ticks));
+			}
+			String dataProvider = doc.getAttributeValue(TAG_DATAPROVIDER);
+			chart.setDataProvider(dataProvider);
+			elem = new UIElement("",chart);
 		}else if ("UIPieChart".equalsIgnoreCase(type)) {
 			UIPieChart chart = new  UIPieChart();
 			chart.setId(id);

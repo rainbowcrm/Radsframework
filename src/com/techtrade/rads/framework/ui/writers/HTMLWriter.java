@@ -19,6 +19,7 @@ import com.techtrade.rads.framework.filter.FilterNode;
 import com.techtrade.rads.framework.model.abstracts.ModelObject;
 import com.techtrade.rads.framework.model.abstracts.RadsError;
 import com.techtrade.rads.framework.model.graphdata.BarChartData;
+import com.techtrade.rads.framework.model.graphdata.GaugeChartData;
 import com.techtrade.rads.framework.model.graphdata.LineChartData;
 import com.techtrade.rads.framework.model.graphdata.PieChartData;
 import com.techtrade.rads.framework.ui.abstracts.UIControl;
@@ -77,6 +78,7 @@ import com.techtrade.rads.framework.ui.controls.UITabSet;
 import com.techtrade.rads.framework.ui.controls.UIText;
 import com.techtrade.rads.framework.ui.controls.UITextArea;
 import com.techtrade.rads.framework.ui.controls.graphs.UIBarChart;
+import com.techtrade.rads.framework.ui.controls.graphs.UIGaugeChart;
 import com.techtrade.rads.framework.ui.controls.graphs.UIGraphBar;
 import com.techtrade.rads.framework.ui.controls.graphs.UIGraphCircle;
 import com.techtrade.rads.framework.ui.controls.graphs.UIGraphLegend;
@@ -431,6 +433,13 @@ public class HTMLWriter extends Writer{
 				writeHyperLink(out, (UIHyperLink) control);
 			}else if ( control instanceof UIHidden) {
 				writeHidden(out, (UIHidden) control);
+			}else if ( control instanceof UIGaugeChart) {
+				UIGaugeChart prop = (UIGaugeChart)control  ;
+				String chartProp = prop.getDataProvider();
+				GaugeChartData pieChart=(GaugeChartData) callGetter((ModelObject)object, chartProp);
+				UIGaugeChart chart  =UIGaugeChart.makeUIGaugeChart(pieChart, prop.getWidth(), prop.getHeight());
+				chart.setId(prop.getId());
+				writeGaugeChart(out, chart, displayValue, controller);
 			}else if ( control instanceof UIPieChart) {
 				UIPieChart prop = (UIPieChart)control  ;
 				String chartProp = prop.getDataProvider();
@@ -1427,6 +1436,11 @@ public class HTMLWriter extends Writer{
 			out.println("</text>");
 
 		}
+		
+	}
+	
+	protected void writeGaugeChart(PrintWriter out, UIGaugeChart chart, Object value,ViewController controller) throws IOException {
+		
 		
 	}
 	

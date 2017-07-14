@@ -134,7 +134,10 @@ public class UIPieChart extends UIControl{
 		legend.setX(topleftX);
 		legend.setY(topLeftY);
 		legend.setxWidthPerEntries(0);
-		legend.setyHeightPerEntries(((radius-10)*2)/(index-1));
+		if(index > 1 )
+			legend.setyHeightPerEntries(((radius-10)*2)/(index-1));
+		else 
+			legend.setyHeightPerEntries(((radius-10)*2)/1);
 		pieChart.setLegend(legend);
 		if (!Utils.isNullString(pieCharData.getFooterNote()))  {
 			UIGraphText graphText = new UIGraphText(pieCharData.getFooterNote());

@@ -9,7 +9,11 @@ import java.io.PrintWriter;
 
 
 
+
+
 import com.techtrade.rads.framework.controller.abstracts.ViewController;
+import com.techtrade.rads.framework.model.graphdata.GaugeChartData;
+import com.techtrade.rads.framework.model.graphdata.GaugeChartData.ColorRange;
 import com.techtrade.rads.framework.model.graphdata.LineChartEntryData;
 import com.techtrade.rads.framework.model.graphdata.PieSliceData;
 import com.techtrade.rads.framework.ui.controls.graphs.GoogleBarChartData;
@@ -104,6 +108,32 @@ public class GoogleChartWriter {
 		out.println("<div id=\""+id+ "\" style=\"width: " + chart.getWidth()+ "px; height: "+ chart.getHeight()+ "px;\"></div>");
 	}
 	
+	public static void writeGaugeChart(PrintWriter out, GaugeChartData chart, Object value,ViewController controller,String id) throws IOException {
+		out.println("<script type=\"text/javascript\" src=\"https://www.gstatic.com/charts/loader.js\"></script>");
+		out.println(" <script type=\"text/javascript\">");
+		out.println(" google.charts.load('current', {'packages':['gauge']});");
+		out.println("  google.charts.setOnLoadCallback(drawChart); ");
+		out.println(" function drawChart() { ");
+		out.println(" var data = google.visualization.arrayToDataTable([ ");
+		out.println( "['Label','Value']," );
+		out.println( "['" + chart.getLabel() + "'," + chart.getGraphValue() + "]"); 
+		out.println( "]);");
+		out.println( "var options = { ");
+		//out.println("  	title: '" +chart.getTitle() + "',");
+		out.println( "width: " +  chart.getWidth() + " , height: " + chart.getHeight() + ",");
+		for (int  i = 0 ; i <  chart.getColorRanges().size() ; i ++ ) {
+			ColorRange colorRange = chart.getColorRanges().get(i) ;
+			out.println(  colorRange.getColor()+"From: " + colorRange.getFrom() + ", " + colorRange.getColor() + "To:" + colorRange.getTo() +",");
+		}
+		out.println( "minorTicks: " + chart.getMinorTicks());
+		out.println("};");
+		out.println("var chart = new google.visualization.Gauge(document.getElementById('"+id+"'));");
+		out.println("chart.draw(data, options);");
+		out.println("}");
+		out.println("</script>");
+		
+		out.println("<div id=\""+id+"\" style=\"width: " + chart.getWidth() + "px; height: "+ chart.getHeight()+ "px;\"></div>");
+	}
 	public static void writePieChart(PrintWriter out, GooglePieChartData chart, Object value,ViewController controller,String id) throws IOException {
 		out.println("<script type=\"text/javascript\" src=\"https://www.gstatic.com/charts/loader.js\"></script>");
 		out.println(" <script type=\"text/javascript\">");

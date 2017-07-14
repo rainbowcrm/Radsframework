@@ -234,4 +234,14 @@ public class Utils {
 		
 		return ans;
 	}
+	
+	public static java.sql.Date getSQLDate(Date date) 
+	{
+		return new java.sql.Date(date.getTime()) ;
+	}
+	
+	public static Date getUtilDate(java.sql.Date date) 
+	{
+		return new Date(date.getTime()) ;
+	}
 }

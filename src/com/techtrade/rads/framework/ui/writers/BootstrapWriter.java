@@ -23,6 +23,7 @@ import com.techtrade.rads.framework.ui.controls.UIMenu;
 import com.techtrade.rads.framework.ui.controls.UITab;
 import com.techtrade.rads.framework.ui.controls.UITabSet;
 import com.techtrade.rads.framework.ui.controls.graphs.UIBarChart;
+import com.techtrade.rads.framework.ui.controls.graphs.UIGaugeChart;
 import com.techtrade.rads.framework.ui.controls.graphs.UIGraphPath;
 import com.techtrade.rads.framework.ui.controls.graphs.UILineChart;
 import com.techtrade.rads.framework.ui.controls.graphs.UIPieChart;
@@ -123,6 +124,12 @@ public class BootstrapWriter  extends  HTMLWriter{
 			super.writeLineChart(out, chart, value, controller);
 		else
 			GoogleChartWriter.writeLineChart(out, chart.getGoogleLineChartData(), value, controller,chart.getId());
+	}
+
+	@Override
+	protected void writeGaugeChart(PrintWriter out, UIGaugeChart chart,
+			Object value, ViewController controller) throws IOException {
+		GoogleChartWriter.writeGaugeChart(out, chart.getGaugeChartData(), value, controller, chart.getId());
 	}
 
 	protected void writePieChart(PrintWriter out, UIPieChart chart, Object value,ViewController controller) throws IOException {
