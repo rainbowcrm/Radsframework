@@ -35,6 +35,7 @@ public class GaugeChartData {
 	int minorTicks;
 	int graphValue ;
 	String label ;
+	String title; 
 	int maxValue ;
 
 	public List<ColorRange> getColorRanges() {
@@ -98,6 +99,14 @@ public class GaugeChartData {
 
 	public void setMaxValue(int maxValue) {
 		this.maxValue = maxValue;
+	}
+
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
 	}
 
 	

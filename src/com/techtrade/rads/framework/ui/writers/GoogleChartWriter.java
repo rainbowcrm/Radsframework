@@ -109,6 +109,9 @@ public class GoogleChartWriter {
 	}
 	
 	public static void writeGaugeChart(PrintWriter out, GaugeChartData chart, Object value,ViewController controller,String id) throws IOException {
+		if(!Utils.isNullString(chart.getTitle())) {
+			out.println("<b>" + chart.getTitle() + "</b>");
+		}
 		out.println("<script type=\"text/javascript\" src=\"https://www.gstatic.com/charts/loader.js\"></script>");
 		out.println(" <script type=\"text/javascript\">");
 		out.println(" google.charts.load('current', {'packages':['gauge']});");

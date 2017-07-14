@@ -16,6 +16,7 @@ public class UIGaugeChart extends UIControl{
 	String label ;
 	int maxValue ;
 	String dataProvider;
+	String title; 
 	
 	GaugeChartData gaugeChartData ;
 
@@ -102,7 +103,9 @@ public class UIGaugeChart extends UIControl{
 		uiChart.setColorRanges(data.getColorRanges());
 		uiChart.setLabel(data.getLabel());
 		uiChart.setGraphValue(data.getGraphValue());
+		uiChart.setTitle(data.getTitle());
 		uiChart.setGaugeChartData(data);
+		
 		return uiChart ;
 	}
 
@@ -112,6 +115,14 @@ public class UIGaugeChart extends UIControl{
 
 	public void setGaugeChartData(GaugeChartData gaugeChartData) {
 		this.gaugeChartData = gaugeChartData;
+	}
+
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
 	}
 	
 	
