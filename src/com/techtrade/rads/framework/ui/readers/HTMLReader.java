@@ -50,6 +50,7 @@ import com.techtrade.rads.framework.ui.components.UITransactionPage;
 import com.techtrade.rads.framework.ui.constants.FixedAction;
 import com.techtrade.rads.framework.ui.constants.RadsConstants;
 import com.techtrade.rads.framework.ui.constants.RadsControlConstants;
+import com.techtrade.rads.framework.ui.controls.UIBooleanCheckBox;
 import com.techtrade.rads.framework.ui.controls.UICondition;
 import com.techtrade.rads.framework.ui.controls.UIDate;
 import com.techtrade.rads.framework.ui.controls.UIDialog;
@@ -524,8 +525,18 @@ public class HTMLReader extends Reader{
 		if (!Utils.isNullList(page.getDataEntryColumns())) {
 			Object childObject[] = new Object[100];
 			for (UIElement element : page.getDataEntryColumns() ) {
-				if  (request.getParameterValues(element.getControl().getId()) != null )  {
-					String value[] = request.getParameterValues(element.getControl().getId()); 
+				String value[] = null ;
+				if(element.getControl() instanceof UIBooleanCheckBox)  {
+					UIBooleanCheckBox booleanBox = (UIBooleanCheckBox)element.getControl();
+					if  (request.getParameterValues(booleanBox.getHiddenControlId()) != null )  {
+						value = request.getParameterValues(booleanBox.getHiddenControlId()); 
+					}
+				}else {
+					if  (request.getParameterValues(element.getControl().getId()) != null )  {
+						value = request.getParameterValues(element.getControl().getId()); 
+					}
+				}
+				if( value != null)  {
 					for (int i = 0 ; i < value.length ; i ++ )  {
 						if (!Utils.isNullString(value[i])){
 							if (childObject[i] == null )  {
