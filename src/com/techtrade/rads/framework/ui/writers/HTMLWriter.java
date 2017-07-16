@@ -458,7 +458,7 @@ public class HTMLWriter extends Writer{
 				if (barChartData == null)
 					return ;
 				UIBarChart chart = UIBarChart.makeUIBarChart(barChartData, prop.getWidth(),prop.getHeight(), prop.getStartX(), 
-						prop.getStartY(), prop.getMarginWidth(),prop.getBarWidth(),prop.getNoYAxisDivisions());
+						prop.getStartY(), prop.getMarginWidth(),prop.getBarWidth(),prop.getNoYAxisDivisions(),prop.isUseCoreChart());
 				chart.setId(prop.getId());
 				chart.setUseGoogleChart(prop.isUseGoogleChart());
 				writeBarChart(out, chart, null, controller);

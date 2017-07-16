@@ -33,6 +33,8 @@ public class UIBarChart extends UIControl{
 	SortedSet<Integer> valueRanges; 
 	
 	GoogleBarChartData googleBarChartData;
+	
+	boolean useCoreChart ;
 
 	public List<UIGraphBar> getBars() {
 		return bars;
@@ -177,7 +179,7 @@ public class UIBarChart extends UIControl{
 	}
 
 	public static UIBarChart makeUIBarChart(BarChartData barChartData , int rangeWidth, int rangeHeight ,int xStart , int yStart ,
-			int marginWidth ,int barWidth, int noYAxisDivisions ) {
+			int marginWidth ,int barWidth, int noYAxisDivisions, boolean useCorechart ) {
 		UIBarChart uiBarChart = new  UIBarChart();
 		uiBarChart.setWidth(rangeWidth);
 		uiBarChart.setHeight(rangeHeight);
@@ -186,6 +188,7 @@ public class UIBarChart extends UIControl{
 		uiBarChart.setBarWidth(barWidth);
 		uiBarChart.setMarginWidth(marginWidth);
 		uiBarChart.setNoYAxisDivisions(noYAxisDivisions);
+		uiBarChart.setUseCoreChart(useCorechart);
 		int xMin= barChartData.getRange().getxMin();
 		int yMin =barChartData.getRange().getyMin();
 		int xMax = barChartData.getRange().getxMax();
@@ -244,6 +247,14 @@ public class UIBarChart extends UIControl{
 
 	public void setUseGoogleChart(boolean useGoogleChart) {
 		this.useGoogleChart = useGoogleChart;
+	}
+
+	public boolean isUseCoreChart() {
+		return useCoreChart;
+	}
+
+	public void setUseCoreChart(boolean useCoreChart) {
+		this.useCoreChart = useCoreChart;
 	}
 	
 	

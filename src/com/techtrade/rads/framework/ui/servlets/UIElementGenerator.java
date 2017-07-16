@@ -112,6 +112,7 @@ public class UIElementGenerator {
 	protected static String TAG_FIXEDACTION_WARN_MSG= "fixedActionwaringMessage";
 	protected static String TAG_FIXEDACTION_VAIDATEFUN= "fixedActionvalidateFunc";
 	protected static String TAG_USEGOOGLEGRAPH = "useGoogleGraph";
+	protected static String TAG_USECORECHART =  "useCoreChart";
 	protected static String TAG_XSTART = "xStart";
 	protected static String TAG_YSTART = "yStart";
 	protected static String TAG_USEDONUT = "useDonutChart";
@@ -767,6 +768,7 @@ public class UIElementGenerator {
 			String barWidth = doc.getChildAttributeValue(TAG_BARWIDTH);
 			String dataProvider = doc.getAttributeValue(TAG_DATAPROVIDER);
 			String noYAxisDivisions = doc.getChildAttributeValue(TAG_NOYAXISDIVISIONS) ;
+			String useCoreChart  =  doc.getAttributeValue(TAG_USECORECHART);
 			if (Utils.isPositiveInt(xStart)) {
 				chart.setStartX(Integer.parseInt(xStart));
 			}
@@ -787,6 +789,9 @@ public class UIElementGenerator {
 			}
 			if (Utils.isPositiveInt(noYAxisDivisions)) {
 				chart.setNoYAxisDivisions(Integer.parseInt(noYAxisDivisions));
+			}
+			if(!Utils.isNullString(useCoreChart)) {
+				chart.setUseCoreChart(Utils.getBooleanValue(useCoreChart));
 			}
 			chart.setDataProvider(dataProvider);
 			elem = new UIElement("",chart);

@@ -145,8 +145,13 @@ public class BootstrapWriter  extends  HTMLWriter{
 	protected void writeBarChart(PrintWriter out, UIBarChart chart, Object value,ViewController controller) throws IOException {
 		if (!chart.isUseGoogleChart() )
 			super.writeBarChart(out, chart, value, controller);
-		else
-			GoogleChartWriter.writeBarChart(out, chart.getGoogleBarChartData(), value, controller,chart.getId());
+		else  {
+		
+			if (!chart.isUseCoreChart())
+				GoogleChartWriter.writeBarChart(out, chart.getGoogleBarChartData(), value, controller,chart.getId());
+			else
+				GoogleChartWriter.writeCoreChart(out, chart.getGoogleBarChartData(), value, controller,chart.getId());
+		}
 		
 		
 	}

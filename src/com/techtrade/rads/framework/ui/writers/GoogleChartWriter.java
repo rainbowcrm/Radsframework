@@ -63,13 +63,13 @@ public class GoogleChartWriter {
 		out.println(" google.charts.load('current', {'packages':['corechart']});");
 		out.println("  google.charts.setOnLoadCallback(drawChart); ");
 		out.println(" function drawChart() { ");
-		out.println(" var data = google.visualization.DataTable(); ");
+		out.println(" var data = new  google.visualization.DataTable(); ");
 		out.println(" data.addColumn('string', 'Options'); ");
 		out.println(" data.addColumn('number', 'values'); ");
 		out.println( " data.addRows([ ") ;
 	//	out.println( getTitles(chart) + "," );
-		for ( int  i = 0 ; i < chart.getDivisionTitles().size() ; i ++  ) {
-			String title =chart.getDivisionTitles().get(i);
+		for ( int  i = 0 ; i < chart.getComponentBarTitles().size() ; i ++  ) {
+			String title =chart.getComponentBarTitles().get(i);
 			List<Double> values = chart.getValues().get(title);
 			String comma = (i < chart.getDivisionTitles().size()-1)?",":"";
 			out.println( "['" +  title + "'," + values.get(0) + "]" + comma);
@@ -77,11 +77,20 @@ public class GoogleChartWriter {
 		out.println("]);");
 		
 		out.println("var options = {");
-				out.println(" 	chart: {");
 						out.println("  	title: '" +chart.getTitle() + "',");
 						out.println(" subtitle: '" + chart.getSubTitle() + "',");
-						out.println("width: " +  chart.getWidth());
-						out.println("height: " +  chart.getHeight());
+						out.println("width: " +  chart.getWidth()+ ",");
+						out.println("height: " +  chart.getHeight()+ ",");
+						List<String> colors = chart.getColors().get(chart.getTitle());
+						if(!Utils.isNullList(colors)) { 
+							out.print("colors : [" ) ;
+							for ( int i = 0 ; i <  colors.size() ; i ++) {
+								String comma = (i < colors.size()-1)?",":"";
+								out.print ("'" + colors.get(i) + "'" + comma) ;
+							}
+							out.println(" ],");
+						}
+						  
 						out.println("legend: 'none',");
 						out.println("bar: {groupWidth: '95%'},");
 						out.println(" vAxis: { gridlines: { count: 4 } ,") ;

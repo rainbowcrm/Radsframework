@@ -16,6 +16,7 @@ public class GoogleBarChartData {
 	List<String> componentBarTitles  = new ArrayList<> ();
 	
 	Map <String , List<Double> > values = new HashMap<> ();;
+	Map <String , List<String> > colors = new HashMap<> ();;
 	
 	String title;
 	String subTitle;
@@ -23,6 +24,9 @@ public class GoogleBarChartData {
 	int width,height;
 	
 	int min, max ;
+	
+	boolean useCoreChart  = false;
+	
 	
 	
 	public List<String> getDivisionTitles() {
@@ -46,6 +50,12 @@ public class GoogleBarChartData {
 	}
 	
 	
+	public Map<String, List<String>> getColors() {
+		return colors;
+	}
+	public void setColors(Map<String, List<String>> colors) {
+		this.colors = colors;
+	}
 	
 	public static GoogleBarChartData makeGoogleChart(BarChartData barChartData,int width, int height ) {
 		GoogleBarChartData chartData = new GoogleBarChartData();
@@ -55,12 +65,51 @@ public class GoogleBarChartData {
 		chartData.setWidth(width);
 		chartData.setMin(barChartData.getRange().getyMin());
 		chartData.setMax(barChartData.getRange().getyMax());
+		chartData.setUseCoreChart(barChartData.isUseCoreChart());
 		barChartData.getDivisions().forEach( division -> { 
 			String text = division.getDivisionTitle();
 			 if(!chartData.getDivisionTitles().contains(text))
 				 chartData.getDivisionTitles().add(text);
 			 division.getBarDatas().forEach( barData ->  { 
 				 String legend = barData.getLegend();
+				 if(!chartData.getComponentBarTitles().contains(legend))
+					 chartData.getComponentBarTitles().add(legend);
+				List<Double>  values = chartData.getValues().get(text);
+				
+				if(values == null)
+					 values = new ArrayList<>();
+				values.add(barData.getValue());
+				chartData.getValues().put(text, values);
+				
+				if(barData.getColor() != null ) {
+					List<String>  colors = chartData.getColors().get(barChartData.getTitle()) ;
+					if(colors == null)
+						colors =new ArrayList<String> ();
+					colors.add(barData.getColor());
+					chartData.getColors().put(barChartData.getTitle(), colors);
+				}
+				
+			 } );
+		});
+		return chartData;
+	}
+	
+	public static GoogleBarChartData makeGoogleCoreChart(BarChartData barChartData,int width, int height ) {
+		GoogleBarChartData chartData = new GoogleBarChartData();
+		chartData.setTitle(barChartData.getTitle());
+		chartData.setSubTitle(barChartData.getSubTitle());
+		chartData.setHeight(height);
+		chartData.setWidth(width);
+		chartData.setMin(barChartData.getRange().getyMin());
+		chartData.setMax(barChartData.getRange().getyMax());
+		chartData.setUseCoreChart(barChartData.isUseCoreChart());
+		barChartData.getDivisions().forEach( division -> { 
+			String text = division.getDivisionTitle();
+			 if(!chartData.getDivisionTitles().contains(text))
+				 chartData.getDivisionTitles().add(text);
+			 division.getBarDatas().forEach( barData ->  { 
+				 String legend = barData.getLegend();
+				 
 				 if(!chartData.getComponentBarTitles().contains(legend))
 					 chartData.getComponentBarTitles().add(legend);
 				List<Double>  values = chartData.getValues().get(text);
@@ -72,7 +121,6 @@ public class GoogleBarChartData {
 		});
 		return chartData;
 	}
-	
 	
 	
 	public String getTitle() {
@@ -111,6 +159,13 @@ public class GoogleBarChartData {
 	public void setMax(int max) {
 		this.max = max;
 	}
+	public boolean isUseCoreChart() {
+		return useCoreChart;
+	}
+	public void setUseCoreChart(boolean useCoreChart) {
+		this.useCoreChart = useCoreChart;
+	}
+	
 	
 	
 	

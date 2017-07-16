@@ -7,6 +7,7 @@ public class BarChartData {
 
 	String title;
 	String subTitle;
+	boolean useCoreChart = false; 
 	
 	public class Division {
 		List <BarData> barDatas ;
@@ -99,6 +100,12 @@ public class BarChartData {
 	}
 	public void setSubTitle(String subTitle) {
 		this.subTitle = subTitle;
+	}
+	public boolean isUseCoreChart() {
+		return useCoreChart;
+	}
+	public void setUseCoreChart(boolean useCoreChart) {
+		this.useCoreChart = useCoreChart;
 	}
 	
 	
