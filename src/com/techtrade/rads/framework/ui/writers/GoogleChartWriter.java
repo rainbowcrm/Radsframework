@@ -11,6 +11,8 @@ import java.io.PrintWriter;
 
 
 
+import java.util.List;
+
 import com.techtrade.rads.framework.controller.abstracts.ViewController;
 import com.techtrade.rads.framework.model.graphdata.GaugeChartData;
 import com.techtrade.rads.framework.model.graphdata.GaugeChartData.ColorRange;
@@ -47,6 +49,51 @@ public class GoogleChartWriter {
 				out.println("};");
 				
 		out.println("var chart = new google.charts.Bar(document.getElementById('"+ id +"'));");
+		out.println("chart.draw(data, options);");
+		out.println("}");
+		out.println("</script>");
+		
+		out.println("<div id=\""+id+ "\" style=\"width: " + chart.getWidth()+ "px; height: "+ chart.getHeight()+ "px;\"></div>");
+		  
+	}
+	
+	public static void writeCoreChart(PrintWriter out, GoogleBarChartData chart, Object value,ViewController controller, String id) throws IOException {
+		out.println("<script type=\"text/javascript\" src=\"https://www.gstatic.com/charts/loader.js\"></script>");
+		out.println(" <script type=\"text/javascript\">");
+		out.println(" google.charts.load('current', {'packages':['corechart']});");
+		out.println("  google.charts.setOnLoadCallback(drawChart); ");
+		out.println(" function drawChart() { ");
+		out.println(" var data = google.visualization.DataTable(); ");
+		out.println(" data.addColumn('string', 'Options'); ");
+		out.println(" data.addColumn('number', 'values'); ");
+		out.println( " data.addRows([ ") ;
+	//	out.println( getTitles(chart) + "," );
+		for ( int  i = 0 ; i < chart.getDivisionTitles().size() ; i ++  ) {
+			String title =chart.getDivisionTitles().get(i);
+			List<Double> values = chart.getValues().get(title);
+			String comma = (i < chart.getDivisionTitles().size()-1)?",":"";
+			out.println( "['" +  title + "'," + values.get(0) + "]" + comma);
+		}
+		out.println("]);");
+		
+		out.println("var options = {");
+				out.println(" 	chart: {");
+						out.println("  	title: '" +chart.getTitle() + "',");
+						out.println(" subtitle: '" + chart.getSubTitle() + "',");
+						out.println("width: " +  chart.getWidth());
+						out.println("height: " +  chart.getHeight());
+						out.println("legend: 'none',");
+						out.println("bar: {groupWidth: '95%'},");
+						out.println(" vAxis: { gridlines: { count: 4 } ,") ;
+						out.println(" viewWindowMode:'explicit',");
+						out.println("  viewWindow: { ");
+						out.println(" min: " + chart.getMin()+ "," );
+						out.println(" max: " + chart.getMax()+ "" );
+						out.println(" }");
+						out.println(" }");
+				out.println("};");
+				
+		out.println("var chart = new google.visualization.ColumnChart(document.getElementById('"+ id +"'));");
 		out.println("chart.draw(data, options);");
 		out.println("}");
 		out.println("</script>");
@@ -201,7 +248,7 @@ public class GoogleChartWriter {
 	private static String getData (GoogleBarChartData chart, int index)
 	{
 		String title = chart.getDivisionTitles().get(index) ;
-		StringBuffer ret = new StringBuffer(" [' " +title +"'," ) ;
+		StringBuffer ret = new StringBuffer(" [' " + (!Utils.isNullString(title)?title:"") +"'," ) ;
 		String data   =Utils.getCommaSeperatedArray(chart.getValues().get(title)," ");
 		ret.append(data);
 		ret.append(" ] ");

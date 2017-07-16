@@ -22,6 +22,7 @@ public class GoogleBarChartData {
 	
 	int width,height;
 	
+	int min, max ;
 	
 	
 	public List<String> getDivisionTitles() {
@@ -52,6 +53,8 @@ public class GoogleBarChartData {
 		chartData.setSubTitle(barChartData.getSubTitle());
 		chartData.setHeight(height);
 		chartData.setWidth(width);
+		chartData.setMin(barChartData.getRange().getyMin());
+		chartData.setMax(barChartData.getRange().getyMax());
 		barChartData.getDivisions().forEach( division -> { 
 			String text = division.getDivisionTitle();
 			 if(!chartData.getDivisionTitles().contains(text))
@@ -96,6 +99,19 @@ public class GoogleBarChartData {
 	public void setHeight(int height) {
 		this.height = height;
 	}
+	public int getMin() {
+		return min;
+	}
+	public void setMin(int min) {
+		this.min = min;
+	}
+	public int getMax() {
+		return max;
+	}
+	public void setMax(int max) {
+		this.max = max;
+	}
+	
 	
 	
 	
