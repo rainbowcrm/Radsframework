@@ -967,7 +967,7 @@ public class HTMLWriter extends Writer{
 				caption +"\" onClick=\""+ button.getOnClickJS() +"\"/>");
 	}
 	
-	private boolean isJSFunction(PrintWriter out, UIButton button,FixedAction action) {
+	protected boolean isJSFunction(PrintWriter out, UIButton button,FixedAction action) {
 		if (action == FixedAction.ACTION_PLAINSUBMIT  && Utils.isNull(button.getFixedActionParam()) ) {
 			button.setOnClickJS("submit();");
 			return true ;
@@ -1090,7 +1090,7 @@ public class HTMLWriter extends Writer{
 	
 	}
 	
-	private String declareArrayforAdditionalControls(Map additionalKeys , String lookupText)
+	protected String declareArrayforAdditionalControls(Map additionalKeys , String lookupText)
 	{
 		StringBuffer buffer = new StringBuffer("<script>\n");
 		if ( !Utils.isNullMap(additionalKeys)) {
@@ -1110,7 +1110,7 @@ public class HTMLWriter extends Writer{
 		return buffer.toString() ;
 	}
 	
-	private String declareArrayforAdditionalFields(Map additionalKeys , String lookupText)
+	protected String declareArrayforAdditionalFields(Map additionalKeys , String lookupText)
 	{
 		StringBuffer buffer = new StringBuffer("<script>\n");
 		if ( !Utils.isNullMap(additionalKeys)) {
