@@ -111,6 +111,7 @@ public class UIElementGenerator {
 	protected static String TAG_FIXEDACTIONSHOW_WARN= "fixedActionshowWarning";
 	protected static String TAG_FIXEDACTION_WARN_MSG= "fixedActionwaringMessage";
 	protected static String TAG_FIXEDACTION_VAIDATEFUN= "fixedActionvalidateFunc";
+	protected static String TAG_ICON_STYLE= "iconStyle";
 	protected static String TAG_USEGOOGLEGRAPH = "useGoogleGraph";
 	protected static String TAG_XSTART = "xStart";
 	protected static String TAG_YSTART = "yStart";
@@ -472,6 +473,9 @@ public class UIElementGenerator {
 			UIMenu menu = new UIMenu(id);
 			elem = new UIElement(label,menu);
 			String title = doc.getAttributeValue(TAG_TITLE);
+			String iconStyle = doc.getAttributeValue(TAG_ICON_STYLE);
+			if (!Utils.isNullString(iconStyle))
+				menu.setIconStyle(iconStyle);
 			
 			if (Utils.isNullList(doc.getAllChildElements()) ) {
 				String link =  doc.getAttributeValue(TAG_LINK);
@@ -973,7 +977,10 @@ public class UIElementGenerator {
 			//String showWarning =doc.getAttributeValue(TAG_FIXEDACTIONSHOW_WARN);
 			//String warningMsg = doc.getAttributeValue(TAG_FIXEDACTION_WARN_MSG);
 			String validateFunc = doc.getAttributeValue(TAG_FIXEDACTION_VAIDATEFUN);
+			String iconStyle = doc.getAttributeValue(TAG_ICON_STYLE);
 			UIButton btn =  new UIButton(id,caption,onClickJS) ;
+			if (!Utils.isNullString(iconStyle))
+				btn.setIconStyle(iconStyle);
 			if (!Utils.isNullString(fixedActionParam))
 				btn.setFixedActionParam(fixedActionParam);
 			if (!Utils.isNullString(fixedAction)){

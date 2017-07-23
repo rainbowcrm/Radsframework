@@ -8,8 +8,16 @@ import com.techtrade.rads.framework.ui.constants.FixedAction;
 public class UIButton extends UIControl {
 	String caption;
 	String onClickJS;
+	String iconStyle;
+	
 	
 			
+	public String getIconStyle() {
+		return iconStyle;
+	}
+	public void setIconStyle(String iconStyle) {
+		this.iconStyle = iconStyle;
+	}
 	public String getCaption() {
 		return caption;
 	}

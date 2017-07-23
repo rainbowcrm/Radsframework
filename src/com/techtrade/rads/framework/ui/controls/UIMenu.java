@@ -8,10 +8,18 @@ import com.techtrade.rads.framework.ui.abstracts.UIControl;
 public class UIMenu extends UIControl {
 	String menuText;
 	String menuLink ;
+	String iconStyle;
+	
 	
 	List <UIMenu> childMenus ;
 	String groupId; 
 	
+	public String getIconStyle() {
+		return iconStyle;
+	}
+	public void setIconStyle(String iconStyle) {
+		this.iconStyle = iconStyle;
+	}
 	public String getMenuText() {
 		return menuText;
 	}

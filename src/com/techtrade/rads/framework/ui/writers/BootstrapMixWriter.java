@@ -95,18 +95,12 @@ public class BootstrapMixWriter  extends  HTMLWriter{
 		page.getStyleSheets().forEach( styleSheet -> { 
 			out.println("<link rel=\"stylesheet\" type=\"text/css\" href=\"" + styleSheet + "\">");	
 		});		
-		out.println("<link rel=\"stylesheet\" href=\"https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css\">"); 
-		out.println("<link rel=\"stylesheet\" type=\"text/css\" href=\"" +bootstrapPath  + "/css/bootstrap.css\">");
-		out.println("<link rel=\"stylesheet\" type=\"text/css\" href=\"" +bootstrapPath  + "/css/bootstrap-flex.css\">");
-		out.println("<link rel=\"stylesheet\" type=\"text/css\" href=\"" +bootstrapPath  + "/css/bootstrap-grid.css\">");
-		out.println("<link rel=\"stylesheet\" type=\"text/css\" href=\"" +bootstrapPath  + "/css/bootstrap-reboot.css\">");
-		out.println("<link rel=\"stylesheet\" type=\"text/css\" href=\"" +bootstrapPath  + "/font-awesome-4.7.0/css/font-awesome.min.css\">");
-		out.println("<script src=\"https://npmcdn.com/tether@1.2.4/dist/js/tether.min.js\"></script>");
-		out.println("<script src=\"https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js\"></script>");
-		out.println("<script src=\"https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js\"></script>");
-		
+		out.println("<link rel=\"stylesheet\" type=\"text/css\" href=\"" +bootstrapPath  + "/css/bootstrap.min.css\">");
+		out.println("<link rel=\"stylesheet\" type=\"text/css\" href=\"" +bootstrapPath  + "/font-awesome/css/font-awesome.min.css\">");
+		out.println("<script src=\"" +bootstrapPath  + "/js/jquery.js\"></script>");
+		out.println("<script src=\"" +bootstrapPath  + "/js/bootstrap.min.js\"></script>");
 
-			
+		
 
 			/*out.println("<script src=\"https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js\"></script>");*/
 		
