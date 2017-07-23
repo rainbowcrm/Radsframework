@@ -158,69 +158,6 @@ public class BootstrapWriter  extends  HTMLWriter{
 		
 	}
 	
-	protected void writeDate(PrintWriter out, UIDate dateC) throws ParseException, IOException {
-		
-		String dataProp = "data-property=\"" + dateC.getDataProperty() + "\""; 
-		/*out.println("<input type =\"date\" id=\"" + dateC.getId() + "\"  name =\"" +dateC.getId()  + "\"  "  + dataProp +  " value=\""+ 
-				Utils.dateToString((java.util.Date)dateC.getValue(),"yyyy-MM-dd") +"\"/>");*/
-		
-	/*String dtControl = " <div class=\"container\">" + 
-	   " <div class=\"row\">" +
-	    "    <div class='col-sm-6'>" + 
-	           " <div class=\"form-group\"> " +
-	               " <div class='input-group date' width=\"5\" id='"+dateC.getId()+"'"  + dataProp + " value=\" " + Utils.dateToString((java.util.Date)dateC.getValue(),"mm-dd-yyyy") + " \"> " +
-	                    " <input type='text' class=\"form-control\" /> " +
-	                   " <span class=\"input-group-addon\"> " +
-	                   "      <span class=\"glyphicon glyphicon-calendar\"></span> " +
-	                   "   </span> " + 
-	               "  </div> " +
-	         "   </div> " +
-	         " </div> " + 
-	        "  <script type=\"text/javascript\"> " +
-	         "   $(function () { " + 
-	               "  $('#datetimepicker1').datetimepicker(); " +
-	           " }); " +
-	       " </script> " +
-	  "  </div> " +
-	" </div> ";*/
-	
-	/*String dtControl =  //" <div class=\"form-group\"> " +
-			                    " <input type='text' width=\"5\" id='"+dateC.getId()+"'"  + dataProp + " value=\" " + Utils.dateToString((java.util.Date)dateC.getValue(),"mm-dd-yyyy") + " \"  /> " +
-			                    		   " <span class=\"input-group-addon\"> " +
-			                   "      <span class=\"glyphicon glyphicon-calendar\"></span> " +
-			                   "   </span> " + 
-			           //    " </div> " + 
-			        "  <script type=\"text/javascript\"> " +
-			         "   $(function () { " + 
-			               "  $('#"+ dateC.getId() +"').datetimepicker(); " +
-			           " }); " +
-			       " </script> " ;
-
-
-	}
-
-	/*protected void writeLookupText(PrintWriter out, UILookupText textLookup) throws IOException {
-		String sizeStr = textLookup.getSize()>0?"size=\"" + textLookup.getSize()+"\"":"" ; 
-		String dataProp = "data-property=\"" + textLookup.getDataProperty() +  "\"";
-		out.println("<input type =\"text\" id=\"" + textLookup.getId() + "\" name =\"" + textLookup.getId()  + "\" "  + dataProp  +  " value=\""+ 
-				Utils.getFormattedValue(textLookup.getValue()) +"\" " + sizeStr +" />");
-	//String img = "<img src=\"" + textLookup.getImgSrc() + "\" width =\"30\" height =\"30\" >";
-
-		String height = textLookup.getWindowHeight() ;
-		String width =textLookup.getWindowWidth() ;
-		String title= textLookup.getLookupWindowTitle();
-		String urlText = textLookup.getUrl() + "&lookupType=" + textLookup.getLookupType() + "&parentControl=" +  textLookup.getId();
-		//out.println("<button type =\"submit\"  src =\"" + textLookup.getImgSrc() + "\" onClick=\"showLookupWindow('"+textLookup.getId()+"');\" > </button>");
-		if (textLookup.isShowLookupAsDialog()) {
-			writeLookupDialog(out, textLookup);
-			out.println("<span   name=\"btn+"+ textLookup.getId() + "\"  class=\"glyphicon glyphicon-search\" onClick=\"showLookupDialog('" + textLookup.getDialogId()  + "',this);\" >" +" </span>");
-		}else {
-			out.println("<span name=\"btn+"+ textLookup.getId() + "\"  class=\"glyphicon glyphicon-search\" onClick=\"showLookupWindow('"+ urlText +"','"+title+"','"+textLookup.getId()+"','"+height+"','"+ width+"');\" >"  +" </span>");
-		}
-
-
-
-	}*/
 
 	protected void writeTabSet(PrintWriter out, UITabSet tabSet,Object value,ViewController controller) throws IOException {
 		String width = !Utils.isNullString(tabSet.getWidth())?"width =\""+tabSet.getWidth() +"\"":"";
