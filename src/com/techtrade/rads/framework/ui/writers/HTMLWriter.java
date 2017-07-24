@@ -1141,6 +1141,8 @@ public class HTMLWriter extends Writer{
 		out.println("</iframe>");
 		out.println("</Dialog>");
 	}
+	
+	
 	protected void writeLookupText(PrintWriter out, UILookupText textLookup) throws IOException {
 		String sizeStr = textLookup.getSize()>0?"size=\"" + textLookup.getSize()+"\"":"" ; 
 		String dataProp = "data-property=\"" + textLookup.getDataProperty() +  "\"";

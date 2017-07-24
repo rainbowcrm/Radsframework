@@ -439,7 +439,7 @@ protected void writeDate(PrintWriter out, UIDate dateC) throws ParseException, I
 	
 	}
 	
-	protected void writeBooleanCheckBox(PrintWriter out, UIBooleanCheckBox checkBox) throws IOException {
+	/*protected void writeBooleanCheckBox(PrintWriter out, UIBooleanCheckBox checkBox) throws IOException {
 		IExternalizeFacade facade = null;
 		if(checkBox.isExternalize()) {
 			facade  = currentPage.getExternalizeFacade() ;
@@ -456,8 +456,11 @@ protected void writeDate(PrintWriter out, UIDate dateC) throws ParseException, I
 				" value =\""+ st + "\"  onclick=\"workBooleanCheckBoxControl(this,'"+ checkBox.getHiddenControlId() +"')\" " + selected + " /><span>"	  +"</span>"  ) ;
 		
 		
-	}
-	protected void writeCheckBox(PrintWriter out, UICheckBox checkBox) throws IOException {
+	}*/
+	
+	
+	
+	/*protected void writeCheckBox(PrintWriter out, UICheckBox checkBox) throws IOException {
 		IExternalizeFacade facade = null;
 		if(checkBox.isExternalize()) {
 			facade  = currentPage.getExternalizeFacade() ;
@@ -491,7 +494,7 @@ protected void writeDate(PrintWriter out, UIDate dateC) throws ParseException, I
 			out.println("<input class=\"form-control\" type =\"radio\" id=\"" +  radioBox.getId() + "\" name = \""+ radioBox.getId() 
 					+"\"  "  +  dataProp +  " value =\""+ st + "\" " + selected + " />"  + displayVal  + "&nbsp;") ;
 		}
-	}
+	}*/
 	
 	protected void writeList(PrintWriter out, UIList list) throws IOException {
 		IExternalizeFacade facade = null;
@@ -531,8 +534,9 @@ protected void writeDate(PrintWriter out, UIDate dateC) throws ParseException, I
 	
 	protected void writeLookupText(PrintWriter out, UILookupText textLookup) throws IOException {
 		String sizeStr = textLookup.getSize()>0?"size=\"" + textLookup.getSize()+"\"":"" ; 
+		out.println("<div class=\"input-append\">");
 		String dataProp = "data-property=\"" + textLookup.getDataProperty() +  "\"";
-		out.println("<input class=\"form-control\" type =\"text\" id=\"" + textLookup.getId() + "\" name =\"" + textLookup.getId()  + "\" "  + dataProp  +  " value=\""+ 
+		out.println("<input class=\"input-medium search-query\" type =\"text\" id=\"" + textLookup.getId() + "\" name =\"" + textLookup.getId()  + "\" "  + dataProp  +  " value=\""+ 
 				Utils.getFormattedValue(textLookup.getValue()) +"\" " + sizeStr +" />");
 	//String img = "<img src=\"" + textLookup.getImgSrc() + "\" width =\"30\" height =\"30\" >";
 		
@@ -545,7 +549,7 @@ protected void writeDate(PrintWriter out, UIDate dateC) throws ParseException, I
 		if (textLookup.isShowLookupAsDialog()) {
 			writeLookupDialog(out, textLookup);
 			if (Utils.isNullMap(textLookup.getSupplimentaryFields()))
-				out.println("<button class=\"btn\"  type =\"button\"   name=\"btn+"+ textLookup.getId() + "\" onClick=\"showLookupDialog('" + textLookup.getDialogId()  + "',this,'"+additionalControl+"');\" >" + "..." +" </button>");
+				out.println("<button class=\"add-on\"  type =\"button\"   name=\"btn+"+ textLookup.getId() + "\" onClick=\"showLookupDialog('" + textLookup.getDialogId()  + "',this,'"+additionalControl+"');\" >" + "..." +" </button>");
 			else {
 				String additionalLookupCtrls = declareArrayforAdditionalControls(textLookup.getSupplimentaryFields(), textLookup.getId());
 				out.println(additionalLookupCtrls);
@@ -553,13 +557,13 @@ protected void writeDate(PrintWriter out, UIDate dateC) throws ParseException, I
 				out.println(additionalLookupFields);
 				String variableCtrlName = RadsControlConstants.ADDITIONALOOKUPCTRLS +  textLookup.getId();
 				String variableFieldsName = RadsControlConstants.ADDITIONALOOKUPFIELDS +  textLookup.getId();
-				out.println("<button class=\"btn\"  type =\"button\"   name=\"btn+"+ textLookup.getId() + "\" onClick=\"showLookupDialogWithAdditionalFields('" + textLookup.getDialogId()
+				out.println("<button class=\"add-on\"  type =\"button\"   name=\"btn+"+ textLookup.getId() + "\" onClick=\"showLookupDialogWithAdditionalFields('" + textLookup.getDialogId()
 						+ "',this,'"+additionalControl+"',"+variableCtrlName+"," + variableFieldsName + ");\" >" + "..." +" </button>");
 				
 			}
 				
 		}else {
-			out.println("<button  type =\"button\" class=\"btn\"   name=\"btn+"+ textLookup.getId() + "\" onClick=\"showLookupWindow('"+ urlText +"','"+title+"','"+textLookup.getId()+"','"+height+"','"+ width+"','"+additionalControl+"');\" >" + "..." +" </button>");
+			out.println("<button  type =\"button\" class=\"add-on\"   name=\"btn+"+ textLookup.getId() + "\" onClick=\"showLookupWindow('"+ urlText +"','"+title+"','"+textLookup.getId()+"','"+height+"','"+ width+"','"+additionalControl+"');\" >" + "..." +" </button>");
 		}
 		
 		
