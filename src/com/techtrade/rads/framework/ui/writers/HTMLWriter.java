@@ -1183,8 +1183,10 @@ public class HTMLWriter extends Writer{
 	protected void writeImage(PrintWriter out, UIImage img) throws IOException {
 		//String vl = (img.getValue() != null)?String.valueOf(img.getValue()):img.getSrc();
 		String vl = img.getSrc();
+		String onClickJS = img.getOnClick();
+		String clickString = Utils.isNullString(onClickJS)?"":" onclick = \"" + onClickJS + "\"";
 		out.println("<img id=\"" + img.getId() + "\" src=\""+ 
-				vl +  "\" height=\"" + img.getHeight()  +"\" width=\"" + img.getWidth() + "\"  />" ); 
+				vl +  "\" height=\"" + img.getHeight()  +"\" width=\"" + img.getWidth() + "\" " +  clickString + "    />" ); 
 	
 	}
 	
