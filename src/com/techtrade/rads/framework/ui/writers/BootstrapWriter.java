@@ -496,7 +496,7 @@ protected void writeDate(PrintWriter out, UIDate dateC) throws ParseException, I
 		}
 	}*/
 	
-	/*protected void writeList(PrintWriter out, UIList list) throws IOException {
+	protected void writeList(PrintWriter out, UIList list) throws IOException {
 		IExternalizeFacade facade = null;
 		if(list.isExternalize()) {
 			facade  = currentPage.getExternalizeFacade() ;
@@ -530,7 +530,7 @@ protected void writeDate(PrintWriter out, UIDate dateC) throws ParseException, I
 		}
 		out.println("</select>");
 		
-	}*/
+	}
 	
 	protected void writeLookupText(PrintWriter out, UILookupText textLookup) throws IOException {
 		String sizeStr = textLookup.getSize()>0?"size=\"" + textLookup.getSize()+"\"":"" ; 
