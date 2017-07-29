@@ -6,6 +6,7 @@ public class UIImage extends UIControl{
 	private String width ;
 	private String height ;
 	private String src;
+	private String title;
 	private String onClick ;
 	
 	public String getWidth() {
@@ -34,6 +35,12 @@ public class UIImage extends UIControl{
 	}
 	public void setOnClick(String onClick) {
 		this.onClick = onClick;
+	}
+	public String getTitle() {
+		return title;
+	}
+	public void setTitle(String title) {
+		this.title = title;
 	}
 	
 	

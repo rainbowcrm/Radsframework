@@ -569,10 +569,12 @@ public class UIElementGenerator {
 			String height = doc.getAttributeValue(TAG_HEIGHT);
 			String src = doc.getAttributeValue(TAG_SRC);
 			String  click = doc.getAttributeValue(TAG_ONCLICKJS);
+			String title = doc.getAttributeValue(TAG_TITLE);
 			img.setHeight(height);
 			img.setWidth(width);
 			img.setOnClick(click);
 			img.setSrc(src);
+			img.setTitle(title);
 		}else if (("UITable").equalsIgnoreCase(type)){
 			UITable table = new UITable();
 			elem  = new UIElement(table);
