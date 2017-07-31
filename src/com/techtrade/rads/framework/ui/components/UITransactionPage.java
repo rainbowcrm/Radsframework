@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.techtrade.rads.framework.controller.abstracts.CRUDController;
+import com.techtrade.rads.framework.controller.abstracts.GeneralController;
 import com.techtrade.rads.framework.controller.abstracts.TransactionController;
 import com.techtrade.rads.framework.model.abstracts.ModelObject;
 import com.techtrade.rads.framework.model.abstracts.RadsError;
@@ -81,6 +82,8 @@ public class UITransactionPage extends UIPage {
 			}else {
 				result =((TransactionController)getViewController()).submit(object,fixedActionParam);
 			}
+		} else if (fixedAction != null && fixedAction == FixedAction.ACTION_READ) {
+			return((TransactionController)getViewController()).read();
 		}else if (fixedAction == FixedAction.ACTION_PRINT  ) { 
 			object = ((TransactionController)getViewController()).populateFullObjectfromPK(((TransactionController)getViewController()).getObject());
 			TransactionController objController = ((TransactionController)getViewController());

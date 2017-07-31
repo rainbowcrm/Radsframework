@@ -48,7 +48,7 @@ public abstract class TransactionController  extends ViewController {
 	
 	public abstract PageResult delete ();
 	
-	public abstract void read() ;
+	public abstract PageResult read() ;
 	
 	public abstract PageResult update() ;
 	
