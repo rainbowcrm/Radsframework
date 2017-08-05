@@ -497,6 +497,10 @@ protected void writeDate(PrintWriter out, UIDate dateC) throws ParseException, I
 	}*/
 	
 	protected void writeList(PrintWriter out, UIList list) throws IOException {
+		 if(list.isMultiSelect()) {
+			 super.writeList(out,list);
+			 return;
+		 }
 		IExternalizeFacade facade = null;
 		if(list.isExternalize()) {
 			facade  = currentPage.getExternalizeFacade() ;

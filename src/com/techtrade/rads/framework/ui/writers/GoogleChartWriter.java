@@ -165,6 +165,7 @@ public class GoogleChartWriter {
 	}
 	
 	public static void writeGaugeChart(PrintWriter out, GaugeChartData chart, Object value,ViewController controller,String id) throws IOException {
+		out.println("<br>");
 		if(!Utils.isNullString(chart.getTitle())) {
 			out.println("<b>" + chart.getTitle() + "</b>");
 		}
