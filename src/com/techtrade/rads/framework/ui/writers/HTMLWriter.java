@@ -297,7 +297,13 @@ public class HTMLWriter extends Writer{
 			}
 			return getfromSubObject(subObject,remainingProperty);
 		}else {
+			try {
 			Method methodRead =  object.getClass().getMethod("get" + Utils.initupper(property));
+			Object ret = methodRead.invoke(object, new Object [] {});
+			   return ret;
+			}catch(java.lang.NoSuchMethodException nsmEX) {
+			}
+			Method methodRead =  object.getClass().getMethod("is" + Utils.initupper(property));
 			Object ret = methodRead.invoke(object, new Object [] {});
 			   return ret;
 		}

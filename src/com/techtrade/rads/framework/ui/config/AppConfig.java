@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.techtrade.rads.framework.context.ISettings;
 import com.techtrade.rads.framework.controller.abstracts.IExternalizeFacade;
 import com.techtrade.rads.framework.ui.components.UIElement;
 import com.techtrade.rads.framework.ui.components.UIPanel;
@@ -34,6 +35,7 @@ public enum AppConfig {
 	protected static final String TAG_PANEL = "Panel";
 	protected static final String TAG_SHOWINDIV = "showInDiv";
 	protected static final String TAG_ELEMENT = "Element";
+	protected static final String TAG_SETTINGS = "settings";
 	
 	protected static final String TAG_AJAXSERVICES = "AjaxServices";
 	protected static final String TAG_AJAXSERVICE = "AjaxService";
@@ -61,8 +63,10 @@ public enum AppConfig {
 	String bootstrapFolder;
 	Boolean useGoogleGraphs;
 	String portalPrefix ;
+	ISettings instanceSettings;
 	Map <String, PanelConfig> panelMap =  new HashMap<String, PanelConfig> ();
 	IExternalizeFacade externalizeFacade ;
+	
 	
 	public  void readDocument (XMLDocument doc) throws Exception{
 		XMLElement conf = doc.getRootElement() ;
@@ -71,6 +75,8 @@ public enum AppConfig {
 			appURL= propElement.getChildAttributeValue(TAG_APPURL);
 			bootstrapFolder=propElement.getChildAttributeValue(TAG_BOOTSTRAPFOLDER);
 			portalPrefix = propElement.getChildAttributeValue(TAG_PORTALPREFIX);
+			String settingClass = propElement.getChildAttributeValue(TAG_SETTINGS);
+			instanceSettings = (ISettings)Class.forName(settingClass).newInstance() ;
 			String googleGraphs = propElement.getChildAttributeValue(TAG_GOOGLEGRAPHS);
 			if(!Utils.isNullString(googleGraphs))
 				useGoogleGraphs = Boolean.parseBoolean(googleGraphs);
@@ -164,6 +170,11 @@ public enum AppConfig {
 			readDocument(doc);
 		}
 		return configMap.get(pageID);
+	}
+
+	public ISettings getSettings()
+	{
+		return instanceSettings;
 	}
 	
 	public String getAppURL(String realPath) throws Exception {
