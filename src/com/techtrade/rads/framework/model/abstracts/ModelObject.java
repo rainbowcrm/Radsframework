@@ -32,6 +32,7 @@ import com.techtrade.rads.framework.utils.XMLElement;
 
 public abstract class ModelObject {
 	
+	
 	public static ModelObject instantiateObjectfromJSON(String json,String className,IRadsContext context){
 		try {
 			JSONTokener  tokener = new JSONTokener(json);
@@ -413,6 +414,20 @@ public abstract class ModelObject {
 		return getJSON("full");
 	}
 
+	private Map<String,Method> getAllProperties() {
+		Map<String,Method>  allFields = new HashMap();
+		Method allMethods[]= this.getClass().getMethods();
+			for (int i = 0; i <allMethods.length ; i ++ ) {
+				Method currMethod = allMethods[i];
+				if(! (currMethod.getName().startsWith("set")) && ! (currMethod.getName().startsWith("get")) &&
+						!(currMethod.getName().startsWith("is")) ){
+					continue;
+				}
+				String prop= currMethod.getName().substring(3, currMethod.getName().length());
+				allFields.put(prop, currMethod);
+			}
+			return allFields;
+	}
 	
 	private Map<String,Method> getAllSetterMethods(String jsonorXML) {
 		Map<String,Method>  allFields = new HashMap();

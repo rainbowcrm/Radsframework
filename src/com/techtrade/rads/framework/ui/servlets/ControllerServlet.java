@@ -59,6 +59,7 @@ public class ControllerServlet extends HttpServlet{
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
+		System.out.println("inside doGet");
 		process(req, resp);
 	}
 	
@@ -66,6 +67,7 @@ public class ControllerServlet extends HttpServlet{
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
+		System.out.println("inside doPosr");
 		// TODO Auto-generated method stub
 		process(req, resp);
 	}
@@ -75,6 +77,8 @@ public class ControllerServlet extends HttpServlet{
 	@Override
 	protected void doOptions(HttpServletRequest arg0, HttpServletResponse arg1)
 			throws ServletException, IOException {
+		
+		System.out.println("inside doOptions");
 		//The following are CORS headers. Max age informs the
 		//browser to keep the results of this call for 1 day.
 		arg1.setHeader("Access-Control-Allow-Origin", "*");

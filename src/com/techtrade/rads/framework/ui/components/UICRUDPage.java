@@ -99,6 +99,7 @@ public  class UICRUDPage extends UIPage {
 			result.setResult(Result.SUCCESS);
 		}else if (fixedAction == FixedAction.ACTION_PLAINSUBMIT  ) {  
 			String fixedActionParam = this.getFixedActionParam() ;
+			object = ((CRUDController)getViewController()).getObject() ;
 			if (Utils.isNullString(fixedActionParam)) {
 				result =((CRUDController)getViewController()).submit(object);
 			}else {

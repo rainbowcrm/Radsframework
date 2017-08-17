@@ -125,6 +125,7 @@ public class JSONProcessor {
 		      jb.append(line);
 		    JSONTokener  tokener = new JSONTokener(jb.toString());
 			JSONObject root = new JSONObject(tokener);
+			System.out.println("input request =" + root.toString());
 			String authToken =  root.optString("authToken");
 			String pageID = root.optString("pageID");
 			String modeKey  =root.optString("currentmode") ;
