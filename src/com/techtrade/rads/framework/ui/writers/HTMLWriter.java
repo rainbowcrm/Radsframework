@@ -10,6 +10,7 @@ import java.util.Set;
 import java.util.SortedSet;
 import java.io.PrintWriter;
 
+import com.sun.corba.se.impl.javax.rmi.CORBA.Util;
 import com.techtrade.rads.framework.context.IRadsContext;
 import com.techtrade.rads.framework.controller.abstracts.IExternalizeFacade;
 import com.techtrade.rads.framework.controller.abstracts.ViewController;
@@ -1669,15 +1670,15 @@ public class HTMLWriter extends Writer{
 				.replaceAll("-FormName-", page.getForm().getId()).replaceAll("-FixedParamControl-", page.getTemplate().getFixedActionParamfield()));
 		out.println(jstoggleMenuVisibility);
 		writeJSIncludes(out,page);
-		
-		out.println("<Body> ") ;
+		String pageStyle= " class=\"" + page.getTemplate().getPageStyle() + "\"";
+		out.println("<Body "  +  pageStyle + "> ") ;
 		out.println("") ;
 		out.println("<script>") ;
 		out.println("var appURL = '" + appURL + ""+ (portalPrefix==null?"":portalPrefix+"/")   +"';");
 		out.println("</script>") ;
 		//writeFixedElementsofTemplate(out,page,value,controller);
-		String pageStyle= " style=\"" + page.getTemplate().getPageStyle() + "\"";
-		out.println("<Div " + pageStyle+ " > ");
+		
+		//out.println("<Div " + pageStyle+ " > ");
 		//printErrors(page, out);
 		//showErrors(page, out);
 		
@@ -1694,7 +1695,7 @@ public class HTMLWriter extends Writer{
 		}
 		writeElement(new UIElement(page.getForm()), value,controller);
 		
-		 out.println("</Div>");
+		 //out.println("</Div>");
 		 writerAjaxGroup(out,page);
 		out.println("</Body>") ;
 		out.println("</HTML>");
@@ -1772,7 +1773,7 @@ public class HTMLWriter extends Writer{
 		
 		//writeFixedElementsofTemplate(out,page,value,controller);
 		String pageStyle= " style=\"" + page.getTemplate().getPageStyle() + "\"";
-		out.println("<Div " + pageStyle+ " > ");
+		//out.println("<Div " + pageStyle+ " > ");
 		
 		if (!Utils.isNullList(page.getHeaderElements())) {
 			for (UIElement element : page.getHeaderElements()){
@@ -1807,7 +1808,7 @@ public class HTMLWriter extends Writer{
 			 writeElement(element, value,controller);
 		 }
 		 
-		 out.println("</Div>");
+		 //out.println("</Div>");
 		 writerAjaxGroup(out,page);
 		out.println("</Body>") ;
 		out.println("</HTML>");
