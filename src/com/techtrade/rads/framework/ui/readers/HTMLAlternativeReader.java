@@ -18,6 +18,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.Part;
 
+import org.apache.commons.io.IOUtils;
+
 import com.techtrade.rads.framework.exceptions.RadsException;
 import com.techtrade.rads.framework.model.abstracts.ModelObject;
 import com.techtrade.rads.framework.ui.abstracts.UIControl;
@@ -198,8 +200,9 @@ public class HTMLAlternativeReader  extends HTMLReader{
 				for (Part filePart : fileParts ) {
 					InputStream  filecontent = filePart.getInputStream();
 					String fileName =getFileName(filePart);
-					final byte[] bytes = new byte[((UIFileUpload)element.getControl()).getMaxSize()];
-					filecontent.read(bytes);
+					/*final byte[] bytes = new byte[((UIFileUpload)element.getControl()).getMaxSize()];
+					filecontent.read(bytes);*/
+					byte[] bytes = IOUtils.toByteArray(filecontent);
 					uploadedBytes[index.getAndIncrement()] = bytes;
 					collObject = instantiateCollObject(collObject, collectionObjectRead);
 					Object subObject = indexElement(collObject, index.get() -1);
@@ -274,8 +277,9 @@ public class HTMLAlternativeReader  extends HTMLReader{
 						final Part filePart = request.getPart(element.getControl().getId()); 
 						InputStream  filecontent = filePart.getInputStream();
 						String fileName =getFileName(filePart);
-						final byte[] bytes = new byte[((UIFileUpload)element.getControl()).getMaxSize()];
-						filecontent.read(bytes);
+						//final byte[] bytes = new byte[((UIFileUpload)element.getControl()).getMaxSize()];
+						//filecontent.read(bytes);
+						byte[] bytes = IOUtils.toByteArray(filecontent);
 						callSetter(object,element, bytes);
 						String fileNameProp = element.getFileNameProperty() ;
 						if(!Utils.isNull(fileNameProp)) {

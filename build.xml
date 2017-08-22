@@ -71,6 +71,7 @@
         <pathelement location=".\lib\jsp-api.jar"/>
 		<pathelement location=".\lib\servlet-api.jar"/>
 		<pathelement location=".\lib\org.json.jar"/>
+		<pathelement location=".\lib\commons-io-2.5.jar"/>
 		<pathelement location=".\lib\javax.ws.rs-api-2.0.rev.A.jar"/>
     </classpath>
 	</javac>
