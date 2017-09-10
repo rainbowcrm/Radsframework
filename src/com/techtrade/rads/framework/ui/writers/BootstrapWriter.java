@@ -20,6 +20,7 @@ import com.techtrade.rads.framework.ui.constants.RadsControlConstants;
 import com.techtrade.rads.framework.ui.controls.UIBooleanCheckBox;
 import com.techtrade.rads.framework.ui.controls.UIButton;
 import com.techtrade.rads.framework.ui.controls.UICheckBox;
+import com.techtrade.rads.framework.ui.controls.UIDataList;
 import com.techtrade.rads.framework.ui.controls.UIDate;
 import com.techtrade.rads.framework.ui.controls.UIEmail;
 import com.techtrade.rads.framework.ui.controls.UIFileUpload;
@@ -495,6 +496,18 @@ protected void writeDate(PrintWriter out, UIDate dateC) throws ParseException, I
 					+"\"  "  +  dataProp +  " value =\""+ st + "\" " + selected + " />"  + displayVal  + "&nbsp;") ;
 		}
 	}*/
+	
+	protected void writeDataList(PrintWriter out, UIDataList list) throws IOException {
+		String style = (!Utils.isNullString(list.getStyle()) ? "class=\"form-control " + list.getStyle() + "\"" : "class=\"form-control\"");
+		out.println("<input type =\"text\" id=\"" + list.getTextId() + "\"  "  +" name =\"" + list.getTextId()  + "\"  value=\""+ 
+				Utils.getFormattedValue(list.getValue()) +"\" list = \"" + list.getId() + "\"  "+  style  + " />");
+		out.println("<datalist id=\"" + list.getId() + "\">");
+		if (!Utils.isNullList(list.getOptions()))
+			for (String str : list.getOptions()) {
+				out.println("<option value =\""+ str +   "\">");
+			}
+		out.println("</datalist>");
+	}
 	
 	protected void writeList(PrintWriter out, UIList list) throws IOException {
 		 if(list.isMultiSelect()) {

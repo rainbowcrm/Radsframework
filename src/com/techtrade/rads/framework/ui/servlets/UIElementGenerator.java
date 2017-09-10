@@ -30,6 +30,7 @@ import com.techtrade.rads.framework.ui.controls.UIBreak;
 import com.techtrade.rads.framework.ui.controls.UIButton;
 import com.techtrade.rads.framework.ui.controls.UICheckBox;
 import com.techtrade.rads.framework.ui.controls.UICondition;
+import com.techtrade.rads.framework.ui.controls.UIDataList;
 import com.techtrade.rads.framework.ui.controls.UIDate;
 import com.techtrade.rads.framework.ui.controls.UIDialog;
 import com.techtrade.rads.framework.ui.controls.UIDiv;
@@ -74,6 +75,7 @@ public class UIElementGenerator {
 	protected static String TAG_OPTIONS = "options";
 	protected static String TAG_OPTION = "option";
 	protected static String TAG_HIDDENCTRLID = "hiddenControlId";
+	protected static String TAG_TEXTID = "textId";
 	protected static String TAG_ROWS = "rows";
 	protected static String TAG_COLS = "cols";
 	protected static String TAG_FORMAT = "format";
@@ -869,7 +871,30 @@ public class UIElementGenerator {
 					tSet.addTab((UITab)element.getControl());
 				}
 			}
-		}else if (("UIList").equalsIgnoreCase(type)){
+		}else if (("UIDataList").equalsIgnoreCase(type)){
+			UIDataList lst = new UIDataList(id);
+			lst.setDataProperty(property);
+			elem = new UIElement(label,lst,property);
+			if (Utils.isNullString(property))
+				elem.setValue(value);
+			elem.getControl().setStyle(style);
+			if(!Utils.isNullString(onChangeJS))
+				lst.setOnChangeJS(onChangeJS);
+			String txtName = doc.getAttributeValue(TAG_TEXTID);
+			lst.setTextId(txtName);
+			XMLElement node = doc.getFirstChildElement(TAG_OPTIONS);
+			if (node != null ) {
+				String populator  =  node.getAttributeValue(TAG_POPULATOR);
+				if(!Utils.isNullString(populator))
+					elem.setPopulator(populator);
+				else {
+					Map childrenOptions=  getListOptions(doc,controller);
+					List list = new ArrayList(childrenOptions.keySet());
+					lst.setOptions(list);
+				}
+				
+			}
+		} else if (("UIList").equalsIgnoreCase(type)){
 			UIList lst = new UIList(id);
 			String size =doc.getAttributeValue(TAG_SIZE);
 			if (!Utils.isNull(size))

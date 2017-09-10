@@ -3,6 +3,7 @@ package com.techtrade.rads.framework.ui.writers;
 import java.io.IOException;
 import java.lang.reflect.Method;
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -495,6 +496,16 @@ public class HTMLWriter extends Writer{
 					lst.setOptions(element.populateOptions(controller,object,element.getPopulator()));
 				}
 				writeList(out,lst);
+			}else if ( control instanceof UIDataList) {
+				UIDataList lst =  (UIDataList) control;
+				if (Utils.isNullList( lst.getOptions()) && !Utils.isNullString(element.getPopulator())) {
+					Map childrenOptions = element.populateOptions(controller,object,element.getPopulator());
+					if (childrenOptions  != null ) {
+						List list = new ArrayList(childrenOptions.keySet());
+						lst.setOptions(list);
+					}
+				}
+				writeDataList(out,lst);
 			}else if ( control instanceof UICheckBox) {
 				writeCheckBox(out , (UICheckBox) control );
 			}else if ( control instanceof UIBooleanCheckBox) {
@@ -791,6 +802,8 @@ public class HTMLWriter extends Writer{
 
 	
 	protected void writeDataList(PrintWriter out, UIDataList list) throws IOException {
+		out.println("<input type =\"text\" id=\"" + list.getTextId() + "\"  "  +" name =\"" + list.getTextId()  + "\"  value=\""+ 
+				Utils.getFormattedValue(list.getValue()) +"\" list = \"" + list.getId() + "\" />");
 		out.println("<datalist id=\"" + list.getId() + "\">");
 		if (!Utils.isNullList(list.getOptions()))
 			for (String str : list.getOptions()) {
@@ -835,6 +848,9 @@ public class HTMLWriter extends Writer{
 		
 	}
 
+	
+
+	
 	protected void writeBooleanCheckBox(PrintWriter out, UIBooleanCheckBox checkBox) throws IOException {
 		IExternalizeFacade facade = null;
 		if(checkBox.isExternalize()) {
