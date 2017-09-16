@@ -6,6 +6,7 @@ public class UILookupDataList extends UIControl {
 	
 	String lookupType ;
 	String dataListControl;
+	String textId;
 
 	public String getLookupType() {
 		return lookupType;
@@ -21,6 +22,18 @@ public class UILookupDataList extends UIControl {
 
 	public void setDataListControl(String dataListControl) {
 		this.dataListControl = dataListControl;
+	}
+	
+	public UILookupDataList(String id) {
+		super(id);
+	}
+
+	public String getTextId() {
+		return textId;
+	}
+
+	public void setTextId(String textId) {
+		this.textId = textId;
 	}
 	
 	

@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -49,6 +50,7 @@ import com.techtrade.rads.framework.utils.Utils;
 
 import javax.servlet.annotation.MultipartConfig;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 
@@ -225,6 +227,7 @@ public class ControllerServlet extends HttpServlet{
 			throws ServletException, IOException {
 		String lookupType  = req.getParameter("lookupType");
 		String dialogId= req.getParameter("dialogId");
+		String returnAsJSON = req.getParameter("returnAsJSON");
 		UIPage page = null ;
 		//ModelObject object = null ;
 		try {
@@ -240,7 +243,11 @@ public class ControllerServlet extends HttpServlet{
 		page = lookupPage;
 		HTMLReader reader = new  HTMLReader(req) ;
 		 reader.read(page,object,null);
-		String searchString   =  String.valueOf(lookupPage.getSearchValue());
+		String searchString  ;
+		if("true".equalsIgnoreCase(returnAsJSON)){
+			searchString   =  req.getParameter("searchString");
+		}else
+			searchString   =  String.valueOf(lookupPage.getSearchValue());
 		String additionalParam = req.getParameter("additionalParam");
 		object.setAdditionalParam(additionalParam);
 		String additionalFields = req.getParameter("additionalFields");
@@ -251,8 +258,29 @@ public class ControllerServlet extends HttpServlet{
 		int from  =lookupPage.getFrom() ;
 		int noRecords = lookupPage.getNoRecords() ;
 		IRadsContext ctx = lookupService.generateContext(req,lookupPage);
-		Map mapValues = lookupService.lookupData(ctx,searchString, from, noRecords,additionalParam,listAddFields);
+		Map<String,String> mapValues = lookupService.lookupData(ctx,searchString, from, noRecords,additionalParam,listAddFields);
+		if("true".equalsIgnoreCase(returnAsJSON)){
+			JSONArray array = new JSONArray();
+			JSONObject json = new JSONObject();
+			AtomicInteger index = new AtomicInteger(0);
+			if(mapValues != null) {
+				mapValues.keySet().forEach( key  ->   {
+					JSONObject jsonObject = new JSONObject();
+					try {
+					jsonObject.put("key", key);
+					jsonObject.put("value", mapValues.get(key));
+					array.put(index.getAndIncrement(), jsonObject);
+					}catch(Exception ex) {
+						ex.printStackTrace();
+					}
+				} );
+			}
+			json.put("filter", array);
+			resp.getWriter().write(json.toString());
+			return ;
+		}
 		lookupPage.applyMapValues(mapValues);
+		
 		 String appURL = AppConfig.APPCONFIG.getAppURL(getServletContext().getRealPath("/"));
 		 IExternalizeFacade externalizeFacade = AppConfig.APPCONFIG.getExternalizeFacade() ;
 		 if (externalizeFacade != null ) {

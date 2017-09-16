@@ -68,6 +68,7 @@ import com.techtrade.rads.framework.ui.controls.UIImage;
 import com.techtrade.rads.framework.ui.controls.UILabel;
 import com.techtrade.rads.framework.ui.controls.UIList;
 import com.techtrade.rads.framework.ui.controls.UICheckBox;
+import com.techtrade.rads.framework.ui.controls.UILookupDataList;
 import com.techtrade.rads.framework.ui.controls.UILookupText;
 import com.techtrade.rads.framework.ui.controls.UIMenu;
 import com.techtrade.rads.framework.ui.controls.UINote;
@@ -435,6 +436,8 @@ public class HTMLWriter extends Writer{
 				writeText(out, (UIText) control);
 			}else if ( control instanceof UIFileUpload) {
 				writeFileUpload(out, (UIFileUpload) control);
+			}else if ( control instanceof UILookupDataList) {
+				writeLookupDataList(out, (UILookupDataList) control);
 			}else if ( control instanceof UILookupText) {
 				writeLookupText(out, (UILookupText) control);
 			}else if ( control instanceof UIHyperLink) {
@@ -1166,6 +1169,26 @@ public class HTMLWriter extends Writer{
 	}
 	
 	
+	/*protected void writeDataList(PrintWriter out, UIDataList list) throws IOException {
+		out.println("<input type =\"text\" id=\"" + list.getTextId() + "\"  "  +" name =\"" + list.getTextId()  + "\"  value=\""+ 
+				Utils.getFormattedValue(list.getValue()) +"\" list = \"" + list.getId() + "\" />");
+		out.println("<datalist id=\"" + list.getId() + "\">");
+		if (!Utils.isNullList(list.getOptions()))
+			for (String str : list.getOptions()) {
+				out.println("<option value =\""+ str +   "\">");
+			}
+		out.println("</datalist>");
+	}*/
+	
+	protected void writeLookupDataList(PrintWriter out, UILookupDataList textLookup) throws IOException {
+		String lookupType = textLookup.getLookupType();
+		out.println("<input type =\"text\" id=\"" + textLookup.getTextId() + "\"  "  +" name =\"" + textLookup.getTextId()  + "\"  value=\""+ 
+				Utils.getFormattedValue(textLookup.getValue()) +"\" list = \"" + textLookup.getId() + 
+				" onkeyup=\"getLookupWithAjax('" + lookupType +"' ,this  )\" />");
+		out.println("<datalist id=\"" + textLookup.getId() + "\">");
+		
+		out.println("</datalist>");
+	}
 	protected void writeLookupText(PrintWriter out, UILookupText textLookup) throws IOException {
 		String sizeStr = textLookup.getSize()>0?"size=\"" + textLookup.getSize()+"\"":"" ; 
 		String dataProp = "data-property=\"" + textLookup.getDataProperty() +  "\"";

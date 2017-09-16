@@ -25,6 +25,7 @@ import com.techtrade.rads.framework.ui.controls.UIDate;
 import com.techtrade.rads.framework.ui.controls.UIEmail;
 import com.techtrade.rads.framework.ui.controls.UIFileUpload;
 import com.techtrade.rads.framework.ui.controls.UIList;
+import com.techtrade.rads.framework.ui.controls.UILookupDataList;
 import com.techtrade.rads.framework.ui.controls.UILookupText;
 import com.techtrade.rads.framework.ui.controls.UIMenu;
 import com.techtrade.rads.framework.ui.controls.UIPassword;
@@ -497,6 +498,17 @@ protected void writeDate(PrintWriter out, UIDate dateC) throws ParseException, I
 		}
 	}*/
 	
+	protected void writeLookupDataList(PrintWriter out, UILookupDataList textLookup) throws IOException {
+		String lookupType = textLookup.getLookupType();
+		String style = (!Utils.isNullString(textLookup.getStyle()) ? "class=\"form-control " + textLookup.getStyle() + "\"" : "class=\"form-control\"");
+		out.println("<input type =\"text\" id=\"" + textLookup.getTextId() + "\"  "  +" name =\"" + textLookup.getTextId()  + "\"  value=\""+ 
+				Utils.getFormattedValue(textLookup.getValue()) +"\" list = \"" + textLookup.getId() + "\"  "+  style  + 
+				" onkeyup=\"getLookupWithAjax('" + lookupType +"' ,this  )\" />");
+		out.println("<datalist id=\"" + textLookup.getId() + "\">");
+		
+		out.println("</datalist>");
+	}
+	
 	protected void writeDataList(PrintWriter out, UIDataList list) throws IOException {
 		String style = (!Utils.isNullString(list.getStyle()) ? "class=\"form-control " + list.getStyle() + "\"" : "class=\"form-control\"");
 		out.println("<input type =\"text\" id=\"" + list.getTextId() + "\"  "  +" name =\"" + list.getTextId()  + "\"  value=\""+ 
@@ -548,6 +560,8 @@ protected void writeDate(PrintWriter out, UIDate dateC) throws ParseException, I
 		out.println("</select>");
 		
 	}
+	
+	
 	
 	protected void writeLookupText(PrintWriter out, UILookupText textLookup) throws IOException {
 		String sizeStr = textLookup.getSize()>0?"size=\"" + textLookup.getSize()+"\"":"" ; 

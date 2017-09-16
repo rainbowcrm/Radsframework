@@ -46,6 +46,7 @@ import com.techtrade.rads.framework.ui.controls.UIIFrame;
 import com.techtrade.rads.framework.ui.controls.UIImage;
 import com.techtrade.rads.framework.ui.controls.UILabel;
 import com.techtrade.rads.framework.ui.controls.UIList;
+import com.techtrade.rads.framework.ui.controls.UILookupDataList;
 import com.techtrade.rads.framework.ui.controls.UILookupText;
 import com.techtrade.rads.framework.ui.controls.UIMenu;
 import com.techtrade.rads.framework.ui.controls.UINote;
@@ -952,6 +953,13 @@ public class UIElementGenerator {
 			if (Utils.isNullString(property))
 				elem.setValue(value);
 			elem.getControl().setStyle(style);
+		}else if (("UILookupDataList").equalsIgnoreCase(type)){ 
+			String lookupType = Utils.getNodeValuefromXML(doc, TAG_LOOKUPTYPE) ;
+			String textD =  doc.getAttributeValue(TAG_TEXTID);
+			UILookupDataList box = new UILookupDataList(id) ;
+			box.setLookupType(lookupType);
+			box.setTextId(textD);
+			elem = new UIElement(label,box,property);
 		}else if (("UILookupText").equalsIgnoreCase(type)){
 			String lookupType = Utils.getNodeValuefromXML(doc, TAG_LOOKUPTYPE) ;
 			String height =  Utils.getNodeValuefromXML(doc, TAG_HEIGHT) ;
