@@ -511,7 +511,9 @@ protected void writeDate(PrintWriter out, UIDate dateC) throws ParseException, I
 		String style = (!Utils.isNullString(textLookup.getStyle()) ? "class=\"form-control " + textLookup.getStyle() + "\"" : "class=\"form-control\"");
 		out.println("<input type =\"text\" id=\"" + textLookup.getTextId() + "\"  "  +" name =\"" + textLookup.getTextId()  + "\"  value=\""+ 
 				Utils.getFormattedValue(textLookup.getValue()) +"\" list = \"" + textLookup.getId() + "\"  "+  style  + 
-				" onkeyup=\"getLookupWithAjax('" + lookupType +"' ,this,'"+textLookup.getId()+"'," + variableFieldsName + "  )\" />");
+				" onkeyup=\"getLookupWithAjax('" + lookupType +"' ,this,'"+textLookup.getId()+"'," + variableFieldsName + "  )\""+
+				" onchange=\"populatesupplimentary('" + lookupType +"' ,this,'"+textLookup.getId()+"'," + variableCtrlName + "  )\""+
+				" />");
 		out.println("<datalist id=\"" + textLookup.getId() + "\" name =\"" + textLookup.getId()  +  "\">");
 		
 		out.println("</datalist>");
