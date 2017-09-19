@@ -500,11 +500,19 @@ protected void writeDate(PrintWriter out, UIDate dateC) throws ParseException, I
 	
 	protected void writeLookupDataList(PrintWriter out, UILookupDataList textLookup) throws IOException {
 		String lookupType = textLookup.getLookupType();
+		
+		String additionalLookupCtrls = declareArrayforAdditionalControls(textLookup.getSupplimentaryFields(), textLookup.getId());
+		out.println(additionalLookupCtrls);
+		String additionalLookupFields= declareArrayforAdditionalFields(textLookup.getSupplimentaryFields(), textLookup.getId());
+		out.println(additionalLookupFields);
+		String variableCtrlName = RadsControlConstants.ADDITIONALOOKUPCTRLS +  textLookup.getId();
+		String variableFieldsName =(textLookup.getSupplimentaryFields()!=null&&textLookup.getSupplimentaryFields().size()>0)?RadsControlConstants.ADDITIONALOOKUPFIELDS +  textLookup.getId():"null";
+		
 		String style = (!Utils.isNullString(textLookup.getStyle()) ? "class=\"form-control " + textLookup.getStyle() + "\"" : "class=\"form-control\"");
 		out.println("<input type =\"text\" id=\"" + textLookup.getTextId() + "\"  "  +" name =\"" + textLookup.getTextId()  + "\"  value=\""+ 
 				Utils.getFormattedValue(textLookup.getValue()) +"\" list = \"" + textLookup.getId() + "\"  "+  style  + 
-				" onkeyup=\"getLookupWithAjax('" + lookupType +"' ,this  )\" />");
-		out.println("<datalist id=\"" + textLookup.getId() + "\">");
+				" onkeyup=\"getLookupWithAjax('" + lookupType +"' ,this,'"+textLookup.getId()+"'," + variableFieldsName + "  )\" />");
+		out.println("<datalist id=\"" + textLookup.getId() + "\" name =\"" + textLookup.getId()  +  "\">");
 		
 		out.println("</datalist>");
 	}

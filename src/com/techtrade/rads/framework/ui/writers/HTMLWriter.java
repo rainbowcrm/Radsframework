@@ -11,7 +11,6 @@ import java.util.Set;
 import java.util.SortedSet;
 import java.io.PrintWriter;
 
-import com.sun.corba.se.impl.javax.rmi.CORBA.Util;
 import com.techtrade.rads.framework.context.IRadsContext;
 import com.techtrade.rads.framework.controller.abstracts.IExternalizeFacade;
 import com.techtrade.rads.framework.controller.abstracts.ViewController;
@@ -34,7 +33,6 @@ import com.techtrade.rads.framework.ui.components.UIElement;
 import com.techtrade.rads.framework.ui.components.UIFixedPanel;
 import com.techtrade.rads.framework.ui.components.UIForm;
 import com.techtrade.rads.framework.ui.components.UIGeneralPage;
-import com.techtrade.rads.framework.ui.components.UILeftNav;
 import com.techtrade.rads.framework.ui.components.UIListPage;
 import com.techtrade.rads.framework.ui.components.UILookupPage;
 import com.techtrade.rads.framework.ui.components.UITable;
@@ -44,7 +42,6 @@ import com.techtrade.rads.framework.ui.components.UITableHead;
 import com.techtrade.rads.framework.ui.components.UITableRow;
 import com.techtrade.rads.framework.ui.components.UITransactionPage;
 import com.techtrade.rads.framework.ui.constants.FixedAction;
-import com.techtrade.rads.framework.ui.constants.RadsConstants;
 import com.techtrade.rads.framework.ui.constants.RadsControlConstants;
 import com.techtrade.rads.framework.ui.controls.UIBooleanCheckBox;
 import com.techtrade.rads.framework.ui.controls.UIBreak;
@@ -91,7 +88,6 @@ import com.techtrade.rads.framework.ui.controls.graphs.UIGraphText;
 import com.techtrade.rads.framework.ui.controls.graphs.UILineChart;
 import com.techtrade.rads.framework.ui.controls.graphs.UILineSet;
 import com.techtrade.rads.framework.ui.controls.graphs.UIPieChart;
-import com.techtrade.rads.framework.ui.templates.TemplateType;
 import com.techtrade.rads.framework.utils.Utils;
 
 public class HTMLWriter extends Writer{
@@ -1182,10 +1178,18 @@ public class HTMLWriter extends Writer{
 	
 	protected void writeLookupDataList(PrintWriter out, UILookupDataList textLookup) throws IOException {
 		String lookupType = textLookup.getLookupType();
+
+		String additionalLookupCtrls = declareArrayforAdditionalControls(textLookup.getSupplimentaryFields(), textLookup.getId());
+		out.println(additionalLookupCtrls);
+		String additionalLookupFields= declareArrayforAdditionalFields(textLookup.getSupplimentaryFields(), textLookup.getId());
+		out.println(additionalLookupFields);
+		String variableCtrlName = RadsControlConstants.ADDITIONALOOKUPCTRLS +  textLookup.getId();
+		String variableFieldsName = RadsControlConstants.ADDITIONALOOKUPFIELDS +  textLookup.getId();
+		
 		out.println("<input type =\"text\" id=\"" + textLookup.getTextId() + "\"  "  +" name =\"" + textLookup.getTextId()  + "\"  value=\""+ 
 				Utils.getFormattedValue(textLookup.getValue()) +"\" list = \"" + textLookup.getId() + 
-				" onkeyup=\"getLookupWithAjax('" + lookupType +"' ,this  )\" />");
-		out.println("<datalist id=\"" + textLookup.getId() + "\">");
+				" onkeyup=\"getLookupWithAjax('" + lookupType +"' ,this,'"+textLookup.getId()+"'," + variableFieldsName  + "  )\" />");
+		out.println("<datalist id=\"" + textLookup.getId() + "\" name =\"" + textLookup.getId()  +  "\">");
 		
 		out.println("</datalist>");
 	}

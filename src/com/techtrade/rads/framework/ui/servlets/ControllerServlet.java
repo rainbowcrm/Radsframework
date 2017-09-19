@@ -121,7 +121,8 @@ public class ControllerServlet extends HttpServlet{
 			IAjaxLookupService srv = (IAjaxLookupService) Class.forName(config.getServiceClass()).newInstance() ;
 			IRadsContext ctx = srv.generateContext(req);
 			String val = srv.lookupValues(mp,ctx);
-			resp.getWriter().write(val);
+			if(!Utils.isNullString(val))
+				resp.getWriter().write(val);
 		} else if (IAjaxUpdateService.class.isAssignableFrom(Class.forName(config.getServiceClass()))  ) {
 			
 			StringBuffer jb = new StringBuffer();
@@ -275,7 +276,7 @@ public class ControllerServlet extends HttpServlet{
 					}
 				} );
 			}
-			json.put("filter", array);
+			json.put("lookupValues", array);
 			resp.getWriter().write(json.toString());
 			return ;
 		}

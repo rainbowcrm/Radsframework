@@ -309,6 +309,24 @@ public class UIElementGenerator {
 		}
 		
 	}
+
+	private static void setSupplimentaryFields(XMLElement doc,UILookupDataList lookupDataList)
+	{
+		XMLElement supplElements =  doc.getFirstChildElement(TAG_SUPPLIMENTARYFIELDS);
+		if (supplElements != null) {
+			List<XMLElement> fieldElements= supplElements.getChildElements(TAG_FIELD);
+			if (!Utils.isNullList(fieldElements)) {
+				fieldElements.forEach( fieldElement ->  {  
+					String property = fieldElement.getChildAttributeValue(TAG_PROPERTY);
+					String control = fieldElement.getChildAttributeValue(TAG_CONTROL);
+					if(lookupDataList.getSupplimentaryFields() == null)
+						lookupDataList.setSupplimentaryFields(new LinkedHashMap<String,String>()) ;
+					lookupDataList.getSupplimentaryFields().put(control, property) ;
+				});
+			}
+		}
+		
+	}
 	
 	public static UIElement getUIElement(XMLElement doc,ViewController controller,UIPage page,boolean propogateStyletoChildren, String parentStyle) throws Exception {
 		String type = doc.getAttributeValue(TAG_TYPE) ;
@@ -959,6 +977,7 @@ public class UIElementGenerator {
 			UILookupDataList box = new UILookupDataList(id) ;
 			box.setLookupType(lookupType);
 			box.setTextId(textD);
+			setSupplimentaryFields(doc,box);
 			elem = new UIElement(label,box,property);
 		}else if (("UILookupText").equalsIgnoreCase(type)){
 			String lookupType = Utils.getNodeValuefromXML(doc, TAG_LOOKUPTYPE) ;
