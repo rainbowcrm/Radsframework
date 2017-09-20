@@ -1179,16 +1179,18 @@ public class HTMLWriter extends Writer{
 	protected void writeLookupDataList(PrintWriter out, UILookupDataList textLookup) throws IOException {
 		String lookupType = textLookup.getLookupType();
 
-		String additionalLookupCtrls = declareArrayforAdditionalControls(textLookup.getSupplimentaryFields(), textLookup.getListId());
+		String additionalLookupCtrls = declareArrayforAdditionalControls(textLookup.getSupplimentaryFields(), textLookup.getId());
 		out.println(additionalLookupCtrls);
-		String additionalLookupFields= declareArrayforAdditionalFields(textLookup.getSupplimentaryFields(), textLookup.getListId());
+		String additionalLookupFields= declareArrayforAdditionalFields(textLookup.getSupplimentaryFields(), textLookup.getId());
 		out.println(additionalLookupFields);
 		String variableCtrlName = RadsControlConstants.ADDITIONALOOKUPCTRLS +  textLookup.getId();
 		String variableFieldsName = RadsControlConstants.ADDITIONALOOKUPFIELDS +  textLookup.getId();
 		
 		out.println("<input type =\"text\" id=\"" + textLookup.getId() + "\"  "  +" name =\"" + textLookup.getId()  + "\"  value=\""+ 
-				Utils.getFormattedValue(textLookup.getValue()) +"\" list = \"" + textLookup.getListId() + 
-				" onkeyup=\"getLookupWithAjax('" + lookupType +"' ,this,'"+textLookup.getListId()+"'," + variableFieldsName  + "  )\" />");
+				Utils.getFormattedValue(textLookup.getValue()) +"\" list = \"" + textLookup.getListId() + "\"  "+     
+				" onkeyup=\"getLookupWithAjax('" + lookupType +"' ,this,'"+textLookup.getListId()+"'," + variableFieldsName + "  )\""+
+				" onchange=\"populatesupplimentary('" + lookupType +"' ,this,'"+textLookup.getListId()+"'," + variableCtrlName + "  )\""+
+				" />");
 		out.println("<datalist id=\"" + textLookup.getListId() + "\" name =\"" + textLookup.getListId()  +  "\">");
 		
 		out.println("</datalist>");

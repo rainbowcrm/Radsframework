@@ -974,9 +974,11 @@ public class UIElementGenerator {
 		}else if (("UILookupDataList").equalsIgnoreCase(type)){ 
 			String lookupType = Utils.getNodeValuefromXML(doc, TAG_LOOKUPTYPE) ;
 			String textD =  doc.getAttributeValue(TAG_LISTID);
+			String additionalInputControl = doc.getAttributeValue(TAG_ADDITIONAL_INPUT_CTRL);
 			UILookupDataList box = new UILookupDataList(id) ;
 			box.setLookupType(lookupType);
 			box.setListId(textD);
+			box.setAdditionalInputControl(additionalInputControl);
 			setSupplimentaryFields(doc,box);
 			elem = new UIElement(label,box,property);
 		}else if (("UILookupText").equalsIgnoreCase(type)){

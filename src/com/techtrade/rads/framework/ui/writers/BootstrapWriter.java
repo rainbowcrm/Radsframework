@@ -392,7 +392,29 @@ protected void writeDate(PrintWriter out, UIDate dateC) throws ParseException, I
 		String onchange = !Utils.isNull(fileUpload.getOnChangeJS())?"onchange=\"" + fileUpload.getOnChangeJS() +"\"":"";  
 		out.println("<input class=\"form-control\" type =\"file\" id=\"" + fileUpload.getId() + "\"  " +  dataProp +  " " + accept + " " + onchange  + " name =\"" + fileUpload.getId()  + "\"/>");
 
+	
 	}
+	
+	protected void writeBooleanCheckBox(PrintWriter out, UIBooleanCheckBox checkBox) throws IOException {
+		IExternalizeFacade facade = null;
+		if(checkBox.isExternalize()) {
+			facade  = currentPage.getExternalizeFacade() ;
+		}
+		String dataProp = "data-property=\"" + checkBox.getDataProperty() + "\""; 
+		
+		String st = checkBox.getDisplayText();
+		String style = (!Utils.isNullString(checkBox.getStyle()) ? "class=\"form-control " + checkBox.getStyle() + "\"" : "class=\"form-control\"");
+		Boolean selectedVal = Utils.getBooleanValue(String.valueOf(checkBox.getValue()));
+		String selected = selectedVal?"checked":"";
+		String hiddenVal =selectedVal?"true":"false";
+		out.println("<input type =\"hidden\" id=\"" +  checkBox.getHiddenControlId() + "\"  name =\"" + checkBox.getHiddenControlId()  + "\" value =\""+
+		 hiddenVal + "\"> ");
+		out.println("<input type =\"checkbox\" id=\"" +  checkBox.getId() + "\"  name =\"" +checkBox.getId()  + "\" " + dataProp + " " + style + 
+				" value =\""+ st + "\"  onclick=\"workBooleanCheckBoxControl(this,'"+ checkBox.getHiddenControlId() +"')\" " + selected + " /><span>"	  +"</span>"  ) ;
+		
+		
+	}
+	
 	protected void writeText(PrintWriter out, UIText text) throws IOException {
 		String onlyNum = text.isOnlyNumbers()?"onkeypress=\"return isNumberKey(event)\" ":"";
 		String sizeStr = text.getSize()>0?"size=\"" + text.getSize()+"\"":"" ;  
@@ -511,7 +533,7 @@ protected void writeDate(PrintWriter out, UIDate dateC) throws ParseException, I
 		String style = (!Utils.isNullString(textLookup.getStyle()) ? "class=\"form-control " + textLookup.getStyle() + "\"" : "class=\"form-control\"");
 		out.println("<input type =\"text\" id=\"" + textLookup.getId() + "\"  "  +" name =\"" + textLookup.getId()  + "\"  value=\""+ 
 				Utils.getFormattedValue(textLookup.getValue()) +"\" list = \"" + textLookup.getListId() + "\"  "+  style  + 
-				" onkeyup=\"getLookupWithAjax('" + lookupType +"' ,this,'"+textLookup.getListId()+"'," + variableFieldsName + "  )\""+
+				" onkeyup=\"getLookupWithAjax('" + lookupType +"' ,this,'"+textLookup.getListId()+"'," + variableFieldsName + " ,'"+ textLookup.getAdditionalInputControl() +"' )\""+
 				" onchange=\"populatesupplimentary('" + lookupType +"' ,this,'"+textLookup.getListId()+"'," + variableCtrlName + "  )\""+
 				" />");
 		out.println("<datalist id=\"" + textLookup.getListId() + "\" name =\"" + textLookup.getListId()  +  "\">");

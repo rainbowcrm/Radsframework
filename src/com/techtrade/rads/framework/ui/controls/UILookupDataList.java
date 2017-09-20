@@ -9,7 +9,9 @@ public class UILookupDataList extends UIControl {
 	String lookupType ;
 	String dataListControl;
 	String listId;
+	String additionalInputControl;
 	Map<String,String>  supplimentaryFields;
+	
 
 	public String getLookupType() {
 		return lookupType;
@@ -46,6 +48,14 @@ public class UILookupDataList extends UIControl {
 	}
 	public void setSupplimentaryFields(Map<String, String> supplimentaryFields) {
 		this.supplimentaryFields = supplimentaryFields;
+	}
+
+	public String getAdditionalInputControl() {
+		return additionalInputControl;
+	}
+
+	public void setAdditionalInputControl(String additionalInputControl) {
+		this.additionalInputControl = additionalInputControl;
 	}
 	
 	
