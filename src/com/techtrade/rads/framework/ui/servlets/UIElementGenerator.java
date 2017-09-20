@@ -76,7 +76,7 @@ public class UIElementGenerator {
 	protected static String TAG_OPTIONS = "options";
 	protected static String TAG_OPTION = "option";
 	protected static String TAG_HIDDENCTRLID = "hiddenControlId";
-	protected static String TAG_TEXTID = "textId";
+	protected static String TAG_LISTID = "listId";
 	protected static String TAG_ROWS = "rows";
 	protected static String TAG_COLS = "cols";
 	protected static String TAG_FORMAT = "format";
@@ -899,8 +899,8 @@ public class UIElementGenerator {
 			elem.getControl().setStyle(style);
 			if(!Utils.isNullString(onChangeJS))
 				lst.setOnChangeJS(onChangeJS);
-			String txtName = doc.getAttributeValue(TAG_TEXTID);
-			lst.setTextId(txtName);
+			String txtName = doc.getAttributeValue(TAG_LISTID);
+			lst.setListId(txtName);
 			XMLElement node = doc.getFirstChildElement(TAG_OPTIONS);
 			if (node != null ) {
 				String populator  =  node.getAttributeValue(TAG_POPULATOR);
@@ -973,10 +973,10 @@ public class UIElementGenerator {
 			elem.getControl().setStyle(style);
 		}else if (("UILookupDataList").equalsIgnoreCase(type)){ 
 			String lookupType = Utils.getNodeValuefromXML(doc, TAG_LOOKUPTYPE) ;
-			String textD =  doc.getAttributeValue(TAG_TEXTID);
+			String textD =  doc.getAttributeValue(TAG_LISTID);
 			UILookupDataList box = new UILookupDataList(id) ;
 			box.setLookupType(lookupType);
-			box.setTextId(textD);
+			box.setListId(textD);
 			setSupplimentaryFields(doc,box);
 			elem = new UIElement(label,box,property);
 		}else if (("UILookupText").equalsIgnoreCase(type)){

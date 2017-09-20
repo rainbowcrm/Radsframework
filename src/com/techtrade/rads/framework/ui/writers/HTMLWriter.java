@@ -801,9 +801,9 @@ public class HTMLWriter extends Writer{
 
 	
 	protected void writeDataList(PrintWriter out, UIDataList list) throws IOException {
-		out.println("<input type =\"text\" id=\"" + list.getTextId() + "\"  "  +" name =\"" + list.getTextId()  + "\"  value=\""+ 
-				Utils.getFormattedValue(list.getValue()) +"\" list = \"" + list.getId() + "\" />");
-		out.println("<datalist id=\"" + list.getId() + "\">");
+		out.println("<input type =\"text\" id=\"" + list.getId() + "\"  "  +" name =\"" + list.getId()  + "\"  value=\""+ 
+				Utils.getFormattedValue(list.getValue()) +"\" list = \"" + list.getListId() + "\" />");
+		out.println("<datalist id=\"" + list.getListId() + "\">");
 		if (!Utils.isNullList(list.getOptions()))
 			for (String str : list.getOptions()) {
 				out.println("<option value =\""+ str +   "\">");
@@ -1179,17 +1179,17 @@ public class HTMLWriter extends Writer{
 	protected void writeLookupDataList(PrintWriter out, UILookupDataList textLookup) throws IOException {
 		String lookupType = textLookup.getLookupType();
 
-		String additionalLookupCtrls = declareArrayforAdditionalControls(textLookup.getSupplimentaryFields(), textLookup.getId());
+		String additionalLookupCtrls = declareArrayforAdditionalControls(textLookup.getSupplimentaryFields(), textLookup.getListId());
 		out.println(additionalLookupCtrls);
-		String additionalLookupFields= declareArrayforAdditionalFields(textLookup.getSupplimentaryFields(), textLookup.getId());
+		String additionalLookupFields= declareArrayforAdditionalFields(textLookup.getSupplimentaryFields(), textLookup.getListId());
 		out.println(additionalLookupFields);
 		String variableCtrlName = RadsControlConstants.ADDITIONALOOKUPCTRLS +  textLookup.getId();
 		String variableFieldsName = RadsControlConstants.ADDITIONALOOKUPFIELDS +  textLookup.getId();
 		
-		out.println("<input type =\"text\" id=\"" + textLookup.getTextId() + "\"  "  +" name =\"" + textLookup.getTextId()  + "\"  value=\""+ 
-				Utils.getFormattedValue(textLookup.getValue()) +"\" list = \"" + textLookup.getId() + 
-				" onkeyup=\"getLookupWithAjax('" + lookupType +"' ,this,'"+textLookup.getId()+"'," + variableFieldsName  + "  )\" />");
-		out.println("<datalist id=\"" + textLookup.getId() + "\" name =\"" + textLookup.getId()  +  "\">");
+		out.println("<input type =\"text\" id=\"" + textLookup.getId() + "\"  "  +" name =\"" + textLookup.getId()  + "\"  value=\""+ 
+				Utils.getFormattedValue(textLookup.getValue()) +"\" list = \"" + textLookup.getListId() + 
+				" onkeyup=\"getLookupWithAjax('" + lookupType +"' ,this,'"+textLookup.getListId()+"'," + variableFieldsName  + "  )\" />");
+		out.println("<datalist id=\"" + textLookup.getListId() + "\" name =\"" + textLookup.getListId()  +  "\">");
 		
 		out.println("</datalist>");
 	}

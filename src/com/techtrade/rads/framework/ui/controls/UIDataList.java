@@ -8,7 +8,7 @@ import com.techtrade.rads.framework.ui.abstracts.UIControl;
 public class UIDataList extends UIControl{
 	List<String> options = null;
 	String onChangeJS;
-	String textId;
+	String listId;
 
 	public List<String> getOptions() {
 		return options;
@@ -31,14 +31,17 @@ public class UIDataList extends UIControl{
 		this.onChangeJS = onChangeJS;
 	}
 
-	public String getTextId() {
-		return textId;
+	
+
+	
+	public String getListId() {
+		return listId;
 	}
 
-	public void setTextId(String textId) {
-		this.textId = textId;
+	public void setListId(String listId) {
+		this.listId = listId;
 	}
-	
+
 	public UIDataList(String id) {
 		super(id);
 	}

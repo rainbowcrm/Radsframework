@@ -509,21 +509,21 @@ protected void writeDate(PrintWriter out, UIDate dateC) throws ParseException, I
 		String variableFieldsName =(textLookup.getSupplimentaryFields()!=null&&textLookup.getSupplimentaryFields().size()>0)?RadsControlConstants.ADDITIONALOOKUPFIELDS +  textLookup.getId():"null";
 		
 		String style = (!Utils.isNullString(textLookup.getStyle()) ? "class=\"form-control " + textLookup.getStyle() + "\"" : "class=\"form-control\"");
-		out.println("<input type =\"text\" id=\"" + textLookup.getTextId() + "\"  "  +" name =\"" + textLookup.getTextId()  + "\"  value=\""+ 
-				Utils.getFormattedValue(textLookup.getValue()) +"\" list = \"" + textLookup.getId() + "\"  "+  style  + 
-				" onkeyup=\"getLookupWithAjax('" + lookupType +"' ,this,'"+textLookup.getId()+"'," + variableFieldsName + "  )\""+
-				" onchange=\"populatesupplimentary('" + lookupType +"' ,this,'"+textLookup.getId()+"'," + variableCtrlName + "  )\""+
+		out.println("<input type =\"text\" id=\"" + textLookup.getId() + "\"  "  +" name =\"" + textLookup.getId()  + "\"  value=\""+ 
+				Utils.getFormattedValue(textLookup.getValue()) +"\" list = \"" + textLookup.getListId() + "\"  "+  style  + 
+				" onkeyup=\"getLookupWithAjax('" + lookupType +"' ,this,'"+textLookup.getListId()+"'," + variableFieldsName + "  )\""+
+				" onchange=\"populatesupplimentary('" + lookupType +"' ,this,'"+textLookup.getListId()+"'," + variableCtrlName + "  )\""+
 				" />");
-		out.println("<datalist id=\"" + textLookup.getId() + "\" name =\"" + textLookup.getId()  +  "\">");
+		out.println("<datalist id=\"" + textLookup.getListId() + "\" name =\"" + textLookup.getListId()  +  "\">");
 		
 		out.println("</datalist>");
 	}
 	
 	protected void writeDataList(PrintWriter out, UIDataList list) throws IOException {
 		String style = (!Utils.isNullString(list.getStyle()) ? "class=\"form-control " + list.getStyle() + "\"" : "class=\"form-control\"");
-		out.println("<input type =\"text\" id=\"" + list.getTextId() + "\"  "  +" name =\"" + list.getTextId()  + "\"  value=\""+ 
-				Utils.getFormattedValue(list.getValue()) +"\" list = \"" + list.getId() + "\"  "+  style  + " />");
-		out.println("<datalist id=\"" + list.getId() + "\">");
+		out.println("<input type =\"text\" id=\"" + list.getId() + "\"  "  +" name =\"" + list.getId()  + "\"  value=\""+ 
+				Utils.getFormattedValue(list.getValue()) +"\" list = \"" + list.getListId() + "\"  "+  style  + " />");
+		out.println("<datalist id=\"" + list.getListId() + "\">");
 		if (!Utils.isNullList(list.getOptions()))
 			for (String str : list.getOptions()) {
 				out.println("<option value =\""+ str +   "\">");

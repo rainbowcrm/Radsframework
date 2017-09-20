@@ -8,7 +8,7 @@ public class UILookupDataList extends UIControl {
 	
 	String lookupType ;
 	String dataListControl;
-	String textId;
+	String listId;
 	Map<String,String>  supplimentaryFields;
 
 	public String getLookupType() {
@@ -31,12 +31,14 @@ public class UILookupDataList extends UIControl {
 		super(id);
 	}
 
-	public String getTextId() {
-		return textId;
+	
+
+	public String getListId() {
+		return listId;
 	}
 
-	public void setTextId(String textId) {
-		this.textId = textId;
+	public void setListId(String listId) {
+		this.listId = listId;
 	}
 
 	public Map<String, String> getSupplimentaryFields() {
