@@ -1768,6 +1768,9 @@ public class HTMLWriter extends Writer{
 		writeJSIncludes(out,page);
 		out.println("<Body bgcolor=\"#f5f5f5\"> ") ;
 		out.println("") ;
+		out.println("<script>") ;
+		out.println("var appURL = '" + appURL + ""+ (portalPrefix==null?"":portalPrefix+"/")   +"';");
+		out.println("</script>") ;
 		
 		//writeFixedElementsofTemplate(out,page,value,controller);
 		String pageStyle= " style=\"" + page.getTemplate().getPageStyle() + "\"";
@@ -1815,6 +1818,9 @@ public class HTMLWriter extends Writer{
 		writeJSIncludes(out,page);
 		out.println("<Body> ") ;
 		out.println("") ;
+		out.println("<script>") ;
+		out.println("var appURL = '" + appURL + ""+ (portalPrefix==null?"":portalPrefix+"/")   +"';");
+		out.println("</script>") ;
 		
 		//writeFixedElementsofTemplate(out,page,value,controller);
 		String pageStyle= " style=\"" + page.getTemplate().getPageStyle() + "\"";

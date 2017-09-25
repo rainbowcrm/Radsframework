@@ -527,14 +527,14 @@ protected void writeDate(PrintWriter out, UIDate dateC) throws ParseException, I
 		out.println(additionalLookupCtrls);
 		String additionalLookupFields= declareArrayforAdditionalFields(textLookup.getSupplimentaryFields(), textLookup.getId());
 		out.println(additionalLookupFields);
-		String variableCtrlName = RadsControlConstants.ADDITIONALOOKUPCTRLS +  textLookup.getId();
+		String variableCtrlName = (textLookup.getSupplimentaryFields()!=null&&textLookup.getSupplimentaryFields().size()>0)?RadsControlConstants.ADDITIONALOOKUPCTRLS +  textLookup.getId():"";
 		String variableFieldsName =(textLookup.getSupplimentaryFields()!=null&&textLookup.getSupplimentaryFields().size()>0)?RadsControlConstants.ADDITIONALOOKUPFIELDS +  textLookup.getId():"null";
-		
+		String popSupplimentEvent =(!Utils.isNullString(variableCtrlName))?" onchange=\"populatesupplimentary('" + lookupType +"' ,this,'"+textLookup.getListId()+"'," + variableCtrlName + "  )\"":" " ;
 		String style = (!Utils.isNullString(textLookup.getStyle()) ? "class=\"form-control " + textLookup.getStyle() + "\"" : "class=\"form-control\"");
-		out.println("<input type =\"text\" id=\"" + textLookup.getId() + "\"  "  +" name =\"" + textLookup.getId()  + "\"  value=\""+ 
+		out.println("<input type =\"text\" autocomplete =\"off\"  id=\"" + textLookup.getId() + "\"  "  +" name =\"" + textLookup.getId()  + "\"  value=\""+ 
 				Utils.getFormattedValue(textLookup.getValue()) +"\" list = \"" + textLookup.getListId() + "\"  "+  style  + 
 				" onkeyup=\"getLookupWithAjax('" + lookupType +"' ,this,'"+textLookup.getListId()+"'," + variableFieldsName + " ,'"+ textLookup.getAdditionalInputControl() +"' )\""+
-				" onchange=\"populatesupplimentary('" + lookupType +"' ,this,'"+textLookup.getListId()+"'," + variableCtrlName + "  )\""+
+				popSupplimentEvent + 
 				" />");
 		out.println("<datalist id=\"" + textLookup.getListId() + "\" name =\"" + textLookup.getListId()  +  "\">");
 		

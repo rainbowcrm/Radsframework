@@ -981,6 +981,7 @@ public class UIElementGenerator {
 			box.setAdditionalInputControl(additionalInputControl);
 			setSupplimentaryFields(doc,box);
 			elem = new UIElement(label,box,property);
+			elem.getControl().setStyle(style);
 		}else if (("UILookupText").equalsIgnoreCase(type)){
 			String lookupType = Utils.getNodeValuefromXML(doc, TAG_LOOKUPTYPE) ;
 			String height =  Utils.getNodeValuefromXML(doc, TAG_HEIGHT) ;
