@@ -56,6 +56,7 @@ import org.json.JSONTokener;
 
 
 @MultipartConfig
+
 public class ControllerServlet extends HttpServlet{
 
 	@Override
@@ -143,7 +144,7 @@ public class ControllerServlet extends HttpServlet{
 	}
 	protected UIPage reloadPage(UIPage page, ModelObject object, HttpServletRequest req,HttpServletResponse resp,ViewController.Mode mode) throws Exception {
 		PageConfig config = AppConfig.APPCONFIG.getPageConfig(getServletContext().getRealPath("/"), page.getPageKey());
-		UIPage newPage = PageGenerator.getPagefromKey(config,object,req,mode,resp,getServletContext());
+		UIPage newPage = PageGenerator.getPagefromKey(config,object,req,mode,resp,getServletContext().getRealPath("/"));
 		 IRadsContext ctx = newPage.getViewController().generateContext(req,resp,newPage);
 		 if ( ctx == null || !ctx.isAuthenticated()) {
 				//throw new ServletException("Authentication Failed- Rads Level");
@@ -165,7 +166,7 @@ public class ControllerServlet extends HttpServlet{
 	protected void displayNextPage(UIPage page, String nextPageKey, ModelObject object, HttpServletRequest req,HttpServletResponse resp,ViewController.Mode mode) throws Exception {
 		PageConfig config = AppConfig.APPCONFIG.getPageConfig(getServletContext().getRealPath("/"), nextPageKey);
 		
-		UIPage newPage = PageGenerator.getPagefromKey(config,object,req,mode,resp,getServletContext());
+		UIPage newPage = PageGenerator.getPagefromKey(config,object,req,mode,resp,getServletContext().getRealPath("/"));
 		newPage.setPageKey(nextPageKey);
 		 
 		 if (newPage.getViewController() instanceof CRUDController){
@@ -237,7 +238,7 @@ public class ControllerServlet extends HttpServlet{
 		PageConfig config = AppConfig.APPCONFIG.getPageConfig(getServletContext().getRealPath("/"), lookupPageID);
 		LookupObject object =(LookupObject)PageGenerator.readObjectfromPageConfig(config);
 		String  lookupServiceClass = lookupConfig.getService() ;
-		UILookupPage lookupPage =  (UILookupPage)PageGenerator.getPagefromKey(config,object,req,null,resp,getServletContext());
+		UILookupPage lookupPage =  (UILookupPage)PageGenerator.getPagefromKey(config,object,req,null,resp,getServletContext().getRealPath("/"));
 		lookupPage.setDialogId(dialogId);
 		ILookupService  lookupService = (ILookupService) Class.forName(lookupServiceClass).newInstance() ;
 		lookupPage.setLookupSevice(lookupService);
@@ -340,7 +341,7 @@ public class ControllerServlet extends HttpServlet{
 		} else {
 			PageConfig config = AppConfig.APPCONFIG.getPageConfig(getServletContext().getRealPath("/"), pageID);
 			object =PageGenerator.readObjectfromPageConfig(config);
-			page = PageGenerator.getPagefromKey(config,object,req,initialMode,resp,getServletContext());
+			page = PageGenerator.getPagefromKey(config,object,req,initialMode,resp,getServletContext().getRealPath("/"));
 			page.setPageKey(pageID);
 			page.setAccessCode(config.getAccessCode());
 			page.getViewController().init(req);
@@ -399,7 +400,7 @@ public class ControllerServlet extends HttpServlet{
 									page.getViewController().setDeleteMode();
 						 }
 						 PageConfig config = AppConfig.APPCONFIG.getPageConfig(getServletContext().getRealPath("/"), curKey);
-						 page = PageGenerator.getPagefromKey(config,object,req,page.getViewController().getMode(),resp,getServletContext());
+						 page = PageGenerator.getPagefromKey(config,object,req,page.getViewController().getMode(),resp,getServletContext().getRealPath("/"));
 						 page.setPageKey(curKey);
 					 	 page.setErrors(pageResult.getErrors());
 					 }

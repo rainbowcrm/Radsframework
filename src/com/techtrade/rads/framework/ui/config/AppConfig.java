@@ -107,41 +107,47 @@ public enum AppConfig {
 			configMap.put(pageID, config);
 		}
 		XMLElement lookups = conf.getFirstChildElement(TAG_LOOKUPS);
-		List<XMLElement> lookupList   = lookups.getChildElements(TAG_LOOKUP);
-		for (XMLElement lookup :  lookupList ) {
-			String type = lookup.getAttributeValue(TAG_TYPE);
-			String service = lookup.getAttributeValue(TAG_LOOKUPSERVICE);
-			String lookuppage = lookup.getAttributeValue(TAG_LOOKUPPAGE);
-			LookupConfig lookupConfig = new LookupConfig();
-			lookupConfig.setType(type);
-			lookupConfig.setService(service);
-			lookupConfig.setLookupPage(lookuppage);
-			lookupMap.put(type, lookupConfig);
+		if(lookups != null) {
+			List<XMLElement> lookupList   = lookups.getChildElements(TAG_LOOKUP);
+			for (XMLElement lookup :  lookupList ) {
+				String type = lookup.getAttributeValue(TAG_TYPE);
+				String service = lookup.getAttributeValue(TAG_LOOKUPSERVICE);
+				String lookuppage = lookup.getAttributeValue(TAG_LOOKUPPAGE);
+				LookupConfig lookupConfig = new LookupConfig();
+				lookupConfig.setType(type);
+				lookupConfig.setService(service);
+				lookupConfig.setLookupPage(lookuppage);
+				lookupMap.put(type, lookupConfig);
+			}
 		}
 		
 		XMLElement panels = conf.getFirstChildElement(TAG_PANELS) ;
- 		List<XMLElement> panelList = panels.getChildElements(TAG_PANEL) ;
- 		for (XMLElement panel : panelList) {
- 			PanelConfig panelConfig = new PanelConfig();
- 			String key =  panel.getAttributeValue(TAG_KEY) ;
- 			String showInDiv = panel.getAttributeValue(TAG_SHOWINDIV);
- 			panelConfig.setXmlElements(panel.getAllChildElements());
- 			if ("true".equalsIgnoreCase(showInDiv))
- 				panelConfig.setShowOnDiv(true);
- 			panelMap.put(key, panelConfig);
- 		}
+		if(panels != null)  {
+	 		List<XMLElement> panelList = panels.getChildElements(TAG_PANEL) ;
+	 		for (XMLElement panel : panelList) {
+	 			PanelConfig panelConfig = new PanelConfig();
+	 			String key =  panel.getAttributeValue(TAG_KEY) ;
+	 			String showInDiv = panel.getAttributeValue(TAG_SHOWINDIV);
+	 			panelConfig.setXmlElements(panel.getAllChildElements());
+	 			if ("true".equalsIgnoreCase(showInDiv))
+	 				panelConfig.setShowOnDiv(true);
+	 			panelMap.put(key, panelConfig);
+	 		}
+		}
  		
  		XMLElement ajaxServices = conf.getFirstChildElement(TAG_AJAXSERVICES) ;
- 		List<XMLElement> ajaxServiceList = ajaxServices.getChildElements(TAG_AJAXSERVICE) ;
- 		for (XMLElement ajaxService : ajaxServiceList) {
- 			AjaxServiceConfig ajaxConfig = new AjaxServiceConfig();
- 			String serviceClass = ajaxService.getAttributeValue(TAG_CLASS);
- 			String serviceKey = ajaxService.getAttributeValue(TAG_SERVICE);
- 			ajaxConfig.setServiceClass(serviceClass);
- 			for (XMLElement childKey : ajaxService.getChildElements(TAG_KEY)) {
- 				ajaxConfig.addKey(childKey.getValue());
- 			}
- 			ajaxServiceMap.put(serviceKey, ajaxConfig);
+ 		if(ajaxServices != null)  {
+	 		List<XMLElement> ajaxServiceList = ajaxServices.getChildElements(TAG_AJAXSERVICE) ;
+	 		for (XMLElement ajaxService : ajaxServiceList) {
+	 			AjaxServiceConfig ajaxConfig = new AjaxServiceConfig();
+	 			String serviceClass = ajaxService.getAttributeValue(TAG_CLASS);
+	 			String serviceKey = ajaxService.getAttributeValue(TAG_SERVICE);
+	 			ajaxConfig.setServiceClass(serviceClass);
+	 			for (XMLElement childKey : ajaxService.getChildElements(TAG_KEY)) {
+	 				ajaxConfig.addKey(childKey.getValue());
+	 			}
+	 			ajaxServiceMap.put(serviceKey, ajaxConfig);
+	 		}
  		}
  		
 	}

@@ -173,6 +173,87 @@ function showLookupDialogWithAdditionalFields(id,curControl,additionalControl,ad
 	dialog.showModal();
 	
  }
+function populatesupplimentary (looupType,currentCtrl,dataListCtrlName,additionalDisplayFields)
+ {
+	var clkCell = getCurrentObjectIndex(currentCtrl);
+	var val = currentCtrl.value;
+	var opts = document.getElementById(dataListCtrlName).childNodes;
+	for (var i = 0; i < opts.length; i++) {
+		if (opts[i].value === val) {
+			var selectedValue = opts[i].innerHTML;
+			var splittedValue = selectedValue.split('|');
+			console.log(additionalDisplayFields);
+			var splittedControls = additionalDisplayFields;
+			if (currentCtrl.value != '') {
+				if (clkCell <= 0) {
+					//currentCtrl.value = splittedValue[0];
+					for (var i = 0; i < splittedControls.length; i++) {
+						document.getElementById(splittedControls[i]).value = splittedValue[i + 1];
+					}
+
+				} else {
+					//currentCtrl.value = splittedValue[0];
+					for (var i = 0; i < splittedControls.length; i++) {
+						console.log('splittedControls[i]='
+								+ splittedControls[i] + ':clkCell=' + clkCell);
+						document.getElementsByName(splittedControls[i])[clkCell].value = splittedValue[i + 1];
+					}
+
+				}
+				break;
+			}
+		}
+
+	}
+
+}
+function getLookupWithAjax(lookupType, currentCtrl,dataListCtrlName,additionalFields,additionalInputControl)
+{
+	var srValue = currentCtrl.value ;
+	
+	
+	if(srValue.length  > 2) {
+	var additionalInputVal = '';
+	if (additionalInputControl != 'null' &&  additionalInputControl != '') {
+		additionalInputVal = document.getElementById(additionalInputControl).value;
+		console.log('additionalInputVal=' + additionalInputVal);
+	}
+	currentCtrl.autocomplete ="on";
+		
+	var requestStr = appURL + "rdscontroller?page=Lookup&returnAsJSON=true&lookupType=" + lookupType 
+	+ "&additionalFields=" + additionalFields +  "&additionalParam=" + additionalInputVal   + "&searchString=*"+srValue+"*" ;
+	var index  = getCurrentObjectIndex(currentCtrl);
+	console.log( "index" + index) ;
+	
+
+	var reqObject = new XMLHttpRequest();
+	reqObject.open("GET",requestStr,false);
+	reqObject.send();
+	console.log("Resp" + reqObject.responseText);
+	
+	var elem = document.getElementsByName(dataListCtrlName)[0];
+	console.log ('before' + elem.innerHTML) ;
+ 	elem.innerHTML='';
+	 var options = '';
+	var jsonResponse =  JSON.parse(reqObject.responseText) ;
+	var propArray =jsonResponse['lookupValues'] ;
+	var found = false; 
+	for (var i in propArray) {
+		  var jsonElment = propArray[i];
+		  var value = jsonElment['value'];
+		  var key = jsonElment['key'];
+		  options += '<option  value="'+value+'" />' + key + '</option>';
+		  found =true ;
+	}
+	if (found == false) {
+		currentCtrl.autocomplete ="off";
+	}
+	elem.innerHTML=  options;
+	console.log ('after' + elem.innerHTML) ;
+	}
+
+
+}
 
 function fireAjaxRequest (service, requestCtrls, responseCtrls, currentCtrl) {
 	var requestStr = appURL + "rdscontroller?ajxService=" + service;

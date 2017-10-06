@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -157,11 +156,11 @@ public class PageGenerator {
 	  private static final String NONE =  "None" ;
 	
    public static UIPage getPagefromKey (PageConfig config,ModelObject object,HttpServletRequest req,ViewController.Mode mode
-			,HttpServletResponse response, ServletContext context)  throws Exception{
+			,HttpServletResponse response, String realPath)  throws Exception{
 		UIPage page = null;
 		String pageDef = config.getDefinition() ;
-		page = PageGenerator.generatePage(context.getRealPath("/") +
-			pageDef , context.getRealPath("/"),object,req,mode,response,config) ;
+		page = PageGenerator.generatePage(realPath +
+			pageDef , realPath,object,req,mode,response,config) ;
 		return page ;
 	}
 	  
