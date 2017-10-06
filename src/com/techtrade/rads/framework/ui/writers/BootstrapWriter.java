@@ -237,6 +237,10 @@ public class BootstrapWriter  extends  HTMLWriter{
 		String groupId= menu.getGroupId() ;
 		if (!Utils.isNullList(menu.getChildMenus())) {
 			menuClick = "toggleMenuVisibility('" + groupId +"')  ;" ;
+		} else if (Utils.isNullString(menu.getMenuLink())  && !Utils.isNullString(menu.getIframeSrc()) ) {
+			String iframeId = menu.getIframeId() ;
+			String iframeSrc = menu.getIframeSrc() ;
+			menuClick = "refreshIFrameSrc('"+ iframeId + "','"+ iframeSrc+"')" ;
 		}
 		out.println("<li id=\"" + menu.getId()+ "\" "+ style +" onClick=" + menuClick +">");
 		if(null != iconList){

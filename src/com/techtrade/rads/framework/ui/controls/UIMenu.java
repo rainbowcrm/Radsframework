@@ -9,11 +9,13 @@ public class UIMenu extends UIControl {
 	String menuText;
 	String menuLink ;
 	String iconStyle;
-	
+	String iframeSrc ;
+	String iframeId ;
 	
 	List <UIMenu> childMenus ;
 	String groupId; 
 	
+
 	public String getIconStyle() {
 		return iconStyle;
 	}
@@ -53,6 +55,18 @@ public class UIMenu extends UIControl {
 	}
 	public void setGroupId(String groupId) {
 		this.groupId = groupId;
+	}
+	public String getIframeSrc() {
+		return iframeSrc;
+	}
+	public void setIframeSrc(String iframeSrc) {
+		this.iframeSrc = iframeSrc;
+	}
+	public String getIframeId() {
+		return iframeId;
+	}
+	public void setIframeId(String iframeId) {
+		this.iframeId = iframeId;
 	}
 	
 	

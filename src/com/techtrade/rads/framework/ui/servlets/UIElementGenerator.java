@@ -139,6 +139,8 @@ public class UIElementGenerator {
 	protected static String TAG_APPLYSTYLEONCHILDREN  ="applyStyleonChildren";
 	protected static String TAG_UNSELECTEDTABSTYLE = "unSelectedTabStyle" ;
 	protected static String TAG_SELECTEDTABSTYLE = "selectedTabStyle" ;
+	protected static String TAG_IFRAMECTRLID = "iFrameCtrlId" ;
+	protected static String TAG_IFRAMESRC = "iFrameSrc" ;
 	protected static String TAG_LINK = "link" ;
 	protected static String TAG_TEXT = "text" ;
 	protected static String TAG_GROUPID = "groupId" ;
@@ -496,8 +498,14 @@ public class UIElementGenerator {
 			elem = new UIElement(label,menu);
 			String title = doc.getAttributeValue(TAG_TITLE);
 			String iconStyle = doc.getAttributeValue(TAG_ICON_STYLE);
+			String iframeId = doc.getAttributeValue(TAG_IFRAMECTRLID);
+			String iframeSrc = doc.getAttributeValue(TAG_IFRAMESRC);
+			
 			if (!Utils.isNullString(iconStyle))
 				menu.setIconStyle(iconStyle);
+			menu.setIframeId(iframeId);
+			menu.setIframeSrc(iframeSrc);
+			
 			
 			if (Utils.isNullList(doc.getAllChildElements()) ) {
 				String link =  doc.getAttributeValue(TAG_LINK);

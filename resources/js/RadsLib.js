@@ -326,6 +326,12 @@ function fireAjaxRequest (service, requestCtrls, responseCtrls, currentCtrl) {
 	
 }
 
+function refreshIFrameSrc(iframeId, iframSrc)
+{
+    document.getElementById(iframeId).src = iframSrc;
+    event.stopPropagation();
+}
+
 function dummy() {
 
 alert('h') ;
