@@ -137,6 +137,8 @@ public class Utils {
 				return intVal;
 			}else 
 			return Integer.parseInt(str); 
+		}else if("long".equals(retType.getName()) || java.lang.Long.class.equals(retType)){
+			return Long.parseLong(str);
 		}else if("java.util.Date".equals(retType.getName())){
 			SimpleDateFormat sdf = new SimpleDateFormat(RadsConstants.DEFAULT.getDateFormat()); 
 			return sdf.parse(str) ;
