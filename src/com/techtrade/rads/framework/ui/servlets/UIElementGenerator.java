@@ -58,6 +58,7 @@ import com.techtrade.rads.framework.ui.controls.UITab;
 import com.techtrade.rads.framework.ui.controls.UITabSet;
 import com.techtrade.rads.framework.ui.controls.UIText;
 import com.techtrade.rads.framework.ui.controls.UITextArea;
+import com.techtrade.rads.framework.ui.controls.UITile;
 import com.techtrade.rads.framework.ui.controls.graphs.UIBarChart;
 import com.techtrade.rads.framework.ui.controls.graphs.UIGaugeChart;
 import com.techtrade.rads.framework.ui.controls.graphs.UILineChart;
@@ -135,7 +136,12 @@ public class UIElementGenerator {
 	protected static String TAG_NOYAXISDIVISIONS  ="noYAxisDivisions";
 	protected static String TAG_NOXAXISDIVISIONS  ="noXAxisDivisions";
 	protected static String TAG_CHECK = "check";
+	
+	protected static String TAG_TILEHEADER = "Header" ;
+	protected static String TAG_TILEDETAIL = "Detail" ;
 	protected static String TAG_STYLE = "style" ;
+	protected static String TAG_HEADERSTYLE = "headerStyle" ;
+	protected static String TAG_DETAILSTYLE = "deatilStyle" ;
 	protected static String TAG_APPLYSTYLEONCHILDREN  ="applyStyleonChildren";
 	protected static String TAG_UNSELECTEDTABSTYLE = "unSelectedTabStyle" ;
 	protected static String TAG_SELECTEDTABSTYLE = "selectedTabStyle" ;
@@ -668,6 +674,15 @@ public class UIElementGenerator {
 				tableCol.addElement(element);
 			}
 			elem.getControl().setStyle(style);
+		}else if (("UITile").equalsIgnoreCase(type)){
+			UITile tile  = new UITile();
+			tile.setStyle(style);
+			String headerStyle= doc.getAttributeValue(TAG_HEADERSTYLE);
+			String detailStyle= doc.getAttributeValue(TAG_DETAILSTYLE);
+			tile.setHeaderStyle(headerStyle);
+			tile.setDetailStyle(detailStyle);
+			doc.getChildElements(TAG_TILEHEADER);
+		
 		}else if (("UIDiv").equalsIgnoreCase(type)){
 			UIDiv div = new UIDiv();
 			String width = doc.getAttributeValue(TAG_WIDTH);

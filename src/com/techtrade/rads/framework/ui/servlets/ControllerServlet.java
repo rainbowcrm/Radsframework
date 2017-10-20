@@ -210,6 +210,7 @@ public class ControllerServlet extends HttpServlet{
 		 String bootstrapFolder = AppConfig.APPCONFIG.getBootstrapFolder(getServletContext().getRealPath("/"));
 		 Boolean useGoogleGraphs = AppConfig.APPCONFIG.useGoogleGraphs(getServletContext().getRealPath("/"));
 		 String portalPrefix = AppConfig.APPCONFIG.getPortalPrefix(getServletContext().getRealPath("/"));
+		 String controllerName =AppConfig.APPCONFIG.getControllerName(getServletContext().getRealPath("/"));
 		 
 		 BootstrapWriter writer  =new BootstrapWriter(response.getWriter());
 		 IExternalizeFacade externalizeFacade = AppConfig.APPCONFIG.getExternalizeFacade() ;
@@ -219,6 +220,7 @@ public class ControllerServlet extends HttpServlet{
 		 writer.setContext(oldPage.getViewController().getContext());
 		 writer.setAppURL(appURL);
 		 writer.setPortalPrefix(portalPrefix);
+		 writer.setControllerName(controllerName);
 		 writer.setBootstrapPath(bootstrapFolder);
 		 writer.setUseGoogleforGraphs(useGoogleGraphs);
 		 writer.write(newPage, object);

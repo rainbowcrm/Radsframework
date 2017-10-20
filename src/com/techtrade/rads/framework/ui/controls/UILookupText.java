@@ -51,6 +51,14 @@ public class UILookupText extends UIControl {
 			return url;
 	}
 	
+	public String getUrl(String controller , String prefix) {
+		String pre = prefix==null?"":"/"+prefix;
+		if (Utils.isNullString(url) )
+			return  pre+ "/" + controller + "?page=Lookup";
+		else
+			return pre+ url;
+	}
+	
 	public String getUrl(String prefix) {
 		String pre = prefix==null?"":"/"+prefix;
 		if (Utils.isNullString(url) )

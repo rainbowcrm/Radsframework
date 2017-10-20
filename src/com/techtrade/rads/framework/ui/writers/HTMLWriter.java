@@ -77,6 +77,7 @@ import com.techtrade.rads.framework.ui.controls.UITab;
 import com.techtrade.rads.framework.ui.controls.UITabSet;
 import com.techtrade.rads.framework.ui.controls.UIText;
 import com.techtrade.rads.framework.ui.controls.UITextArea;
+import com.techtrade.rads.framework.ui.controls.UITile;
 import com.techtrade.rads.framework.ui.controls.graphs.UIBarChart;
 import com.techtrade.rads.framework.ui.controls.graphs.UIGaugeChart;
 import com.techtrade.rads.framework.ui.controls.graphs.UIGraphBar;
@@ -96,6 +97,7 @@ public class HTMLWriter extends Writer{
 	String appURL;
 	IRadsContext context ;
 	String portalPrefix;
+	String controllerName;
 	protected boolean useGoogleforGraphs;
 	
 	// " span.style.backgroundColor  = \"#53868B\"; \n"+  
@@ -272,6 +274,18 @@ public class HTMLWriter extends Writer{
 
 	public void setPortalPrefix(String portalPrefix) {
 		this.portalPrefix = portalPrefix;
+	}
+	
+	
+
+
+	public String getControllerName() {
+		return controllerName;
+	}
+
+
+	public void setControllerName(String controllerName) {
+		this.controllerName = controllerName;
 	}
 
 
@@ -523,6 +537,8 @@ public class HTMLWriter extends Writer{
 				writeParagraph(out, (UIParagraph) control,value,controller);
 			}else if ( control instanceof UIHeader) {
 				writeHeader(out, (UIHeader) control);
+			}else if ( control instanceof UITile) {
+				writeTile(out, (UITile) control,value,controller);
 			}else if ( control instanceof UIDiv) {
 				writeDiv(out, (UIDiv) control,value,controller);
 			}else if ( control instanceof UIDialog) {
@@ -664,6 +680,29 @@ public class HTMLWriter extends Writer{
 		}
 		out.println("</Dialog>");
 		
+	}
+    
+    protected void writeTile(PrintWriter out, UITile tile,Object value,ViewController controller) throws IOException {
+		String style = (!Utils.isNullString(tile.getStyle()) ? "class=\"" + tile.getStyle() + "\"" : "");
+		String headerStyle = (!Utils.isNullString(tile.getHeaderStyle()) ? "class=\"" + tile.getHeaderStyle() + "\"" : "");
+		String detailStyle = (!Utils.isNullString(tile.getDetailsStyle()) ? "class=\"" + tile.getDetailsStyle() + "\"" : "");
+		
+		out.println("<div id= \""+ tile.getId() +   "\" " + style + " " +  " >");
+		out.println("<div id= \"rdsHdr_"+ tile.getId() +   "\" " + headerStyle + " " +  " >");
+		if(!Utils.isNullList(tile.getHeaderElements())) {
+			for (UIElement element : tile.getHeaderElements() ) {
+				writeElement(element,value,controller);
+			}
+		}
+		out.println("</div>");
+		out.println("<div id= \"rdsDtl_"+ tile.getId() +   "\" " + detailStyle + " " +  " >");
+		if(!Utils.isNullList(tile.getHeaderElements())) {
+			for (UIElement element : tile.getHeaderElements() ) {
+				writeElement(element,value,controller);
+			}
+		}
+		out.println("</div>");
+		out.println("</div>");
 	}
     
     protected void writeDiv(PrintWriter out, UIDiv div,Object value,ViewController controller) throws IOException {
@@ -1156,7 +1195,7 @@ public class HTMLWriter extends Writer{
 	protected void writeLookupDialog(PrintWriter out, UILookupText textLookup) {
 		String dialogStyle = (!Utils.isNullString(textLookup.getDialogStyle()) ? "class=\"" + textLookup.getDialogStyle() + "\"" : "");
 		String frameStyle =(!Utils.isNullString(textLookup.getFrameStyle()) ? "class=\"" + textLookup.getFrameStyle() + "\"" : "");
-		String urlText = textLookup.getUrl(portalPrefix) + "&lookupType=" + textLookup.getLookupType() + "&parentControl=" +  textLookup.getId() + 
+		String urlText = textLookup.getUrl(controllerName,portalPrefix) + "&lookupType=" + textLookup.getLookupType() + "&parentControl=" +  textLookup.getId() + 
 				"&dialogId=" +textLookup.getDialogId()  ;
 		out.println("<Dialog id ='" + textLookup.getDialogId() + "' " +  dialogStyle+ " >");
 		out.println("<Iframe id ='idFRM" + textLookup.getDialogId() + "' src='" + urlText +  "' " + frameStyle +">" );
