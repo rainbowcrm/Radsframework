@@ -384,8 +384,8 @@ protected void writeDate(PrintWriter out, UIDate dateC) throws ParseException, I
 
 protected void writeTile(PrintWriter out, UITile tile,Object value,ViewController controller) throws IOException {
 	String style = (!Utils.isNullString(tile.getStyle()) ? "class=\" panel " + tile.getStyle() + "\"" : "");
-	String headerStyle = (!Utils.isNullString(tile.getHeaderStyle()) ? "class=\" panel-heading " + tile.getHeaderStyle() + "\"" : "");
-	String detailStyle = (!Utils.isNullString(tile.getDetailStyle()) ? "class=\" panel-body " + tile.getDetailStyle() + "\"" : "");
+	String headerStyle = "class=\" panel-heading " + (!Utils.isNullString(tile.getHeaderStyle()) ?  tile.getHeaderStyle() + "\"" : "  ");
+	String detailStyle = "class=\" panel-body " + (!Utils.isNullString(tile.getDetailStyle()) ?  tile.getDetailStyle() + "\"" : "  ");
 	
 	out.println("<div id= \""+ tile.getId() +   "\" " + style + " " +  " >");
 	out.println("<div id= \"rdsHdr_"+ tile.getId() +   "\" " + headerStyle + " " +  " >");
@@ -396,8 +396,8 @@ protected void writeTile(PrintWriter out, UITile tile,Object value,ViewControlle
 	}
 	out.println("</div>");
 	out.println("<div id= \"rdsDtl_"+ tile.getId() +   "\" " + detailStyle + " " +  " >");
-	if(!Utils.isNullList(tile.getHeaderElements())) {
-		for (UIElement element : tile.getHeaderElements() ) {
+	if(!Utils.isNullList(tile.getDetailElements())) {
+		for (UIElement element : tile.getDetailElements() ) {
 			writeElement(element,value,controller);
 		}
 	}

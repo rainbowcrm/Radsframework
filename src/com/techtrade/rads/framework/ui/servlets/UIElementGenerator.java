@@ -685,16 +685,23 @@ public class UIElementGenerator {
 			List<XMLElement > detailElements = doc.getChildElements(TAG_TILEDETAIL);
 			if (!Utils.isNullList(headerElements)) {
 				for (XMLElement headerElement : headerElements) {
-					UIElement element = getUIElement(headerElement, controller, page,styleonChildren,style);
+					if (!Utils.isNullList(headerElement.getChildElements()))
+					for  (XMLElement headerChildElement : headerElement.getChildElements())  {
+					UIElement element = getUIElement(headerChildElement, controller, page,styleonChildren,style);
 					if(element != null)
 						tile.addHeaderElement(element);
+					}
 				}
 			}
 			if (!Utils.isNullList(detailElements)) {
 				for (XMLElement deatailElement : detailElements) {
-					UIElement element = getUIElement(deatailElement, controller, page,styleonChildren,style);
-					if(element != null)
-						tile.addDetailElement(element);
+					if (!Utils.isNullList(deatailElement.getAllChildElements()) )  {
+					for (XMLElement detailChildElement : deatailElement.getAllChildElements())  {	
+						UIElement element = getUIElement(detailChildElement, controller, page,styleonChildren,style);
+						if(element != null)
+							tile.addDetailElement(element);
+						}
+					}
 				}
 			}
 			elem = new UIElement(tile);
