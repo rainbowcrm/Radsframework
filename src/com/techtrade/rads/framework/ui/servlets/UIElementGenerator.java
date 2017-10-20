@@ -681,7 +681,23 @@ public class UIElementGenerator {
 			String detailStyle= doc.getAttributeValue(TAG_DETAILSTYLE);
 			tile.setHeaderStyle(headerStyle);
 			tile.setDetailStyle(detailStyle);
-			doc.getChildElements(TAG_TILEHEADER);
+			List<XMLElement > headerElements = doc.getChildElements(TAG_TILEHEADER);
+			List<XMLElement > detailElements = doc.getChildElements(TAG_TILEDETAIL);
+			if (!Utils.isNullList(headerElements)) {
+				for (XMLElement headerElement : headerElements) {
+					UIElement element = getUIElement(headerElement, controller, page,styleonChildren,style);
+					if(element != null)
+						tile.addHeaderElement(element);
+				}
+			}
+			if (!Utils.isNullList(detailElements)) {
+				for (XMLElement deatailElement : detailElements) {
+					UIElement element = getUIElement(deatailElement, controller, page,styleonChildren,style);
+					if(element != null)
+						tile.addDetailElement(element);
+				}
+			}
+			elem = new UIElement(tile);
 		
 		}else if (("UIDiv").equalsIgnoreCase(type)){
 			UIDiv div = new UIDiv();

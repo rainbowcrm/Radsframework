@@ -685,7 +685,7 @@ public class HTMLWriter extends Writer{
     protected void writeTile(PrintWriter out, UITile tile,Object value,ViewController controller) throws IOException {
 		String style = (!Utils.isNullString(tile.getStyle()) ? "class=\"" + tile.getStyle() + "\"" : "");
 		String headerStyle = (!Utils.isNullString(tile.getHeaderStyle()) ? "class=\"" + tile.getHeaderStyle() + "\"" : "");
-		String detailStyle = (!Utils.isNullString(tile.getDetailsStyle()) ? "class=\"" + tile.getDetailsStyle() + "\"" : "");
+		String detailStyle = (!Utils.isNullString(tile.getDetailStyle()) ? "class=\"" + tile.getDetailStyle() + "\"" : "");
 		
 		out.println("<div id= \""+ tile.getId() +   "\" " + style + " " +  " >");
 		out.println("<div id= \"rdsHdr_"+ tile.getId() +   "\" " + headerStyle + " " +  " >");
