@@ -384,8 +384,8 @@ protected void writeDate(PrintWriter out, UIDate dateC) throws ParseException, I
 
 protected void writeTile(PrintWriter out, UITile tile,Object value,ViewController controller) throws IOException {
 	String style = (!Utils.isNullString(tile.getStyle()) ? "class=\" panel " + tile.getStyle() + "\"" : "");
-	String headerStyle = "class=\" panel-heading " + (!Utils.isNullString(tile.getHeaderStyle()) ?  tile.getHeaderStyle() + "\"" : "  ");
-	String detailStyle = "class=\" panel-body " + (!Utils.isNullString(tile.getDetailStyle()) ?  tile.getDetailStyle() + "\"" : "  ");
+	String headerStyle = "class=\" panel-heading " + (!Utils.isNullString(tile.getHeaderStyle()) ?  tile.getHeaderStyle() + "\"" : "\"  ");
+	String detailStyle = "class=\" panel-body " + (!Utils.isNullString(tile.getDetailStyle()) ?  tile.getDetailStyle() + "\"" : "\"  ");
 	
 	out.println("<div id= \""+ tile.getId() +   "\" " + style + " " +  " >");
 	out.println("<div id= \"rdsHdr_"+ tile.getId() +   "\" " + headerStyle + " " +  " >");
