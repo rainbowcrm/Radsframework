@@ -506,7 +506,10 @@ public class HTMLWriter extends Writer{
 			}else if ( control instanceof UIList) {
 				UIList lst =  (UIList) control;
 				if (Utils.isNullMap( lst.getOptions()) && !Utils.isNullString(element.getPopulator())) {
-					lst.setOptions(element.populateOptions(controller,object,element.getPopulator()));
+					if (Utils.isNullString(element.getPopulatorParam()))
+						lst.setOptions(element.populateOptions(controller,object,element.getPopulator()));
+					else
+						lst.setOptions(element.populateOptionsWithParam(controller,object,element.getPopulator(),element.getPopulatorParam()));
 				}
 				writeList(out,lst);
 			}else if ( control instanceof UIDataList) {

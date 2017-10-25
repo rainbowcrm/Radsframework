@@ -82,6 +82,7 @@ public class UIElementGenerator {
 	protected static String TAG_COLS = "cols";
 	protected static String TAG_FORMAT = "format";
 	protected static String TAG_POPULATOR = "populator";
+	protected static String TAG_POPULATORPARAM = "populatorParam";
 	protected static String TAG_KEY = "key";
 	protected static String TAG_VALUE = "value";
 	protected static String TAG_WIDTH = "width";
@@ -985,6 +986,9 @@ public class UIElementGenerator {
 					Map childrenOptions=  getMapOptions(doc,controller);
 					lst.setOptions(childrenOptions);
 				}
+				String populatorParam = node.getAttributeValue(TAG_POPULATORPARAM);
+				if (!Utils.isNullString(populatorParam))
+					elem.setPopulatorParam(populatorParam);
 				
 			}
 		}else if (("UIRadioBox").equalsIgnoreCase(type)){

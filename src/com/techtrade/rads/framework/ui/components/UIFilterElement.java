@@ -18,6 +18,7 @@ public class UIFilterElement extends UIElement {
 		this.mandatory = element.mandatory ;
 		this.constantValue = element.constantValue ;
 		this.populator=element.populator;
+		this.populatorParam =element.populatorParam ;
 		this.rendered=element.rendered;
 		this.generatedValue=element.generatedValue;
 				

@@ -40,6 +40,7 @@ public class UIElement implements Cloneable{
 	 * 
 	 */
 	String populator;
+	String populatorParam;
 	String generatedValue;
 	
 	/**
@@ -160,6 +161,15 @@ public class UIElement implements Cloneable{
 	public void setPopulator(String populator) {
 		this.populator = populator;
 	}
+
+	public String getPopulatorParam() {
+		return populatorParam;
+	}
+
+	public void setPopulatorParam(String populatorParam) {
+		this.populatorParam = populatorParam;
+	}
+
 
 
 	public UIElement getChildElementById(String Id) {
@@ -328,12 +338,41 @@ public class UIElement implements Cloneable{
 		}else  
 			throw new RadsException("Unidentified populator Options " + populator) ;
 	}
+	
+	public static Map populateOptionsWithParam(ViewController controller,Object object,String populator, String populatorParam) throws Exception{
+		if (!populator.contains(".")) {
+			return getPopulatorOptionsWithParam(controller, populator,populatorParam);
+		}
+		StringTokenizer tokenizer = new StringTokenizer(populator,".");
+		int count = 0;
+		String elements [] = new String [10] ;
+		
+		while(tokenizer.hasMoreTokens()) {
+			elements[count ++ ] = tokenizer.nextToken() ;
+		}
+		if ("Object".equalsIgnoreCase(elements[0]) ) {
+			return getPopulatorOptionsWithParam(object, elements[1],populatorParam);
+		} else if ("Controller".equalsIgnoreCase(elements[0]) ) {
+			return getPopulatorOptionsWithParam(controller, elements[1],populatorParam);
+		}else  
+			throw new RadsException("Unidentified populator Options " + populator) ;
+	}
 
 
 	 private static Map getPopulatorOptions(Object obj , String populator) throws Exception {
 		 Method methodRead =  obj.getClass().getMethod(populator);
 		   if (methodRead.getReturnType().equals(Map.class)) {
 			  Map ans = (Map) methodRead.invoke(obj, null);
+			  return ans ;
+		   } 
+		   return null;
+	 }
+	 
+
+	 private static Map getPopulatorOptionsWithParam(Object obj , String populator,String populatorParam) throws Exception {
+		 Method methodRead =  obj.getClass().getMethod(populator, new Class[]{String.class});
+		   if (methodRead.getReturnType().equals(Map.class)) {
+			  Map ans = (Map) methodRead.invoke(obj, populatorParam);
 			  return ans ;
 		   } 
 		   return null;
