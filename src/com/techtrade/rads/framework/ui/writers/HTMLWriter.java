@@ -1280,8 +1280,9 @@ public class HTMLWriter extends Writer{
 		String onClickJS = img.getOnClick();
 		String clickString = Utils.isNullString(onClickJS)?"":" onclick = \"" + onClickJS + "\"";
 		String title  = Utils.isNullString(img.getTitle())?"":" title=\"" + img.getTitle() + "\"";
+		String style = (!Utils.isNullString(img.getStyle()) ? "class=\"" + img.getStyle() + "\"" : "");
 		out.println("<img id=\"" + img.getId() + "\" src=\""+ 
-				vl +  "\" height=\"" + img.getHeight()  +"\" width=\"" + img.getWidth() + "\" "+  title + " " +  clickString + "    />" ); 
+				vl +  "\" height=\"" + img.getHeight()  +"\" " + style + " width=\"" + img.getWidth() + "\" "+  title + " " +  clickString + "    />" ); 
 	
 	}
 	

@@ -611,6 +611,7 @@ public class UIElementGenerator {
 			img.setOnClick(click);
 			img.setSrc(src);
 			img.setTitle(title);
+			elem.getControl().setStyle(style);
 		}else if (("UITable").equalsIgnoreCase(type)){
 			UITable table = new UITable();
 			elem  = new UIElement(table);
