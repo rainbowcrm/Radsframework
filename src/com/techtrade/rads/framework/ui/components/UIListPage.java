@@ -2,6 +2,7 @@ package com.techtrade.rads.framework.ui.components;
 
 import com.techtrade.rads.framework.controller.abstracts.CRUDController;
 import com.techtrade.rads.framework.controller.abstracts.ListController;
+import com.techtrade.rads.framework.controller.abstracts.TransactionController;
 import com.techtrade.rads.framework.controller.abstracts.ViewController;
 import com.techtrade.rads.framework.filter.Filter;
 import com.techtrade.rads.framework.model.abstracts.ModelObject;
@@ -362,6 +363,14 @@ public class UIListPage extends UIPage
 			pageNumber ++ ;
 		} else if  (action ==  FixedAction.NAV_LASTPAGE) {
 			pageNumber = ((ListController)getViewController()).getTotalNumberofPages(filter);
+		}else if (action == FixedAction.ACTION_PLAINSUBMIT  ) {  
+			ListController objController = ((ListController)getViewController());
+			String fixedActionParam = this.getFixedActionParam() ;
+			if (Utils.isNullString(fixedActionParam)) {
+				res =((ListController)getViewController()).submit(objects,null);
+			}else {
+				res =((ListController)getViewController()).submit(objects,fixedActionParam);
+			}
 		}else if  (action ==  FixedAction.ACTION_GOEDITMODE  || action ==  FixedAction.ACTION_PRINT) { 
 			objects =((ListController)getViewController()).populateFullObjectfromPK(objects);
 			List<RadsError> errors = null ;

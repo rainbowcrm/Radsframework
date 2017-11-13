@@ -162,10 +162,11 @@ public class HTMLAlternativeReader  extends HTMLReader{
 	
 	private Collection instantiateCollObject(Collection collObject,Method collectionObjectRead)
 	{
-		if (List.class.isAssignableFrom(collectionObjectRead.getReturnType())) {
+		if (List.class.isAssignableFrom(collectionObjectRead.getReturnType()) || Collection.class.isAssignableFrom(collectionObjectRead.getReturnType())) {
 			if (collObject  == null)
 				collObject = new ArrayList ();
 		}
+		
 		if (Vector.class.isAssignableFrom(collectionObjectRead.getReturnType())) {
 			if (collObject  == null)
 				collObject = new Vector();

@@ -5,6 +5,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
@@ -97,6 +98,13 @@ public class Utils {
 		
 	}
 
+	public static boolean isNullCollection(Collection lst) {
+		if( lst == null || lst.size() ==0)
+			return true;
+		else
+			return false;
+		
+	}
 	
 	public static boolean isNullSet(Set set) {
 		if( set == null || set.size() ==0)

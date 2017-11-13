@@ -216,4 +216,50 @@ Tech Debts
     Log issue -  High
 	PK Generation for transaction objects - High
 	
+	_______________________________________________________________________________________________________________-
 	
+	To do  - 19th jun 
+	
+	Inv validation .. **
+	Manager validation for inv edit **  
+	Remove unwanted configs ** 
+	
+	-20th jug
+	readon codes
+	rename all reasoncodes to all FVs ** 
+	
+	21 jun
+	Feebacks
+	
+	22 jun rest of graphs ** 
+	
+	23 jun reports  **
+	
+	24 jun - ui beautification
+	
+	
+	__________________________________________________________________________---
+	
+	 to do 27- jun Phase I 
+	 
+	 defect - manager dashboard crashin / manager issue while creating topic ***
+	 Alert - link with notification.. **
+	 Expenses sheet-  make it fully workable * 
+	 skucomplete- send docs also .. **
+	 notifications.. ** 
+	 
+	 
+	 proomotions - complete
+	 documentation ,
+_________________________________________________
+Reason codes ** 
+Feedback *
+Service Request
+Recurring payments
+Analytics
+Reports
+UI Beautification
+____________________________________________________ 
+	 
+
+	 
