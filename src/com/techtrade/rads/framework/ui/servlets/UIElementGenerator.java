@@ -500,6 +500,15 @@ public class UIElementGenerator {
 			}
 			if (Utils.isNullString(property))
 				labelCtrl.setLabel(value);
+			if (!Utils.isNullList(doc.getChildElements())) {
+				for (XMLElement childElem : doc.getChildElements()) {
+					UIElement element = getUIElement(childElem, controller,
+							page, styleonChildren, style);
+					if (element != null)
+						labelCtrl.addElement(element);
+
+				}
+			}
 		}else if (("UIMenu").equalsIgnoreCase(type)) {
 			UIMenu menu = new UIMenu(id);
 			elem = new UIElement(label,menu);
@@ -1133,6 +1142,15 @@ public class UIElementGenerator {
 						btn.setOnClickJS("deleteRow(" + fixedActionParam +")");
 						btn.setFixedAction(null);
 					}
+				}
+			}
+			if (!Utils.isNullList(doc.getChildElements())) {
+				for (XMLElement childElem : doc.getChildElements()) {
+					UIElement element = getUIElement(childElem, controller,
+							page, styleonChildren, style);
+					if (element != null)
+						btn.addElement(element);
+
 				}
 			}
 			elem = new UIElement(btn);

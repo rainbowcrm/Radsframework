@@ -421,7 +421,7 @@ public class HTMLWriter extends Writer{
 				if (element.isMandatory() && !Utils.isNullString(currentPage.getTemplate().getMandatoryMarker())) 
 					writeMandatoryFieldLabel(out, element.getLabel(), currentPage.getTemplate().getMandatoryMarker(),false);
 				else
-					writeLabel(out, element.getLabel(),false);
+					writeLabel(out, element.getLabel(),false,value,controller);
 			}
 			/*if (value instanceof ModelObject &&  displayValue == null ) {
 				System.out.println("Debugg");
@@ -502,7 +502,7 @@ public class HTMLWriter extends Writer{
 			}else if ( control instanceof UIImage) {
 				writeImage(out,(UIImage) control);
 			}else if ( control instanceof UIButton) {
-				writeButton(out, (UIButton) control);
+				writeButton(out, (UIButton) control,value,controller);
 			}else if ( control instanceof UIList) {
 				UIList lst =  (UIList) control;
 				if (Utils.isNullMap( lst.getOptions()) && !Utils.isNullString(element.getPopulator())) {
@@ -529,7 +529,7 @@ public class HTMLWriter extends Writer{
 			}else if ( control instanceof UIRadioBox) {
 				writeRadioBox(out , (UIRadioBox) control );
 			}else if ( control instanceof UILabel) {
-				writeLabel(out, (UILabel) control,true);
+				writeLabel(out, (UILabel) control,true,value,controller);
 			}else if ( control instanceof UIMenu) {
 				writeMenu(out, (UIMenu) control);
 			}else if ( control instanceof UIBreak) {
@@ -947,19 +947,32 @@ public class HTMLWriter extends Writer{
 	}
 	
 	
-	protected void writeLabel(PrintWriter out, UILabel label, boolean isActualValue) throws IOException {
+	protected void writeLabel(PrintWriter out, UILabel label, boolean isActualValue,Object value, ViewController controller) throws IOException {
 		String crudMarker = ( !isActualValue )?currentPage.getTemplate().getCrudMarker():"";
 		String style = (!Utils.isNullString(label.getStyle()) ? "class=\"" + label.getStyle() + "\"" : "");
 		String sizeStr = label.getSize()>0?"size=\"" + label.getSize()+"\"":"" ;  
-		if (!label.isExternalize())
+		if (!label.isExternalize()) {
 			out.println("<span id=\"" + label.getId()+  "\" name=\"" + label.getId()+  "\" name =\"" + label.getId()+  "\"" +  style +   " " +  sizeStr +  " >" +
-					label.getLabel() +     "</span>");
-		else {
+					label.getLabel()     );
+			if(!Utils.isNullList(label.getElements())) {
+				for (UIElement element : label.getElements() ) {
+					writeElement(element,value,controller);
+				}
+			}
+			out.println("</span>");
+			
+		}else {
 			String labelKey = label.getLabel();
 			IExternalizeFacade facade  = currentPage.getExternalizeFacade() ;
 			String labelValue =  facade.externalize(context, labelKey);
 			out.println("<span id=\"" + label.getId()+  "\" name =\"" + label.getId()+  "\" " +  style + " >" +
-					(Utils.isNull(labelValue)?"":labelValue)   + (!Utils.isNull(crudMarker)?crudMarker:"") + "</span>");
+					(Utils.isNull(labelValue)?"":labelValue)   + (!Utils.isNull(crudMarker)?crudMarker:"") );
+			if(!Utils.isNullList(label.getElements())) {
+				for (UIElement element : label.getElements() ) {
+					writeElement(element,value,controller);
+				}
+			}
+			out.println("</span>");
 		}
 	
 	}
@@ -1009,7 +1022,7 @@ public class HTMLWriter extends Writer{
 	
 	
 	
-	protected void writeLookupPageButton(PrintWriter out, UIButton button,FixedAction action, UILookupPage page) throws IOException {
+	protected void writeLookupPageButton(PrintWriter out, UIButton button,FixedAction action, UILookupPage page,Object value, ViewController viewController) throws IOException {
 		String caption = button.getCaption();
 		if(button.isExternalize()) {
 			IExternalizeFacade facade  = currentPage.getExternalizeFacade() ;
@@ -1042,7 +1055,7 @@ public class HTMLWriter extends Writer{
 		return false;
 	}
 	
-	protected void writeButton(PrintWriter out, UIButton button) throws IOException {
+	protected void writeButton(PrintWriter out, UIButton button,Object value,ViewController controller) throws IOException {
 		String style = (!Utils.isNullString(button.getStyle()) ? "class=\"" + button.getStyle() + "\"" : "");
 		String caption = button.getCaption() ;
 		if(button.isExternalize()) {
@@ -1056,7 +1069,7 @@ public class HTMLWriter extends Writer{
 		if (currentPage instanceof UILookupPage && 
 				 ( action == FixedAction.CLOSELOOKUPWINDOW || action == FixedAction.CANCELWINDOW  || action == FixedAction.ACTION_PLAINSUBMIT ||
 				 action == FixedAction.CLOSELOOKUPDIALOG || action == FixedAction.CANCELDIALOG	 )){
-			writeLookupPageButton(out, button, action,(UILookupPage) currentPage);
+			writeLookupPageButton(out, button, action,(UILookupPage) currentPage,value,controller);
 			return ;
 		} else if (action == FixedAction.CANCELDIALOG	) {
 			button.setOnClickJS("cancelDialog('"+ param +"');"); 
@@ -2002,7 +2015,7 @@ public class HTMLWriter extends Writer{
 		
 		if ( !Utils.isNullList(page.getButtons())) {
 			for (UIButton button: page.getButtons()) {
-				writeButton(out, button);
+				writeButton(out, button,value,controller);
 			}
 		}
 		//showErrors(page, out);

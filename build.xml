@@ -40,7 +40,7 @@
   </target>
   
   <target name="build-jar">
-   <jar destfile="C:/CRM/WS/lib/Rads.jar"
+   <jar destfile="C:/WFM/lib/Rads.jar"
       basedir="bin"
       includes="/**"
       excludes="**/Test.class">

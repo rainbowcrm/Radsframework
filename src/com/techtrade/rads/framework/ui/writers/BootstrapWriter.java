@@ -263,7 +263,7 @@ public class BootstrapWriter  extends  HTMLWriter{
 
 	}
 
-	protected void writeLookupPageButton(PrintWriter out, UIButton button,FixedAction action, UILookupPage page) throws IOException {
+	protected void writeLookupPageButton(PrintWriter out, UIButton button,FixedAction action, UILookupPage page,Object value, ViewController controller) throws IOException {
 		String caption = button.getCaption();
 		if(button.isExternalize()) {
 			IExternalizeFacade facade  = currentPage.getExternalizeFacade() ;
@@ -281,10 +281,10 @@ public class BootstrapWriter  extends  HTMLWriter{
 		} else if (action == FixedAction.CANCELDIALOG ) {
 			button.setOnClickJS("cancelDialog('"+ page.getDialogId() +"');"); 
 		}
-		out.println(this.getCustomButton(button, button.getOnClickJS()));
+		out.println(this.getCustomButton(out,button, button.getOnClickJS(),value,controller));
 	}
 
-	protected void writeButton(PrintWriter out, UIButton button) throws IOException {
+	protected void writeButton(PrintWriter out, UIButton button,Object value,ViewController controller) throws IOException {
 		String caption = button.getCaption() ;
 		if(button.isExternalize()) {
 			IExternalizeFacade facade  = currentPage.getExternalizeFacade() ;
@@ -297,30 +297,32 @@ public class BootstrapWriter  extends  HTMLWriter{
 			if (currentPage instanceof UILookupPage && 
 					( action == FixedAction.CLOSELOOKUPWINDOW || action == FixedAction.CANCELWINDOW  || action == FixedAction.ACTION_PLAINSUBMIT ||
 					action == FixedAction.CLOSELOOKUPDIALOG || action == FixedAction.CANCELDIALOG	 )){
-				writeLookupPageButton(out, button, action,(UILookupPage) currentPage);
+				writeLookupPageButton(out, button, action,(UILookupPage) currentPage,value,controller);
 				return ;
 			} else if (action == FixedAction.CANCELDIALOG	) {
 				button.setOnClickJS("cancelDialog('"+ param +"');"); 
-				out.println(this.getCustomButton(button, button.getOnClickJS()));
+				out.println(this.getCustomButton(out,button, button.getOnClickJS(),value,controller));
 				return ;
 			}else  if (action == FixedAction.CANCELWINDOW	) {
 				button.setOnClickJS("cancelWindow();");
-				out.println(this.getCustomButton(button, button.getOnClickJS()));
+				out.println(this.getCustomButton(out,button, button.getOnClickJS(),value,controller));
 				return ;
 			}
 
 			String validateFunc = button.getFixedAction().getValidateFunc() ;
 			String act = FixedAction.getFixedActionString(button.getFixedAction()) ;
 			String actionFunction = "applyFixedActionServer('"+ act +"','"+ param +"',"+ validateFunc + ")";
-			out.println(this.getCustomButtonFoServer(button, act, param, validateFunc));
+			//out.println(this.getCustomButtonFoServer(button, act, param, validateFunc,value,controller));
+			this.getCustomButtonFoServer(out,button, act, param, validateFunc,value,controller);
 
 		}else {
-			out.println(this.getCustomButton(button, button.getOnClickJS()));
+		//	out.println(this.getCustomButton(button, button.getOnClickJS(),value,controller));
+			this.getCustomButton(out,button, button.getOnClickJS(),value,controller);
 		}
 
 	}
 	
-	private String getCustomButton(UIButton button,String event){
+	private String getCustomButton(PrintWriter out, UIButton button,String event,Object value,ViewController controller) throws IOException {
 		String text = button.getCaption();
 		if(button.isExternalize()) {
 			IExternalizeFacade facade  = currentPage.getExternalizeFacade() ;
@@ -333,22 +335,32 @@ public class BootstrapWriter  extends  HTMLWriter{
 		StringBuilder buttonHtml=new StringBuilder("");  
 		if((text != null && text.length() > 0) && (iconStyle != null && iconStyle.length()>0)){
 			String baseStyle = (!Utils.isNullString(style) ? "class='" + style + "'" : "");
-			buttonHtml.append("<button type =\"button\" id='" + id + "' "+ baseStyle + "  name ='" + name  + "' onClick=\""+ event +"\">");
-			buttonHtml.append("<i class='"+iconStyle+"'></i>");
-			buttonHtml.append(text+"</button>");
+			out.println("<button type =\"button\" id='" + id + "' "+ baseStyle + "  name ='" + name  + "' onClick=\""+ event +"\">");
+			out.println("<i class='"+iconStyle+"'></i>");
+			if(!Utils.isNullList(button.getElements())) {
+				for (UIElement element : button.getElements() ) {
+					writeElement(element,value,controller);
+				}
+			}
+			out.println(text+"</button>");
 		}
 		else{
 			String _iconStyle = (!Utils.isNullString(iconStyle) ? " "+iconStyle : "");
 			String baseStyle = (!Utils.isNullString(style) ? "class='" + style+_iconStyle + "'" : "");
-			buttonHtml.append("<button type =\"button\" id='" + id + "'  "+ baseStyle + " name ='" + name  + "' onClick=\""+ event +"\"/>");
-			buttonHtml.append(text+"</button>");
+			out.println("<button type =\"button\" id='" + id + "'  "+ baseStyle + " name ='" + name  + "' onClick=\""+ event +"\">");
+			if(!Utils.isNullList(button.getElements())) {
+				for (UIElement element : button.getElements() ) {
+					writeElement(element,value,controller);
+				}
+			}
+			out.println(text+"</button>");
 		}
-		return buttonHtml.toString();
+		return "";
 	}
 	
 	//I dont know but setting the variable and calling action event isn't working with previous function
 	//May be because of too many escape charatcers
-	private String getCustomButtonFoServer(UIButton button,String act,String param,String validateFunc){
+	private String getCustomButtonFoServer(PrintWriter out,UIButton button,String act,String param,String validateFunc,Object value,ViewController controller) throws IOException {
 		String text = button.getCaption();
 		if(button.isExternalize()) {
 			IExternalizeFacade facade  = currentPage.getExternalizeFacade() ;
@@ -361,15 +373,25 @@ public class BootstrapWriter  extends  HTMLWriter{
 		StringBuilder buttonHtml=new StringBuilder("");  
 		if((text != null && text.length() > 0) && (iconStyle != null && iconStyle.length()>0)){
 			String baseStyle = (!Utils.isNullString(style) ? "class='" + style + "'" : "");
-			buttonHtml.append("<button type =\"button\" id='" + id + "' "+ baseStyle + "  name ='" + name  + "' onClick=\"applyFixedActionServer('"+ act +"','"+ param +"',"+ validateFunc + ")\"/>");
-			buttonHtml.append("<i class='"+iconStyle+"'></i>");
-			buttonHtml.append(text+"</button>");
+			out.println("<button type =\"button\" id='" + id + "' "+ baseStyle + "  name ='" + name  + "' onClick=\"applyFixedActionServer('"+ act +"','"+ param +"',"+ validateFunc + ")\">");
+			out.println("<i class='"+iconStyle+"'></i>");
+			if(!Utils.isNullList(button.getElements())) {
+				for (UIElement element : button.getElements() ) {
+					writeElement(element,value,controller);
+				}
+			}
+			out.println(text+"</button>");
 		}
 		else{
 			String _iconStyle = (!Utils.isNullString(iconStyle) ? " "+iconStyle : "");
 			String baseStyle = (!Utils.isNullString(style) ? "class='" + style+_iconStyle + "'" : "");
-			buttonHtml.append("<button type =\"button\" id='" + id + "'  "+ baseStyle + " name ='" + name  + "' onClick=\"applyFixedActionServer('"+ act +"','"+ param +"',"+ validateFunc + ")\"/>");
-			buttonHtml.append(text+"</button>");
+			buttonHtml.append("<button type =\"button\" id='" + id + "'  "+ baseStyle + " name ='" + name  + "' onClick=\"applyFixedActionServer('"+ act +"','"+ param +"',"+ validateFunc + ")\">");
+			if(!Utils.isNullList(button.getElements())) {
+				for (UIElement element : button.getElements() ) {
+					writeElement(element,value,controller);
+				}
+			}
+			out.println(text+"</button>");
 		}
 		return buttonHtml.toString();
 	}
