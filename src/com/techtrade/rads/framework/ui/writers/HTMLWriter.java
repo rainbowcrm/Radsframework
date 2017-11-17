@@ -2,8 +2,10 @@ package com.techtrade.rads.framework.ui.writers;
 
 import java.io.IOException;
 import java.lang.reflect.Method;
+import java.sql.Timestamp;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -401,8 +403,14 @@ public class HTMLWriter extends Writer{
 					String collectionProperty = propertyName.substring(0, propertyName.indexOf("["));
 					value = callGetter((ModelObject)object, collectionProperty);
 				}
-				if (control instanceof UILabel)
+				if (control instanceof UILabel) {
+					if(displayValue instanceof Date  ){
+						displayValue = Utils.dateToString((Date)displayValue, "dd-MMM-yyyy");
+					}else if (displayValue instanceof Timestamp ) {
+						displayValue =Utils.dateToString((Timestamp)displayValue, "dd-MMM-yyyy");
+					}
 					  ((UILabel) control).setLabel(String.valueOf(displayValue));
+				}
 			} else if (element.getControl().getValue() != null && !(element.getControl().getValue() instanceof ModelObject) )  {
 				displayValue = element.getControl().getValue() ;
 			} else
