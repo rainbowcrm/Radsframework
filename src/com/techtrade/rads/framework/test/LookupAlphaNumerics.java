@@ -8,12 +8,16 @@ import javax.servlet.http.HttpServletRequest;
 
 import com.techtrade.rads.framework.context.IRadsContext;
 import com.techtrade.rads.framework.ui.abstracts.ILookupService;
+import com.techtrade.rads.framework.ui.abstracts.UIPage;
 import com.techtrade.rads.framework.utils.Utils;
 
 public class LookupAlphaNumerics implements ILookupService{
 
-	
-	
+	@Override
+	public IRadsContext generateContext(HttpServletRequest request, UIPage page) {
+		return null;
+	}
+
 	@Override
 	public Map<String, String> lookupData(IRadsContext ctx,
 			String searchString, int from, int noRecords, String lookupParam,
@@ -50,9 +54,6 @@ public class LookupAlphaNumerics implements ILookupService{
 		
 	}
 	
-	@Override
-	public IRadsContext generateContext(HttpServletRequest request) {
-		return null;
-	}	
+
 
 }

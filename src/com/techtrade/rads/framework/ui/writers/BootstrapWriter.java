@@ -398,8 +398,9 @@ public class BootstrapWriter  extends  HTMLWriter{
 	
 protected void writeDate(PrintWriter out, UIDate dateC) throws ParseException, IOException {
 		
-		String dataProp = "data-property=\"" + dateC.getDataProperty() + "\""; 
-		out.println("<input type =\"date\" class=\"form-control\" id=\"" + dateC.getId() + "\"  name =\"" +dateC.getId()  + "\"  "  + dataProp +  " value=\""+ 
+	String dataProp = "data-property=\"" + dateC.getDataProperty() + "\"";
+	String style = (!Utils.isNullString(dateC.getStyle()) ? "class=\"form-control " + dateC.getStyle() + "\"" : "class=\"form-control\"");
+	out.println("<input type =\"date\" " + style + " id=\"" + dateC.getId() + "\"  name =\"" +dateC.getId()  + "\"  "  + dataProp +  " value=\""+
 				Utils.dateToString((java.util.Date)dateC.getValue(),"yyyy-MM-dd") +"\"/>");
 	
 	}
@@ -430,7 +431,8 @@ protected void writeTile(PrintWriter out, UITile tile,Object value,ViewControlle
 	protected void writeTextArea(PrintWriter out, UITextArea textArea) throws IOException {
 		String dataProp = "data-property=\"" + textArea.getDataProperty() + "\"";  
 		String str = Utils.isNullString(String.valueOf(textArea.getValue()))?"":String.valueOf(textArea.getValue());
-		out.println("<textarea class=\"form-control\"  id=\"" + textArea.getId() + "\" name =\"" +textArea.getId()  + "\" "  + dataProp + " rows=\""+ textArea.getRows() +"\" cols=\"" + textArea.getCols()
+		String style = (!Utils.isNullString(textArea.getStyle()) ? "class=\"form-control " + textArea.getStyle() + "\"" : "class=\"form-control\"");
+		out.println("<textarea  " + style + " id=\"" + textArea.getId() + "\" name =\"" +textArea.getId()  + "\" "  + dataProp + " rows=\""+ textArea.getRows() +"\" cols=\"" + textArea.getCols()
 		+ "\">" + str + "</textarea>");
 		
 	

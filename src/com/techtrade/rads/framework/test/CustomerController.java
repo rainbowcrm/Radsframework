@@ -14,6 +14,7 @@ import com.techtrade.rads.framework.controller.abstracts.CRUDController;
 import com.techtrade.rads.framework.model.abstracts.ModelObject;
 import com.techtrade.rads.framework.model.abstracts.RadsError;
 import com.techtrade.rads.framework.ui.abstracts.PageResult;
+import com.techtrade.rads.framework.ui.abstracts.UIPage;
 
 public class CustomerController extends CRUDController{
 
@@ -26,15 +27,13 @@ public class CustomerController extends CRUDController{
 	}
 
 	@Override
-	public IRadsContext generateContext(String authToken) {
-		// TODO Auto-generated method stub
+	public IRadsContext generateContext(HttpServletRequest request, HttpServletResponse response, UIPage page) {
 		return null;
 	}
 
 	@Override
-	public IRadsContext generateContext(HttpServletRequest request,HttpServletResponse response) {
-		// TODO Auto-generated method stub
-		return new RadsContext();
+	public IRadsContext generateContext(String authToken, UIPage page) {
+		return null;
 	}
 
 	@Override

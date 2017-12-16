@@ -142,7 +142,7 @@ public class JSONProcessor {
 			PageConfig config = AppConfig.APPCONFIG.getPageConfig(context.getRealPath("/"), pageID);
 			ModelObject object =PageGenerator.readObjectfromPageConfig(config);
 			request.setAttribute("authToken", authToken);
-			UIPage page = PageGenerator.getPagefromKey(config,object,request,initialMode,response,context);
+			UIPage page = PageGenerator.getPagefromKey(config,object,request,initialMode,response,context.getRealPath("/"));
 			page.setPageKey(pageID);
 			page.getViewController().init(request);
 			IRadsContext pageContext = page.getViewController().generateContext(authToken,page);

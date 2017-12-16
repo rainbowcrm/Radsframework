@@ -267,8 +267,9 @@ public class UIElement implements Cloneable{
 				elements[count ++ ] = tokenizer.nextToken() ;
 			}
 			if ("Object".equalsIgnoreCase(elements[0]) || "!Object".equalsIgnoreCase(elements[0])) {
-				  Method methodRead =  object.getClass().getMethod( elements[1]);	
+				  Method methodRead =  object.getClass().getMethod( elements[1]);
 				  Boolean result  = (Boolean) methodRead.invoke(object, null);
+				  if(result == null) return false;
 				  if (elements[0].startsWith("!"))
 				  	  return !result.booleanValue() ;
 				  else

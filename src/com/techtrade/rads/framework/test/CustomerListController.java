@@ -15,12 +15,26 @@ import com.techtrade.rads.framework.filter.Filter;
 import com.techtrade.rads.framework.model.abstracts.ModelObject;
 import com.techtrade.rads.framework.model.abstracts.RadsError;
 import com.techtrade.rads.framework.ui.abstracts.PageResult;
+import com.techtrade.rads.framework.ui.abstracts.UIPage;
 import com.techtrade.rads.framework.ui.components.SortCriteria;
 
 public class CustomerListController extends ListController{
 
-	
-	
+	@Override
+	public IRadsContext generateContext(HttpServletRequest request, HttpServletResponse response, UIPage page) {
+		return null;
+	}
+
+	@Override
+	public IRadsContext generateContext(String authToken, UIPage page) {
+		return null;
+	}
+
+	@Override
+	public int getTotalNumberofPages(Filter filter) {
+		return 0;
+	}
+
 	@Override
 	public PageResult print(List<ModelObject> objects) {
 		// TODO Auto-generated method stub
@@ -29,7 +43,7 @@ public class CustomerListController extends ListController{
 
 
 
-	@Override
+
 	public IRadsContext generateContext(String authToken) {
 		// TODO Auto-generated method stub
 		return null;
@@ -65,7 +79,7 @@ public class CustomerListController extends ListController{
 
 
 
-	@Override
+
 	public IRadsContext generateContext(HttpServletRequest request,HttpServletResponse response) {
 		// TODO Auto-generated method stub
 		return new RadsContext();
@@ -140,7 +154,6 @@ public class CustomerListController extends ListController{
 		return customers ;
 	}
 
-	@Override
 	public int getTotalNumberofPages() {
 		return 4;
 	}
