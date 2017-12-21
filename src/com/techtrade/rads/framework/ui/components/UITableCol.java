@@ -77,8 +77,10 @@ public class UITableCol extends UIControl{
 		col.setWidth(this.getWidth());
 		if (!Utils.isNullList(this.getElements())) {
 			for (UIElement element : this.getElements()) {
-				UIElement newElement = (UIElement)element.clone();
-				col.addElement(newElement);
+				if (element != null ) {
+					UIElement newElement = (UIElement) element.clone();
+					col.addElement(newElement);
+				}
 			}
 		}
 		return col ;

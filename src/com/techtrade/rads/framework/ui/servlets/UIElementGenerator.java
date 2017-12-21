@@ -1156,8 +1156,11 @@ public class UIElementGenerator {
 			elem = new UIElement(btn);
 			elem.getControl().setStyle(style);		
 		}
-		if (!Utils.isNullString(rendered) &&  !elem.shouldDisplay(getObject(controller), controller)){
-			return null;
+
+		if (!Utils.isNullString(rendered)) {
+			elem.setRendered(rendered);
+			if (!elem.shouldDisplay(getObject(controller), controller))
+					return null;
 		}
 		    
 		

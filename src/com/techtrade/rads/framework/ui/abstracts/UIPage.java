@@ -244,6 +244,7 @@ public abstract class UIPage  extends UIControl {
 		
 		if(!Utils.isNullList(condition.getTrueElements())) {
 			for (UIElement elem : condition.getTrueElements())  {
+				if(elem == null) continue;
 				List<UIElement> innerElements = recurseForInputElements(elem) ;
 				if (!Utils.isNullList(innerElements)) {
 					conditionElements.addAll(innerElements);
@@ -253,6 +254,7 @@ public abstract class UIPage  extends UIControl {
 		
 		if(!Utils.isNullList(condition.getFalseElements())) {
 			for (UIElement elem : condition.getFalseElements())  {
+				if(elem == null) continue;
 				List<UIElement> innerElements = recurseForInputElements(elem) ;
 				if (!Utils.isNullList(innerElements)) {
 					conditionElements.addAll(innerElements);
@@ -272,6 +274,7 @@ public abstract class UIPage  extends UIControl {
 		for (UITab tab : tabset.getTabs()) {
 			if (!Utils.isNullList(tab.getElements())) {
 				for (UIElement element : tab.getElements()) {
+					if(element == null) continue;
 					List<UIElement> innerElements = recurseForInputElements(element);
 					if (!Utils.isNullList(innerElements)) {
 						tabSetElements.addAll(innerElements);
@@ -318,6 +321,7 @@ public abstract class UIPage  extends UIControl {
 			for (UITableCol col :  row.getCols())  {
 				if (!Utils.isNullList(col.getElements())) {
 					for (UIElement elem : col.getElements())  {
+						if (elem == null) continue;
 						List<UIElement> innerElements = recurseForInputElements(elem) ;
 						for (UIElement innerElement : innerElements ) {
 							if (!Utils.isNullString(innerElement.getExtendedmodelProperty()) && innerElement.getExtendedmodelProperty().contains("[") )
@@ -345,6 +349,7 @@ public abstract class UIPage  extends UIControl {
 		if (form != null) {
 			for (UIElement element : form.getElements()) {
 				if (element.getControl() instanceof UIMenu) continue;
+				if(element == null) continue;
 				List <UIElement> innerElements = recurseForInputElements(element) ;
 				if (!Utils.isNullList(innerElements))
 					formElements.addAll(innerElements);

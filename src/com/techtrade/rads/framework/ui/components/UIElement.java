@@ -266,14 +266,16 @@ public class UIElement implements Cloneable{
 			while(tokenizer.hasMoreTokens()) {
 				elements[count ++ ] = tokenizer.nextToken() ;
 			}
-			if ("Object".equalsIgnoreCase(elements[0]) || "!Object".equalsIgnoreCase(elements[0])) {
-				  Method methodRead =  object.getClass().getMethod( elements[1]);
-				  Boolean result  = (Boolean) methodRead.invoke(object, null);
-				  if(result == null) return false;
-				  if (elements[0].startsWith("!"))
-				  	  return !result.booleanValue() ;
-				  else
-					  return result.booleanValue() ;
+			if ( ("Object".equalsIgnoreCase(elements[0]) || "!Object".equalsIgnoreCase(elements[0]))  ) {
+				if(object != null) {
+					Method methodRead = object.getClass().getMethod(elements[1]);
+					Boolean result = (Boolean) methodRead.invoke(object, null);
+					if (result == null) return false;
+					if (elements[0].startsWith("!"))
+						return !result.booleanValue();
+					else
+						return result.booleanValue();
+				}
 			} else 	if ("Controller".equalsIgnoreCase(elements[0]) || "!Controller".equalsIgnoreCase(elements[0])) {
 				  Method methodRead =  controller.getClass().getMethod(elements[1]);	
 				  Boolean result  = (Boolean) methodRead.invoke(controller, null);
@@ -288,7 +290,7 @@ public class UIElement implements Cloneable{
 		}
 		
 		
-	//	return true ;
+		return true ;
 	}
 
 	

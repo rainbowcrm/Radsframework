@@ -198,6 +198,7 @@ public class BootstrapWriter  extends  HTMLWriter{
 			tab.setVisible(true);
 		index ++;
 		writeElement(new UIElement(tab),value,controller);*/
+
 			tab.setIndex(index ++ );
 			writeTab(out, tab, value, controller);
 		}
