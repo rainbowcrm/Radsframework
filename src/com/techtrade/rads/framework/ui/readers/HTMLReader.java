@@ -526,6 +526,7 @@ public class HTMLReader extends Reader{
 			Object childObject[] = new Object[100];
 			for (UIElement element : page.getDataEntryColumns() ) {
 				String value[] = null ;
+				if (element == null ) continue;
 				if(element.getControl() instanceof UIBooleanCheckBox)  {
 					UIBooleanCheckBox booleanBox = (UIBooleanCheckBox)element.getControl();
 					if  (request.getParameterValues(booleanBox.getHiddenControlId()) != null )  {

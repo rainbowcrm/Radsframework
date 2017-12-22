@@ -1159,7 +1159,7 @@ public class UIElementGenerator {
 
 		if (!Utils.isNullString(rendered)) {
 			elem.setRendered(rendered);
-			if (!elem.shouldDisplay(getObject(controller), controller))
+			if (((elem.getControl() instanceof UITab) || (elem.getControl() instanceof UITabSet) ) && !elem.shouldDisplay(getObject(controller), controller))
 					return null;
 		}
 		    
