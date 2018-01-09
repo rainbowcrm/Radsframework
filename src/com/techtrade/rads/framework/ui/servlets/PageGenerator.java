@@ -12,6 +12,7 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
+import com.techtrade.rads.framework.ui.components.*;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -32,25 +33,6 @@ import com.techtrade.rads.framework.model.abstracts.ModelObject;
 import com.techtrade.rads.framework.ui.abstracts.PageForward;
 import com.techtrade.rads.framework.ui.abstracts.UIControl;
 import com.techtrade.rads.framework.ui.abstracts.UIPage;
-import com.techtrade.rads.framework.ui.components.AjaxGroup;
-import com.techtrade.rads.framework.ui.components.PanelDef;
-import com.techtrade.rads.framework.ui.components.SortCriteria;
-import com.techtrade.rads.framework.ui.components.UICRUDPage;
-import com.techtrade.rads.framework.ui.components.UIDataColumn;
-import com.techtrade.rads.framework.ui.components.UIDataSheetPage;
-import com.techtrade.rads.framework.ui.components.UIElement;
-import com.techtrade.rads.framework.ui.components.UIFilterElement;
-import com.techtrade.rads.framework.ui.components.UIForm;
-import com.techtrade.rads.framework.ui.components.UIGeneralPage;
-import com.techtrade.rads.framework.ui.components.UIListPage;
-import com.techtrade.rads.framework.ui.components.UILookupPage;
-import com.techtrade.rads.framework.ui.components.UIPanel;
-import com.techtrade.rads.framework.ui.components.UITable;
-import com.techtrade.rads.framework.ui.components.UITableCol;
-import com.techtrade.rads.framework.ui.components.UITableFooter;
-import com.techtrade.rads.framework.ui.components.UITableHead;
-import com.techtrade.rads.framework.ui.components.UITableRow;
-import com.techtrade.rads.framework.ui.components.UITransactionPage;
 import com.techtrade.rads.framework.ui.config.AppConfig;
 import com.techtrade.rads.framework.ui.config.PageConfig;
 import com.techtrade.rads.framework.ui.config.PanelConfig;
@@ -88,6 +70,7 @@ public class PageGenerator {
 	protected static String TAG_ELEMENTS = "Elements";
 	protected static String TAG_ELEMENT = "Element";
 	protected static String TAG_CONTROLLER = "Controller";
+	protected static String TAG_HTMLFILE = "HTMLFile";
 	protected static String TAG_TEMPLATETYPE = "type";
 	protected static String TAG_UIFORM = "UIForm";
 	protected static String TAG_HEADER = "Header";
@@ -146,6 +129,7 @@ public class PageGenerator {
 	
 	protected static String TEMPLATETYPE_LOOKUP = "lookup";
 	protected static String TEMPLATETYPE_CRUD = "CRUD";
+	protected static String TEMPLATETYPE_STATICHTML = "StaticHTML";
 	protected static String TEMPLATETYPE_LIST = "List";
 	protected static String TEMPLATETYPE_DATASHEET = "DataSheet";
 	protected static String TEMPLATETYPE_GENERAL = "General";
@@ -214,6 +198,8 @@ public class PageGenerator {
 			page = generateTransactionPage( doc ,contextPath +  TEMPLATE_PATH  + templateName  + ".xml",object,req,mode,response,config);
 		}else if(TEMPLATETYPE_LOOKUP.equalsIgnoreCase(templateType))  {
 			page = generateLookupPage( doc ,contextPath +  TEMPLATE_PATH  + templateName  + ".xml",object,req,mode,config);
+		}else if (TEMPLATETYPE_STATICHTML.equalsIgnoreCase(templateType))  {
+			page  = generateStaticHTMLPage( doc ,contextPath +  TEMPLATE_PATH  + templateName  + ".xml",object,req,mode,response,config);
 		}
 		if(page != null)
 			page.setAccessCode(config.getAccessCode());
@@ -864,6 +850,39 @@ public class PageGenerator {
 		
 	}
 
+	protected static UIStaticHTMLPage generateStaticHTMLPage (Document  pageElement, String templateName, ModelObject object, HttpServletRequest req,
+															  ViewController.Mode mode, HttpServletResponse response, PageConfig config)
+			throws RadsException,ServletException{
+		try  {
+		UIStaticHTMLPage staticHTMLPage  = new UIStaticHTMLPage() ;
+		XMLDocument pageDoc = XMLDocument.parse(pageElement);
+		XMLElement root = pageDoc.getRootElement();
+		String controller  = root.getAttributeValue(TAG_CONTROLLER);
+		ViewController objController  = (ViewController) Class.forName(controller).newInstance() ;
+		staticHTMLPage.setViewController(objController);
+		staticHTMLPage.setAccessCode(config.getAccessCode());
+		IRadsContext ctx = null;
+		String auth = String.valueOf(req.getAttribute("authToken")) ;
+		if (!Utils.isNullString(auth)) {
+			ctx  = staticHTMLPage.getViewController().generateContext(auth,staticHTMLPage);
+		}else {
+			ctx  = staticHTMLPage.getViewController().generateContext(req,response,staticHTMLPage);
+		}
+		if ( (ctx == null || !ctx.isAuthenticated()) && config.isAuthRequired()) {
+			throw new RadsAuthenticationException();
+		}else if(! ctx.isAuthorized()) {
+			throw new RadsAuthorizationException();
+		}
+		objController.setContext(ctx);
+		XMLElement htmlFile = root.getFirstChildElement(TAG_HTMLFILE) ;
+		String fileName = htmlFile.getValue() ;
+		staticHTMLPage.setHtmlPage(fileName);
+		return staticHTMLPage ;
+		}catch (Exception ex) {
+			ex.printStackTrace();
+			throw new RadsException (ex.getMessage()) ;
+		}
+	}
 	protected static UICRUDPage generateCRUDPage (Document  pageElement,String templateName,ModelObject object,HttpServletRequest req,
 			ViewController.Mode mode,HttpServletResponse response,PageConfig config) 
 			throws RadsException,ServletException{

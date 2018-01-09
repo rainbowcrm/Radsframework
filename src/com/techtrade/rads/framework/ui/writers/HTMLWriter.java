@@ -28,21 +28,7 @@ import com.techtrade.rads.framework.model.graphdata.PieChartData;
 import com.techtrade.rads.framework.ui.abstracts.UIControl;
 import com.techtrade.rads.framework.ui.abstracts.UIPage;
 import com.techtrade.rads.framework.ui.abstracts.Writer;
-import com.techtrade.rads.framework.ui.components.AjaxGroup;
-import com.techtrade.rads.framework.ui.components.SortCriteria;
-import com.techtrade.rads.framework.ui.components.UICRUDPage;
-import com.techtrade.rads.framework.ui.components.UIElement;
-import com.techtrade.rads.framework.ui.components.UIFixedPanel;
-import com.techtrade.rads.framework.ui.components.UIForm;
-import com.techtrade.rads.framework.ui.components.UIGeneralPage;
-import com.techtrade.rads.framework.ui.components.UIListPage;
-import com.techtrade.rads.framework.ui.components.UILookupPage;
-import com.techtrade.rads.framework.ui.components.UITable;
-import com.techtrade.rads.framework.ui.components.UITableCol;
-import com.techtrade.rads.framework.ui.components.UITableFooter;
-import com.techtrade.rads.framework.ui.components.UITableHead;
-import com.techtrade.rads.framework.ui.components.UITableRow;
-import com.techtrade.rads.framework.ui.components.UITransactionPage;
+import com.techtrade.rads.framework.ui.components.*;
 import com.techtrade.rads.framework.ui.constants.FixedAction;
 import com.techtrade.rads.framework.ui.constants.RadsControlConstants;
 import com.techtrade.rads.framework.ui.controls.UIBooleanCheckBox;
@@ -611,6 +597,8 @@ public class HTMLWriter extends Writer{
 				writeLookupPage(out, (UILookupPage)page , object,page.getViewController());
 			} else if(page instanceof  UIGeneralPage) {
 				writeGeneralPage(out, (UIGeneralPage)page, object, page.getViewController());
+			}else if(page instanceof  UIStaticHTMLPage) {
+				writeStaticHTMLPage(out, (UIStaticHTMLPage)page, object, page.getViewController());
 			}
 						
 		}catch(Exception ex) {
@@ -880,7 +868,7 @@ public class HTMLWriter extends Writer{
 				if(list.isMultiSelect()  &&  list.getValue() instanceof String[]) {
 					String [] vals = (String  [])list.getValue();
 					for (int i =0 ; i < vals.length ; i ++ ) {
-						if(vals[i].equals(st)) {
+						if(vals[i]!= null && vals[i].equals(st)) {
 							selected ="selected";
 							break;
 						}
@@ -1861,7 +1849,15 @@ public class HTMLWriter extends Writer{
 		out.println("</Body>") ;
 		out.println("</HTML>");
 	}
-	
+
+	protected void writeStaticHTMLPage(PrintWriter out, UIStaticHTMLPage page, Object value, ViewController controller) throws IOException{
+		out.println("<HTML>") ;
+		out.println("<Body> ") ;
+		out.println("<iframe src=\"" + page.getHtmlPage()+ " \"  style =\"width:100%;height:100%\" seamless></iframe>");
+		out.println("</Body> ") ;
+		out.println("<HTML>") ;
+
+	}
 	protected void writeAddEditPage(PrintWriter out, UICRUDPage page, Object value,ViewController controller) throws IOException{
 		out.println("<HTML>") ;
 		out.println("<Title>") ;
