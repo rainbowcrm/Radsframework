@@ -379,6 +379,8 @@ public class HTMLWriter extends Writer{
 				value =  element.GenerateValue(controller, object, generatedValue);
 				if (control instanceof UILabel && Utils.isNullString(((UILabel)control).getLabel()))
 					((UILabel)control).setLabel(String.valueOf(value));
+				if(control instanceof  UIImage && Utils.isNullString(((UIImage)control).getSrc()))
+					((UIImage)control).setSrc(String.valueOf(value));
 			}else if (!Utils.isNullString(propertyName) && object instanceof  ModelObject && element.getControl().getValue() == null) {
 				//control.setDataProperty(propertyName);
 				if ( propertyName.startsWith("Controller."))  {

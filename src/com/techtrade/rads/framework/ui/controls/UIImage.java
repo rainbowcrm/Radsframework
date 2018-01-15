@@ -6,6 +6,7 @@ public class UIImage extends UIControl{
 	private String width ;
 	private String height ;
 	private String src;
+	private String generatedSrc;
 	private String title;
 	private String onClick ;
 	
@@ -42,7 +43,13 @@ public class UIImage extends UIControl{
 	public void setTitle(String title) {
 		this.title = title;
 	}
-	
-	
 
+
+	public String getGeneratedSrc() {
+		return generatedSrc;
+	}
+
+	public void setGeneratedSrc(String generatedSrc) {
+		this.generatedSrc = generatedSrc;
+	}
 }
