@@ -25,40 +25,7 @@ import com.techtrade.rads.framework.ui.components.UITableRow;
 import com.techtrade.rads.framework.ui.config.AppConfig;
 import com.techtrade.rads.framework.ui.config.PanelConfig;
 import com.techtrade.rads.framework.ui.constants.FixedAction;
-import com.techtrade.rads.framework.ui.controls.UIBooleanCheckBox;
-import com.techtrade.rads.framework.ui.controls.UIBreak;
-import com.techtrade.rads.framework.ui.controls.UIButton;
-import com.techtrade.rads.framework.ui.controls.UICheckBox;
-import com.techtrade.rads.framework.ui.controls.UICondition;
-import com.techtrade.rads.framework.ui.controls.UIDataList;
-import com.techtrade.rads.framework.ui.controls.UIDate;
-import com.techtrade.rads.framework.ui.controls.UIDialog;
-import com.techtrade.rads.framework.ui.controls.UIDiv;
-import com.techtrade.rads.framework.ui.controls.UIElementCollection;
-import com.techtrade.rads.framework.ui.controls.UIEmail;
-import com.techtrade.rads.framework.ui.controls.UIErrorList;
-import com.techtrade.rads.framework.ui.controls.UIErrorObject;
-import com.techtrade.rads.framework.ui.controls.UIFileUpload;
-import com.techtrade.rads.framework.ui.controls.UIHeader;
-import com.techtrade.rads.framework.ui.controls.UIHidden;
-import com.techtrade.rads.framework.ui.controls.UIHyperLink;
-import com.techtrade.rads.framework.ui.controls.UIIFrame;
-import com.techtrade.rads.framework.ui.controls.UIImage;
-import com.techtrade.rads.framework.ui.controls.UILabel;
-import com.techtrade.rads.framework.ui.controls.UIList;
-import com.techtrade.rads.framework.ui.controls.UILookupDataList;
-import com.techtrade.rads.framework.ui.controls.UILookupText;
-import com.techtrade.rads.framework.ui.controls.UIMenu;
-import com.techtrade.rads.framework.ui.controls.UINote;
-import com.techtrade.rads.framework.ui.controls.UIParagraph;
-import com.techtrade.rads.framework.ui.controls.UIPassword;
-import com.techtrade.rads.framework.ui.controls.UIRadioBox;
-import com.techtrade.rads.framework.ui.controls.UIStaticText;
-import com.techtrade.rads.framework.ui.controls.UITab;
-import com.techtrade.rads.framework.ui.controls.UITabSet;
-import com.techtrade.rads.framework.ui.controls.UIText;
-import com.techtrade.rads.framework.ui.controls.UITextArea;
-import com.techtrade.rads.framework.ui.controls.UITile;
+import com.techtrade.rads.framework.ui.controls.*;
 import com.techtrade.rads.framework.ui.controls.graphs.UIBarChart;
 import com.techtrade.rads.framework.ui.controls.graphs.UIGaugeChart;
 import com.techtrade.rads.framework.ui.controls.graphs.UILineChart;
@@ -509,7 +476,16 @@ public class UIElementGenerator {
 
 				}
 			}
-		}else if (("UIMenu").equalsIgnoreCase(type)) {
+		}else if (("UIMenuSet").equalsIgnoreCase(type)) {
+			UIMenuSet menuSet = new UIMenuSet();
+			if (!Utils.isNullList(doc.getChildElements())) {
+				for (XMLElement menuEle: doc.getAllChildElements()) {
+					UIElement childMenuElement = getUIElement(menuEle, controller, page, styleonChildren, style);
+					menuSet.addMenu((UIMenu) childMenuElement.getControl());
+				}
+			}
+			elem = new UIElement(label,menuSet);
+		} if (("UIMenu").equalsIgnoreCase(type)) {
 			UIMenu menu = new UIMenu(id);
 			elem = new UIElement(label,menu);
 			String title = doc.getAttributeValue(TAG_TITLE);

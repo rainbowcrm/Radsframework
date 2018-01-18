@@ -31,41 +31,7 @@ import com.techtrade.rads.framework.ui.abstracts.Writer;
 import com.techtrade.rads.framework.ui.components.*;
 import com.techtrade.rads.framework.ui.constants.FixedAction;
 import com.techtrade.rads.framework.ui.constants.RadsControlConstants;
-import com.techtrade.rads.framework.ui.controls.UIBooleanCheckBox;
-import com.techtrade.rads.framework.ui.controls.UIBreak;
-import com.techtrade.rads.framework.ui.controls.UIButton;
-import com.techtrade.rads.framework.ui.controls.UICondition;
-import com.techtrade.rads.framework.ui.controls.UIDataList;
-import com.techtrade.rads.framework.ui.controls.UIDate;
-import com.techtrade.rads.framework.ui.controls.UIDialog;
-import com.techtrade.rads.framework.ui.controls.UIDiv;
-import com.techtrade.rads.framework.ui.controls.UIElementCollection;
-import com.techtrade.rads.framework.ui.controls.UIEmail;
-import com.techtrade.rads.framework.ui.controls.UIErrorList;
-import com.techtrade.rads.framework.ui.controls.UIErrorObject;
-import com.techtrade.rads.framework.ui.controls.UIFileUpload;
-import com.techtrade.rads.framework.ui.controls.UIFilterSet;
-import com.techtrade.rads.framework.ui.controls.UIHeader;
-import com.techtrade.rads.framework.ui.controls.UIHidden;
-import com.techtrade.rads.framework.ui.controls.UIHyperLink;
-import com.techtrade.rads.framework.ui.controls.UIIFrame;
-import com.techtrade.rads.framework.ui.controls.UIImage;
-import com.techtrade.rads.framework.ui.controls.UILabel;
-import com.techtrade.rads.framework.ui.controls.UIList;
-import com.techtrade.rads.framework.ui.controls.UICheckBox;
-import com.techtrade.rads.framework.ui.controls.UILookupDataList;
-import com.techtrade.rads.framework.ui.controls.UILookupText;
-import com.techtrade.rads.framework.ui.controls.UIMenu;
-import com.techtrade.rads.framework.ui.controls.UINote;
-import com.techtrade.rads.framework.ui.controls.UIParagraph;
-import com.techtrade.rads.framework.ui.controls.UIPassword;
-import com.techtrade.rads.framework.ui.controls.UIRadioBox;
-import com.techtrade.rads.framework.ui.controls.UIStaticText;
-import com.techtrade.rads.framework.ui.controls.UITab;
-import com.techtrade.rads.framework.ui.controls.UITabSet;
-import com.techtrade.rads.framework.ui.controls.UIText;
-import com.techtrade.rads.framework.ui.controls.UITextArea;
-import com.techtrade.rads.framework.ui.controls.UITile;
+import com.techtrade.rads.framework.ui.controls.*;
 import com.techtrade.rads.framework.ui.controls.graphs.UIBarChart;
 import com.techtrade.rads.framework.ui.controls.graphs.UIGaugeChart;
 import com.techtrade.rads.framework.ui.controls.graphs.UIGraphBar;
@@ -528,6 +494,8 @@ public class HTMLWriter extends Writer{
 				writeLabel(out, (UILabel) control,true,value,controller);
 			}else if ( control instanceof UIMenu) {
 				writeMenu(out, (UIMenu) control);
+			}else if ( control instanceof UIMenuSet) {
+				writeMenuSet(out, (UIMenuSet) control);
 			}else if ( control instanceof UIBreak) {
 				writeBreak(out, (UIBreak) control);
 			}else if ( control instanceof UIStaticText) {
@@ -568,7 +536,17 @@ public class HTMLWriter extends Writer{
 		}
 		
 	}
-	
+
+	protected void writeMenuSet(PrintWriter out, UIMenuSet menuSet) throws IOException {
+
+		if(!Utils.isNullList(menuSet.getMenus()))  {
+			for (UIMenu  uiMenu :  menuSet.getMenus()) {
+				writeMenu(out,uiMenu);
+			}
+		}
+
+
+	}
 	
 	protected void writeFixedPanel(PrintWriter out, UIFixedPanel panel,Object value,ViewController controller) throws IOException {
 		String style = (!Utils.isNullString(panel.getStyle()) ? "class=\"" + panel.getStyle() + "\"" : "");

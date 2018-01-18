@@ -17,24 +17,7 @@ import com.techtrade.rads.framework.ui.components.UITableHead;
 import com.techtrade.rads.framework.ui.components.UITableRow;
 import com.techtrade.rads.framework.ui.constants.FixedAction;
 import com.techtrade.rads.framework.ui.constants.RadsControlConstants;
-import com.techtrade.rads.framework.ui.controls.UIBooleanCheckBox;
-import com.techtrade.rads.framework.ui.controls.UIButton;
-import com.techtrade.rads.framework.ui.controls.UICheckBox;
-import com.techtrade.rads.framework.ui.controls.UIDataList;
-import com.techtrade.rads.framework.ui.controls.UIDate;
-import com.techtrade.rads.framework.ui.controls.UIEmail;
-import com.techtrade.rads.framework.ui.controls.UIFileUpload;
-import com.techtrade.rads.framework.ui.controls.UIList;
-import com.techtrade.rads.framework.ui.controls.UILookupDataList;
-import com.techtrade.rads.framework.ui.controls.UILookupText;
-import com.techtrade.rads.framework.ui.controls.UIMenu;
-import com.techtrade.rads.framework.ui.controls.UIPassword;
-import com.techtrade.rads.framework.ui.controls.UIRadioBox;
-import com.techtrade.rads.framework.ui.controls.UITab;
-import com.techtrade.rads.framework.ui.controls.UITabSet;
-import com.techtrade.rads.framework.ui.controls.UIText;
-import com.techtrade.rads.framework.ui.controls.UITextArea;
-import com.techtrade.rads.framework.ui.controls.UITile;
+import com.techtrade.rads.framework.ui.controls.*;
 import com.techtrade.rads.framework.ui.controls.graphs.UIBarChart;
 import com.techtrade.rads.framework.ui.controls.graphs.UIGaugeChart;
 import com.techtrade.rads.framework.ui.controls.graphs.UIGraphPath;
@@ -225,9 +208,70 @@ public class BootstrapWriter  extends  HTMLWriter{
 
 	}
 
+	protected void writeMenuSet(PrintWriter out, UIMenuSet menuSet) throws IOException {
 
-	protected void writeMenu(PrintWriter out, UIMenu menu) throws IOException {
+
+		out.println("<div class=\"nav-side-menu\">") ;  //fa-bars
+		out.println("<i class=\"fa  fa-2x toggle-btn\" data-toggle=\"collapse\" data-target=\"#menu-content\"></i>") ;
+		out.println("<div class=\"menu-list\">") ;
+		out.println("<ul id=\"menu-content\" class=\"menu-content collapse out\">") ;
+		if(!Utils.isNullList(menuSet.getMenus()))  {
+			for (UIMenu  uiMenu :  menuSet.getMenus()) {
+				writeMenu(out,uiMenu);
+			}
+		}
+
+		out.println("</ul>") ;
+		out.println("</div>") ;
+		out.println("</div>") ;
+	}
+	protected void writeParentMenu(PrintWriter out, UIMenu menu) throws IOException {
+
 		String menuText = menu.getMenuText();
+		if(menu.isExternalize()) {
+			IExternalizeFacade facade  = currentPage.getExternalizeFacade() ;
+			menuText =  facade.externalize(context, menuText);
+		}
+		String iconList = menu.getIconStyle();
+		out.println("<li  data-toggle=\"collapse\" data-target=\"#" + menu.getGroupId() + "\" class=\"collapsed active\">");
+		out.println("<a href=\"#\"><i class=\"" + iconList + "\"></i>" +  "<span class=\""+ menu.getStyle() +"\"> "  + menuText + "</span></a> ");
+		if (!Utils.isNullCollection(menu.getChildMenus())) {
+			out.println("<ul class=\"sub-menu collapse\" id=\""+ menu.getGroupId() + "\">");
+			for (UIMenu childMenu : menu.getChildMenus()) {
+				writeChildMenu(out,childMenu);
+			}
+			out.println("</ul>");
+		}
+		out.println("</li>");
+
+	}
+
+	protected void writeChildMenu(PrintWriter out, UIMenu menu) throws IOException {
+		String menuText = menu.getMenuText();
+		if(menu.isExternalize()) {
+			IExternalizeFacade facade  = currentPage.getExternalizeFacade() ;
+			menuText =  facade.externalize(context, menuText);
+		}
+		String menuClick = "\"window.location.href ='"+ menu.getMenuLink() +"'\"" ;
+		String groupId= menu.getGroupId() ;
+		if (!Utils.isNullList(menu.getChildMenus())) {
+			menuClick = "toggleMenuVisibility('" + groupId +"')  ;" ;
+		} else if (Utils.isNullString(menu.getMenuLink())  && !Utils.isNullString(menu.getIframeSrc()) ) {
+			String iframeId = menu.getIframeId() ;
+			String iframeSrc = menu.getIframeSrc() ;
+			menuClick = "refreshIFrameSrc('"+ iframeId + "','"+ iframeSrc+"')" ;
+		}
+ 		out.println("<li " +" onClick=" + menuClick +">") ;
+		out.println("<span class=\""+ menu.getStyle() +"\"> " + menuText + "</span>");
+		out.println("</li>") ;
+
+	}
+	protected void writeMenu(PrintWriter out, UIMenu menu) throws IOException {
+		if(!Utils.isNullCollection(menu.getChildMenus()))
+			 writeParentMenu(out,menu);
+		else
+			writeChildMenu(out,menu);
+		/*String menuText = menu.getMenuText();
 		String iconList = menu.getIconStyle();
 		if(menu.isExternalize()) {
 			IExternalizeFacade facade  = currentPage.getExternalizeFacade() ;
@@ -244,6 +288,8 @@ public class BootstrapWriter  extends  HTMLWriter{
 			String iframeSrc = menu.getIframeSrc() ;
 			menuClick = "refreshIFrameSrc('"+ iframeId + "','"+ iframeSrc+"')" ;
 		}
+
+
 		out.println("<li id=\"" + menu.getId()+ "\" "+ style +" onClick=" + menuClick +">");
 		if(null != iconList){
 			//add icon here
@@ -260,7 +306,7 @@ public class BootstrapWriter  extends  HTMLWriter{
 			writeMenu(out,childMenu) ;
 		}
 		out.println("</ul>") ;
-		out.println("</li>");
+		out.println("</li>");*/
 
 	}
 
