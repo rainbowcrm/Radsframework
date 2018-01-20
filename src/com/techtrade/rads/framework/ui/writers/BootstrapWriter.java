@@ -9,12 +9,7 @@ import java.util.Set;
 import com.techtrade.rads.framework.controller.abstracts.IExternalizeFacade;
 import com.techtrade.rads.framework.controller.abstracts.ViewController;
 import com.techtrade.rads.framework.ui.abstracts.UIPage;
-import com.techtrade.rads.framework.ui.components.UIElement;
-import com.techtrade.rads.framework.ui.components.UILookupPage;
-import com.techtrade.rads.framework.ui.components.UITable;
-import com.techtrade.rads.framework.ui.components.UITableFooter;
-import com.techtrade.rads.framework.ui.components.UITableHead;
-import com.techtrade.rads.framework.ui.components.UITableRow;
+import com.techtrade.rads.framework.ui.components.*;
 import com.techtrade.rads.framework.ui.constants.FixedAction;
 import com.techtrade.rads.framework.ui.constants.RadsControlConstants;
 import com.techtrade.rads.framework.ui.controls.*;
@@ -253,6 +248,7 @@ public class BootstrapWriter  extends  HTMLWriter{
 			menuText =  facade.externalize(context, menuText);
 		}
 		String menuClick = "\"window.location.href ='"+ menu.getMenuLink() +"'\"" ;
+		String iconList = menu.getIconStyle();
 		String groupId= menu.getGroupId() ;
 		if (!Utils.isNullList(menu.getChildMenus())) {
 			menuClick = "toggleMenuVisibility('" + groupId +"')  ;" ;
@@ -262,6 +258,8 @@ public class BootstrapWriter  extends  HTMLWriter{
 			menuClick = "refreshIFrameSrc('"+ iframeId + "','"+ iframeSrc+"')" ;
 		}
  		out.println("<li " +" onClick=" + menuClick +">") ;
+		if(!Utils.isNullString(iconList))
+			out.println("<i class=\"" + iconList + "\"></i>");
 		out.println("<span class=\""+ menu.getStyle() +"\"> " + menuText + "</span>");
 		out.println("</li>") ;
 
@@ -483,6 +481,27 @@ protected void writeTile(PrintWriter out, UITile tile,Object value,ViewControlle
 		+ "\">" + str + "</textarea>");
 		
 	
+	}
+
+	protected void writeFilterSet(PrintWriter out, UIFilterSet filterSet,Object value,ViewController controller, UIListPage page) throws IOException {
+		if (filterSet!= null && page.getFilter() != null) {
+			updateFilterSet(filterSet,page.getFilter());
+		}
+		if (filterSet!= null )	{
+			out.println("<button type=\"button\" class=\"btn btn-info\" data-toggle=\"collapse\" data-target=\"#"+filterSet.getId()+"\">");
+			out.println("<i class='glyphicon glyphicon-retweet'></i>");
+			out.println("</button>");
+
+			String style = (!Utils.isNullString(filterSet.getStyle()) ? "class=\"collapse " + filterSet.getStyle() + "\"" : "");
+			out.println("<div id= \""+ filterSet.getId() +   "\" " + style + ">");
+			if(!Utils.isNullList(filterSet.getElements())) {
+				for (UIElement element : filterSet.getElements() ) {
+					writeElement(element,value,controller);
+				}
+			}
+			out.println("</div>");
+		}
+
 	}
 	
 	protected void writeFileUpload(PrintWriter out, UIFileUpload fileUpload) throws Exception {
