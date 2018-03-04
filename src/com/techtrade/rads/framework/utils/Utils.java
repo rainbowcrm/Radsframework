@@ -154,6 +154,8 @@ public class Utils {
 			return Double.parseDouble(str);
 		}else if("boolean".equals(retType.getName()) || java.lang.Boolean.class.equals(retType)){
 			return Boolean.parseBoolean(str);
+		}else if("float".equals(retType.getName()) || java.lang.Float.class.equals(retType)){
+			return Float.parseFloat(str);
 		}
 		return str ;
 	}
