@@ -766,8 +766,7 @@ public class HTMLWriter extends Writer{
 			printErrors(currentPage, out);
 			out.println("</div>");
 			/*for (UIErrorObject errorObject : errorListfromPage.getErrorObjects()){
-				errorObject.setStyle(errorList.getStyle());
-				out.println("<tr><td>");
+				errorObject.setatr><td>");
 				writeError( out,  errorObject, value, controller);
 				out.println("</td></tr>");
 			}

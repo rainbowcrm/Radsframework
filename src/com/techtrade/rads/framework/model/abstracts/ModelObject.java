@@ -51,7 +51,8 @@ public abstract class ModelObject {
 					ModelObject subObject = instantiateObjectfromJSON(childElement.toString(), curMethod.getParameters()[0].getType().getName(), context);
 					curMethod.invoke(object, subObject);
 				}else if ( (java.util.Set.class.isAssignableFrom(curMethod.getParameters()[0].getType()) ||
-						java.util.List.class.isAssignableFrom(curMethod.getParameters()[0].getType()) )&&
+						java.util.List.class.isAssignableFrom(curMethod.getParameters()[0].getType()) ||
+						java.util.Collection.class.isAssignableFrom(curMethod.getParameters()[0].getType()))&&
 						childElement instanceof JSONArray ) {
 					JSONArray array = (JSONArray) childElement;
 					Collection subObjects ;
@@ -173,7 +174,8 @@ public abstract class ModelObject {
 				ModelObject subObject = instantiateObjectfromXML(childElement.toString(), curMethod.getParameters()[0].getType().getName(), context);
 				curMethod.invoke(object, subObject);
 			}else if ( (java.util.Set.class.isAssignableFrom(curMethod.getParameters()[0].getType()) ||
-					java.util.List.class.isAssignableFrom(curMethod.getParameters()[0].getType()) )) {
+					java.util.List.class.isAssignableFrom(curMethod.getParameters()[0].getType()) ||
+					java.util.Collection.class.isAssignableFrom(curMethod.getParameters()[0].getType()))) {
 				Collection subObjects ;
 				if (java.util.Set.class.isAssignableFrom(curMethod.getParameters()[0].getType()))
 					subObjects = new LinkedHashSet();

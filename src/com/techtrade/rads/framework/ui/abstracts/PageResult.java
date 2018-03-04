@@ -3,6 +3,7 @@ package com.techtrade.rads.framework.ui.abstracts;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.techtrade.rads.framework.controller.abstracts.ViewController;
 import com.techtrade.rads.framework.model.abstracts.ModelObject;
 import com.techtrade.rads.framework.model.abstracts.RadsError;
 import com.techtrade.rads.framework.model.transaction.TransactionResult;
@@ -22,7 +23,9 @@ public class PageResult extends TransactionResult{
 	 }  
 	 
 	 ResponseAction responseAction = ResponseAction.DEFAULT;
-	
+
+	 ViewController.Mode mode;
+
 	
 	public ResponseAction getResponseAction() {
 		return responseAction;
@@ -73,7 +76,13 @@ public class PageResult extends TransactionResult{
 	public void setFetchedRecords(long fetchedRecords) {
 		this.fetchedRecords = fetchedRecords;
 	}
-	
-		
-	
+
+
+	public ViewController.Mode getMode() {
+		return mode;
+	}
+
+	public void setMode(ViewController.Mode mode) {
+		this.mode = mode;
+	}
 }

@@ -33,11 +33,15 @@ public  class UICRUDPage extends UIPage {
 
 	@Override
 	public PageResult submit() throws Exception {
+		CRUDController objController = ((CRUDController)getViewController());
+		object = objController.getObject();
 		return ((CRUDController)getViewController()).submit(object);
 	}
 
 	@Override
 	public PageResult submit(String submitAction) throws Exception {
+		CRUDController objController = ((CRUDController)getViewController());
+		object = objController.getObject();
 		return ((CRUDController)getViewController()).submit(object,submitAction);
 	}
 

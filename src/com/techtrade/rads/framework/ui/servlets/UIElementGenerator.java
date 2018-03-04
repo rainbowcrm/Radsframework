@@ -695,6 +695,7 @@ public class UIElementGenerator {
 		
 		}else if (("UIDiv").equalsIgnoreCase(type)){
 			UIDiv div = new UIDiv();
+			div.setId(id);
 			String width = doc.getAttributeValue(TAG_WIDTH);
 			String align  = doc.getAttributeValue(TAG_ALIGN);
 			elem = new UIElement(div);
