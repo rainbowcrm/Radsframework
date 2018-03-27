@@ -373,14 +373,16 @@ public class HTMLReader extends Reader{
 	}
 	
 	protected void readConditionalContent  (UICondition condition, HttpServletRequest request, ModelObject object ) throws RadsException{
-		for (UIElement element : condition.getTrueElements()) {
-			if (!Utils.isNullString(element.getModelProperty())  ){
-				String value  =  request.getParameter(element.getControl().getId()) ;
-				if (!Utils.isNullString(value)){
-					callSetter(object,element, value);
+		if (!Utils.isNullList(condition.getTrueElements())) {
+			for (UIElement element : condition.getTrueElements()) {
+				if (!Utils.isNullString(element.getModelProperty())) {
+					String value = request.getParameter(element.getControl().getId());
+					if (!Utils.isNullString(value)) {
+						callSetter(object, element, value);
+					}
+				} else {
+					read(element.getControl(), object, element.getModelProperty());
 				}
-			}else {
-				read(element.getControl(), object,element.getModelProperty());
 			}
 		}
 
