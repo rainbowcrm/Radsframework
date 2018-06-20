@@ -436,7 +436,7 @@ public class BootstrapWriter  extends  HTMLWriter{
 					writeElement(element,value,controller);
 				}
 			}
-			out.println(text+"</button>");
+			out.println(buttonHtml+ text+"</button>");
 		}
 		return buttonHtml.toString();
 	}

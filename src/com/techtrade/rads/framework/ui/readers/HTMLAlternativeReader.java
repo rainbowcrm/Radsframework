@@ -162,6 +162,10 @@ public class HTMLAlternativeReader  extends HTMLReader{
 	
 	private Collection instantiateCollObject(Collection collObject,Method collectionObjectRead)
 	{
+		if (Set.class.equals(collectionObjectRead.getReturnType())) {
+			if (collObject  == null)
+				collObject = new LinkedHashSet ();
+		}
 		if (List.class.isAssignableFrom(collectionObjectRead.getReturnType()) || Collection.class.isAssignableFrom(collectionObjectRead.getReturnType())) {
 			if (collObject  == null)
 				collObject = new ArrayList ();

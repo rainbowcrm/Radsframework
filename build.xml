@@ -40,7 +40,7 @@
   </target>
   
   <target name="build-jar">
-   <jar destfile="C:/apps/pharma/lib/Rads.jar"
+   <jar destfile="C:/apps/CRMBoot/lib/Rads.jar"
       basedir="bin"
       includes="/**"
       excludes="**/Test.class">

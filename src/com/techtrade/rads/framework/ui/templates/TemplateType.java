@@ -3,6 +3,8 @@ package com.techtrade.rads.framework.ui.templates;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.techtrade.rads.framework.ui.controls.UIDiv;
+import com.techtrade.rads.framework.ui.servlets.UIElementGenerator;
 import org.omg.IOP.TAG_ORB_TYPE;
 import org.w3c.dom.Element;
 
@@ -55,6 +57,8 @@ public class TemplateType {
 	protected static final String TAG_NOROWS = "noRows";
 	protected static final String TAG_NOCOLS = "noCols";
 	protected static final String TAG_TABSTYLE =  "tabStyle" ;
+	protected static final String TAG_ADDHEADERDIV =  "addHeaderDiv" ;
+	protected static final String TAG_HEADERDIV =  "HeaderDiv";
 	protected static final String TAG_SHOWINTABLE = "showinTable";
 	protected static final String TAG_MANDATORYFIELD_MARKER = "MandatoryFieldMarker";
 	protected static final String TAG_CRUDFIELD_MARKER = "CRUDFieldMarker";
@@ -459,6 +463,22 @@ public class TemplateType {
 		String showinTable = sectionElement.getAttributeValue(TAG_SHOWINTABLE);
 		String id = sectionElement.getAttributeValue(TAG_ID);
 		String style = sectionElement.getAttributeValue(TAG_STYLE);
+		String drawHeaderDiv = sectionElement.getAttributeValue(TAG_ADDHEADERDIV);
+		if ("true".equalsIgnoreCase(drawHeaderDiv)) {
+			section.setAddHeaderDiv(true);
+			XMLElement headerDivElemCont=  sectionElement.getFirstChildElement(TAG_HEADERDIV) ;
+			try {
+				XMLElement headerDivElem =  headerDivElemCont.getFirstChildElement("Element");
+				UIElement headerDivElement = UIElementGenerator.getUIElement(headerDivElem, null, null, false, null);
+				section.setHeaderDiv((UIDiv)headerDivElement.getControl());
+			}catch(Exception ex)
+			{
+				ex.printStackTrace();
+			}
+
+
+		}
+
 		section.setId(id);
 		section.setStyle(style);
 		if("true".equalsIgnoreCase(showinTable)) {
@@ -520,7 +540,10 @@ public class TemplateType {
 
 	public class Section  {
 		boolean showIntable;
-		int noRows ;  
+		boolean addHeaderDiv  ;
+		UIDiv headerDiv;
+
+		int noRows ;
 		int noCols ;
 		String id ;
 		String style ;
@@ -597,6 +620,21 @@ public class TemplateType {
 				fixedPanels = new ArrayList<> () ;
 			fixedPanels.add(fixedPanel);
 		}
-		
+
+		public boolean isAddHeaderDiv() {
+			return addHeaderDiv;
+		}
+
+		public void setAddHeaderDiv(boolean addHeaderDiv) {
+			this.addHeaderDiv = addHeaderDiv;
+		}
+
+		public UIDiv getHeaderDiv() {
+			return headerDiv;
+		}
+
+		public void setHeaderDiv(UIDiv headerDiv) {
+			this.headerDiv = headerDiv;
+		}
 	}
 }

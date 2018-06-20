@@ -702,16 +702,17 @@ public class UIElementGenerator {
 			div.setStyle(style);
 			div.setAlign(align);
 			div.setWidth(width);
-
-			for (XMLElement childElem : doc.getChildElements()) {
-				if(("ErrorSection").equalsIgnoreCase(childElem.getTag())){ 
-					UIErrorList list = new UIErrorList();
-					UIElement element = new UIElement(list);
-					div.addElement(element);
-				}  else {
-				UIElement element = getUIElement(childElem, controller, page,styleonChildren,style);
-				if(element != null)
-					div.addElement(element);
+			if(!Utils.isNullList(doc.getChildElements())) {
+				for (XMLElement childElem : doc.getChildElements()) {
+					if (("ErrorSection").equalsIgnoreCase(childElem.getTag())) {
+						UIErrorList list = new UIErrorList();
+						UIElement element = new UIElement(list);
+						div.addElement(element);
+					} else {
+						UIElement element = getUIElement(childElem, controller, page, styleonChildren, style);
+						if (element != null)
+							div.addElement(element);
+					}
 				}
 			}
 			

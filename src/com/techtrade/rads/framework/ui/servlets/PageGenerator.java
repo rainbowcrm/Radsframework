@@ -696,6 +696,7 @@ public class PageGenerator {
 		UIDiv div  = new UIDiv() ;
 		div.setStyle(tempSection.getStyle());
 		div.setId(tempSection.getId());
+
 		if (!Utils.isNullList(tempSection.getFixedPanels())) {
 			for(PanelDef pDef : tempSection.getFixedPanels()) {
 				List<UIElement> panelContents = getPanel(pDef, objController, page) ; 
@@ -731,7 +732,14 @@ public class PageGenerator {
  		}*/
 		
 		div =applyTabularization(tempSection, div);
-		
+		if(tempSection.isAddHeaderDiv())  {
+
+			UIDiv headerDiv =  tempSection.getHeaderDiv() ;
+			List<UIElement> newElementList = new ArrayList<>() ;
+			newElementList.add(new UIElement(headerDiv)) ;
+			newElementList.addAll(div.getElements()) ;
+			div.setElements(newElementList);
+		}
 		
 		
 		return div;
