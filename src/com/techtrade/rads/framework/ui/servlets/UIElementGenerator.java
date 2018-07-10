@@ -83,6 +83,7 @@ public class UIElementGenerator {
 	protected static String TAG_FIXEDACTIONSHOW_WARN= "fixedActionshowWarning";
 	protected static String TAG_FIXEDACTION_WARN_MSG= "fixedActionwaringMessage";
 	protected static String TAG_FIXEDACTION_VAIDATEFUN= "fixedActionvalidateFunc";
+	protected static String TAG_MENUCODE= "menuCode";
 	protected static String TAG_ICON_STYLE= "iconStyle";
 	protected static String TAG_USEGOOGLEGRAPH = "useGoogleGraph";
 	protected static String TAG_USECORECHART =  "useCoreChart";
@@ -303,7 +304,16 @@ public class UIElementGenerator {
 		}
 		
 	}
-	
+
+	private static boolean getMenuVisibility(ViewController obj , String methodName,String methodParam) throws Exception {
+		Method methodRead =  obj.getClass().getMethod(methodName, new Class[]{String.class});
+		if (methodRead.getReturnType().equals(boolean.class)) {
+			boolean ans = (boolean) methodRead.invoke(obj, methodParam);
+			return ans ;
+		}
+		return true;
+	}
+
 	public static UIElement getUIElement(XMLElement doc,ViewController controller,UIPage page,boolean propogateStyletoChildren, String parentStyle) throws Exception {
 		String type = doc.getAttributeValue(TAG_TYPE) ;
 		String label = doc.getAttributeValue(TAG_LABEL);
@@ -481,7 +491,8 @@ public class UIElementGenerator {
 			if (!Utils.isNullList(doc.getChildElements())) {
 				for (XMLElement menuEle: doc.getAllChildElements()) {
 					UIElement childMenuElement = getUIElement(menuEle, controller, page, styleonChildren, style);
-					menuSet.addMenu((UIMenu) childMenuElement.getControl());
+					if  (childMenuElement != null)
+						menuSet.addMenu((UIMenu) childMenuElement.getControl());
 				}
 			}
 			elem = new UIElement(label,menuSet);
@@ -492,13 +503,21 @@ public class UIElementGenerator {
 			String iconStyle = doc.getAttributeValue(TAG_ICON_STYLE);
 			String iframeId = doc.getAttributeValue(TAG_IFRAMECTRLID);
 			String iframeSrc = doc.getAttributeValue(TAG_IFRAMESRC);
-			
+			String menuCode = doc.getAttributeValue(TAG_MENUCODE);
+			if (!Utils.isNullString(menuCode))
+				menu.setMenuCode(menuCode);
 			if (!Utils.isNullString(iconStyle))
 				menu.setIconStyle(iconStyle);
 			menu.setIframeId(iframeId);
 			menu.setIframeSrc(iframeSrc);
+			if (!Utils.isNullString(menuCode)  && !Utils.isNullString(rendered)) {
+				boolean menuVisible = getMenuVisibility(controller, rendered, menuCode);
+				if (menuVisible == false)
+					return  null;
+			}
 			
-			
+
+
 			if (Utils.isNullList(doc.getAllChildElements()) ) {
 				String link =  doc.getAttributeValue(TAG_LINK);
 				menu.setMenuLink(link);
@@ -507,14 +526,19 @@ public class UIElementGenerator {
 				menu.setGroupId(groupId);
 				for (XMLElement menuEle: doc.getAllChildElements()) {
 					 UIElement  childMenuElement  = getUIElement(menuEle, controller, page,styleonChildren,style);
-					 if (Utils.isNullString(childMenuElement.getControl().getStyle()) && "true".equalsIgnoreCase(tagApplyStyleonChildren)) {
-						 childMenuElement.getControl().setStyle(style);
+					 if (childMenuElement != null ) {
+						 if (Utils.isNullString(childMenuElement.getControl().getStyle()) && "true".equalsIgnoreCase(tagApplyStyleonChildren)) {
+							 childMenuElement.getControl().setStyle(style);
+						 }
+						 menu.addChileMenu(((UIMenu) childMenuElement.getControl()));
 					 }
-					 menu.addChileMenu(((UIMenu)childMenuElement.getControl()))  ;
 				}
+				if (Utils.isNullList(menu.getChildMenus() ))
+					return null;
 			}
 			menu.setMenuText(title);
 			menu.setStyle(style);
+
 			
 		}else if (("UIBreak").equalsIgnoreCase(type)) {
 			UIBreak breakCtrl = new UIBreak();

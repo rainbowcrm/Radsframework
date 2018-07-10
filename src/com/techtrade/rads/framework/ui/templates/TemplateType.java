@@ -56,10 +56,13 @@ public class TemplateType {
 	protected static final String TAG_CORESECTION = "CoreSection";
 	protected static final String TAG_NOROWS = "noRows";
 	protected static final String TAG_NOCOLS = "noCols";
+	protected static final String TAG_ROWSTYLE = "rowStyle";
+	protected static final String TAG_COLSTYLE = "colStyle";
 	protected static final String TAG_TABSTYLE =  "tabStyle" ;
 	protected static final String TAG_ADDHEADERDIV =  "addHeaderDiv" ;
 	protected static final String TAG_HEADERDIV =  "HeaderDiv";
 	protected static final String TAG_SHOWINTABLE = "showinTable";
+	protected static final String TAG_SHOWINDIVTABLE = "showinDivTable";
 	protected static final String TAG_MANDATORYFIELD_MARKER = "MandatoryFieldMarker";
 	protected static final String TAG_CRUDFIELD_MARKER = "CRUDFieldMarker";
 	
@@ -461,6 +464,7 @@ public class TemplateType {
 			return null ; 
 		Section section  = new Section();
 		String showinTable = sectionElement.getAttributeValue(TAG_SHOWINTABLE);
+		String showinDivTable = sectionElement.getAttributeValue(TAG_SHOWINDIVTABLE);
 		String id = sectionElement.getAttributeValue(TAG_ID);
 		String style = sectionElement.getAttributeValue(TAG_STYLE);
 		String drawHeaderDiv = sectionElement.getAttributeValue(TAG_ADDHEADERDIV);
@@ -481,11 +485,29 @@ public class TemplateType {
 
 		section.setId(id);
 		section.setStyle(style);
+		if ("true".equalsIgnoreCase(showinDivTable))  {
+			section.setShowInDivtable(true);
+			XMLElement rows = sectionElement.getFirstChildElement(TAG_NOROWS) ;
+			XMLElement cols = sectionElement.getFirstChildElement(TAG_NOCOLS) ;
+			String rowStyle = sectionElement.getAttributeValue(TAG_ROWSTYLE) ;
+			String colStyle = sectionElement.getAttributeValue(TAG_COLSTYLE) ;
+			section.setRowStyle(rowStyle);
+			section.setColStyle(colStyle);
+			if (rows!= null &&  Utils.isPositiveInt(rows.getValue()))
+				section.setNoRows(Integer.parseInt(rows.getValue()));
+			else
+				section.setNoRows(-1);
+			if (cols != null && Utils.isPositiveInt(cols.getValue()))
+				section.setNoCols(Integer.parseInt(cols.getValue()));
+			else
+				section.setNoCols(-1);
+		}
 		if("true".equalsIgnoreCase(showinTable)) {
 			section.setShowIntable(true);
 			XMLElement rows = sectionElement.getFirstChildElement(TAG_NOROWS) ;
 			XMLElement cols = sectionElement.getFirstChildElement(TAG_NOCOLS) ;
 			String tabStyle = sectionElement.getAttributeValue(TAG_TABSTYLE) ;
+
 			if ( !Utils.isNullString(tabStyle))
 				section.setTabStyle(tabStyle);
 			if (rows!= null &&  Utils.isPositiveInt(rows.getValue())) 
@@ -540,8 +562,12 @@ public class TemplateType {
 
 	public class Section  {
 		boolean showIntable;
+		boolean showInDivtable;
 		boolean addHeaderDiv  ;
 		UIDiv headerDiv;
+
+		String rowStyle;
+		String  colStyle;
 
 		int noRows ;
 		int noCols ;
@@ -584,10 +610,15 @@ public class TemplateType {
 		public void setStyle(String style) {
 			this.style = style;
 		}
-		
-		
-		
-		
+
+		public boolean isShowInDivtable() {
+			return showInDivtable;
+		}
+
+		public void setShowInDivtable(boolean showInDivtable) {
+			this.showInDivtable = showInDivtable;
+		}
+
 		public String getTabStyle() {
 			return tabStyle;
 		}
@@ -635,6 +666,22 @@ public class TemplateType {
 
 		public void setHeaderDiv(UIDiv headerDiv) {
 			this.headerDiv = headerDiv;
+		}
+
+		public String getRowStyle() {
+			return rowStyle;
+		}
+
+		public void setRowStyle(String rowStyle) {
+			this.rowStyle = rowStyle;
+		}
+
+		public String getColStyle() {
+			return colStyle;
+		}
+
+		public void setColStyle(String colStyle) {
+			this.colStyle = colStyle;
 		}
 	}
 }

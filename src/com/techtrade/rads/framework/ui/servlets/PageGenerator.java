@@ -121,7 +121,8 @@ public class PageGenerator {
 	protected static String TAG_LISTFIELDID  ="listFieldId";
 	protected static String TAG_DATAENTRYCOLS  = "DataEntryColumns";
 
-	
+	protected static final String TAG_ADDHEADERDIV =  "addHeaderDiv" ;
+	protected static final String TAG_HEADERDIV =  "HeaderDiv";
 	
 	
 	protected static String TAG_TEMPLATENAME = "name";
@@ -600,6 +601,13 @@ public class PageGenerator {
 			div.setStyle(template.getPageStyle());
 		else
 			div.setStyle(coreStyle);
+		String drawHeaderDiv = section.getAttributeValue(TAG_ADDHEADERDIV);
+		if ("true".equalsIgnoreCase(drawHeaderDiv)) {
+			XMLElement headerDivElemCont = section.getFirstChildElement(TAG_HEADERDIV);
+			XMLElement headerDivElem = headerDivElemCont.getFirstChildElement("Element");
+			UIElement headerDivElement = UIElementGenerator.getUIElement(headerDivElem, null, null, false, null);
+			div.addElement(headerDivElement);
+		}
 		for (XMLElement sectionElement : elementList) {
 			if (sectionElement.getTag().equals(TAG_SECTION)) {
 				UIDiv divChi = readSection(sectionElement, page.getTemplate(), objController, page);
@@ -764,6 +772,23 @@ public class PageGenerator {
  		div.setElements(null);
  		tableDet.setStyle(tempSection.getTabStyle());
  		div.addElement(new UIElement(tableDet));
+	} else if (tempSection.isShowInDivtable())  {
+			int cond =0  ;
+			if (!Utils.isNullList(div.getElements()))  {
+				for (UIElement element : div.getElements() )  {
+					if (element instanceof UICondition) {
+			 			/*UITable tableDet  = UITable.tabularizeElements("TBLCnd" + cond++, ((UICondition)element).getTrueElements(), tempSection.getNoCols()) ;
+			 			((UICondition)element).setTrueElements(null);
+			 			((UICondition)element).addTrueElement(new UIElement(tableDet));*/
+						if(!Utils.isNullList(((UICondition)element).getTrueElements()))
+							div.insertAt(element, ((UICondition)element).getTrueElements());
+					}
+				}
+			}
+			UIDiv tableDet  = UIDiv.tabularizeElements("TBL" + tempSection.getId(), div.getElements(), tempSection.getNoRows(), tempSection.getNoCols()) ;
+			div.setElements(null);
+			tableDet.setStyle(tempSection.getTabStyle());
+			div.addElement(new UIElement(tableDet));
 	}
 		return div;
 	}
