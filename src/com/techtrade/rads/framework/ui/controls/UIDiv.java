@@ -88,12 +88,15 @@ public class UIDiv extends UIControl{
 	}
 
 
-	public static UIDiv tabularizeElements(String id ,List<UIElement> elements,int norows, int noCols, String rowStyle, String colStyle) {
+	public static UIDiv tabularizeElements(String id ,List<UIElement> elements,int norows, int noCols, String headerStyle, String rowStyle, String colStyle) {
 		UIDiv table  = new UIDiv(id);
+		table.setStyle(headerStyle);
 		UIDiv row = new UIDiv();
+		row.setStyle(rowStyle);
+
 		int curCol = 0 ;
 		if (norows == -1 ) {
-			return tabularizeElements(id, elements, noCols,rowStyle,colStyle);
+			return tabularizeElements(id, elements, noCols,headerStyle,rowStyle,colStyle);
 		}
 		if (!Utils.isNullList(elements)) {
 			int totalNoCells = norows * noCols ;
@@ -123,10 +126,12 @@ public class UIDiv extends UIControl{
 
 
 
-	public static UIDiv tabularizeElements(String id ,List<UIElement> elements, int noCols, String rowStyle, String colStyle) {
+	public static UIDiv tabularizeElements(String id ,List<UIElement> elements, int noCols, String headerStyle, String rowStyle, String colStyle) {
 
 		UIDiv table  = new UIDiv(id);
+		table.setStyle(headerStyle);
 		UIDiv row = new UIDiv();
+		row.setStyle(rowStyle);
 		int curCol = 0 ;
 		Queue<UIElement> queue = new Queue<UIElement>();
 		if (!Utils.isNullList(elements)) {
@@ -165,6 +170,7 @@ public class UIDiv extends UIControl{
 				curCol ++ ;
 				if (queue.hasItems()) {
 					UIDiv col =  new UIDiv();
+					col.setStyle(colStyle);
 					while (queue.hasItems()) {
 						UIElement  hidn = queue.dequeue();
 						col.addElement(hidn);
@@ -174,6 +180,7 @@ public class UIDiv extends UIControl{
 				} else {
 
 					UIDiv col =  new UIDiv();
+					col.setStyle(colStyle);
 					col.addElement(element);
 					row.addElement(new UIElement(col));
 				}
@@ -181,10 +188,12 @@ public class UIDiv extends UIControl{
 				if (curCol == noCols) {
 					curCol = 0;
 					row = new UIDiv();
+					row.setStyle(rowStyle);
 				}
 			}
 			for (int j = noCols ; j > curCol ; j -- ) {
 				UIDiv col =  new UIDiv();
+				col.setStyle(colStyle);
 				row.addElement(new UIElement(col));
 			}
 		}

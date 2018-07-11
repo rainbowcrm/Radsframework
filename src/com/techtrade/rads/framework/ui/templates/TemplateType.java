@@ -56,6 +56,7 @@ public class TemplateType {
 	protected static final String TAG_CORESECTION = "CoreSection";
 	protected static final String TAG_NOROWS = "noRows";
 	protected static final String TAG_NOCOLS = "noCols";
+	protected static final String TAG_HEADERSTYLE = "headerStyle";
 	protected static final String TAG_ROWSTYLE = "rowStyle";
 	protected static final String TAG_COLSTYLE = "colStyle";
 	protected static final String TAG_TABSTYLE =  "tabStyle" ;
@@ -489,10 +490,17 @@ public class TemplateType {
 			section.setShowInDivtable(true);
 			XMLElement rows = sectionElement.getFirstChildElement(TAG_NOROWS) ;
 			XMLElement cols = sectionElement.getFirstChildElement(TAG_NOCOLS) ;
-			String rowStyle = sectionElement.getAttributeValue(TAG_ROWSTYLE) ;
-			String colStyle = sectionElement.getAttributeValue(TAG_COLSTYLE) ;
-			section.setRowStyle(rowStyle);
-			section.setColStyle(colStyle);
+			XMLElement rowStyle = sectionElement.getFirstChildElement(TAG_ROWSTYLE) ;
+			XMLElement colStyle = sectionElement.getFirstChildElement(TAG_COLSTYLE) ;
+			XMLElement headerStyle = sectionElement.getFirstChildElement(TAG_HEADERSTYLE) ;
+
+			if(headerStyle != null ) {
+				section.setHeaderStyle(headerStyle.getValue());
+			}
+			if (rowStyle != null )
+				section.setRowStyle(rowStyle.getValue());
+			if (colStyle != null)
+				section.setColStyle(colStyle.getValue());
 			if (rows!= null &&  Utils.isPositiveInt(rows.getValue()))
 				section.setNoRows(Integer.parseInt(rows.getValue()));
 			else
@@ -566,6 +574,7 @@ public class TemplateType {
 		boolean addHeaderDiv  ;
 		UIDiv headerDiv;
 
+		String headerStyle;
 		String rowStyle;
 		String  colStyle;
 
@@ -682,6 +691,14 @@ public class TemplateType {
 
 		public void setColStyle(String colStyle) {
 			this.colStyle = colStyle;
+		}
+
+		public String getHeaderStyle() {
+			return headerStyle;
+		}
+
+		public void setHeaderStyle(String headerStyle) {
+			this.headerStyle = headerStyle;
 		}
 	}
 }

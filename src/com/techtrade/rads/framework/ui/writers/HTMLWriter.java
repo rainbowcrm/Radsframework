@@ -57,7 +57,41 @@ public class HTMLWriter extends Writer{
 	// " span.style.backgroundColor  = \"#53868B\"; \n"+  
 	 //" span.style.fontColor  = \"black\"; \n"+
 	
-	
+	String jsTopNavToggle =
+			"<script type=\"text/javascript\">\n" +
+					"             $(document).ready(function () {\n" +
+					"                 $('#sidebarCollapse').on('click', function () {\n" +
+					"                     $('#sidebar').toggleClass('active');\n" +
+					"                 });\n" +
+					"             });\n" +
+					"         </script>\n" +
+					"         <script>\n" +
+					"\t\t $(document).ready(function () {\n" +
+					"\n" +
+					"    $(\"#sidebar\").mCustomScrollbar({\n" +
+					"        theme: \"minimal\"\n" +
+					"    });\n" +
+					"\n" +
+					"    // when opening the sidebar\n" +
+					"    $('#sidebarCollapse').on('click', function () {\n" +
+					"        // open sidebar\n" +
+					"        $('#sidebar').addClass('active');\n" +
+					"        // fade in the overlay\n" +
+					"        $('.overlay').fadeIn();\n" +
+					"        $('.collapse.in').toggleClass('in');\n" +
+					"        $('a[aria-expanded=true]').attr('aria-expanded', 'false');\n" +
+					"    });\n" +
+					"\n" +
+					"   \n" +
+					"    // if dismiss or overlay was clicked\n" +
+					"    $('#dismiss, .overlay').on('click', function () {\n" +
+					"      // hide the sidebar\n" +
+					"      $('#sidebar').removeClass('active');\n" +
+					"      // fade out the overlay\n" +
+					"      $('.overlay').fadeOut();\n" +
+					"    });\n" +
+					"});\n" +
+					"</script>" ;
 	
 	String jsToggle = " <script language =\"javascript\"> " +
 	 " function toggleTabVisbility(objId, spanId,selectedStyle,unselectedStyle) {\n " +
@@ -506,6 +540,12 @@ public class HTMLWriter extends Writer{
 				writeHeader(out, (UIHeader) control);
 			}else if ( control instanceof UITile) {
 				writeTile(out, (UITile) control,value,controller);
+			}else if ( control instanceof UIOL) {
+				writeOL(out, (UIOL) control,value,controller);
+			}else if ( control instanceof UILI) {
+				writeLI(out, (UILI) control,value,controller);
+			}else if ( control instanceof UINav) {
+				writeNav(out, (UINav) control,value,controller);
 			}else if ( control instanceof UIDiv) {
 				writeDiv(out, (UIDiv) control,value,controller);
 			}else if ( control instanceof UIDialog) {
@@ -683,13 +723,50 @@ public class HTMLWriter extends Writer{
 		out.println("</div>");
 		out.println("</div>");
 	}
-    
+
+	protected void writeOL(PrintWriter out, UIOL nav,Object value,ViewController controller) throws IOException {
+		String style = (!Utils.isNullString(nav.getStyle()) ? "class=\"" + nav.getStyle() + "\"" : "");
+		String id = (!Utils.isNullString(nav.getId()) ? "id=\"" + nav.getId()+ "\"" : "");
+		out.println("<ol "  + id + " " +  style + "  >");
+		if(!Utils.isNullList(nav.getElements())) {
+			for (UIElement element : nav.getElements() ) {
+				writeElement(element,value,controller);
+			}
+		}
+		out.println("</ol>");
+	}
+
+	protected void writeLI(PrintWriter out, UILI nav,Object value,ViewController controller) throws IOException {
+		String style = (!Utils.isNullString(nav.getStyle()) ? "class=\"" + nav.getStyle() + "\"" : "");
+		String id = (!Utils.isNullString(nav.getId()) ? "id=\"" + nav.getId()+ "\"" : "");
+		out.println("<li "  + id + " " +  style + "  >");
+		if(!Utils.isNullList(nav.getElements())) {
+			for (UIElement element : nav.getElements() ) {
+				writeElement(element,value,controller);
+			}
+		}
+		out.println(value);
+		out.println("</li>");
+	}
+
+	protected void writeNav(PrintWriter out, UINav nav,Object value,ViewController controller) throws IOException {
+		String style = (!Utils.isNullString(nav.getStyle()) ? "class=\"" + nav.getStyle() + "\"" : "");
+		String id = (!Utils.isNullString(nav.getId()) ? "id=\"" + nav.getId()+ "\"" : "");
+		out.println("<nav "  + id + " " +  style + "  >");
+		if(!Utils.isNullList(nav.getElements())) {
+			for (UIElement element : nav.getElements() ) {
+				writeElement(element,value,controller);
+			}
+		}
+		out.println("</nav>");
+	}
+
     protected void writeDiv(PrintWriter out, UIDiv div,Object value,ViewController controller) throws IOException {
 		String style = (!Utils.isNullString(div.getStyle()) ? "class=\"" + div.getStyle() + "\"" : "");
 		String width = (!Utils.isNullString(div.getWidth()) ? "width=" + div.getWidth() : "");
 		String align = (!Utils.isNullString(div.getAlign()) ? "align=\"" + div.getAlign()+ "\"" : "");
-	
-		out.println("<div id= \""+ div.getId() +   "\" " + style + " " + width + " " + align + " >");
+		String id = (!Utils.isNullString(div.getId()) ? "id=\"" + div.getId()+ "\"" : "");
+		out.println("<div "  + id + " " +  style + " " + width + " " + align + " >");
 		if(!Utils.isNullList(div.getElements())) {
 			for (UIElement element : div.getElements() ) {
 				writeElement(element,value,controller);
@@ -1740,6 +1817,7 @@ public class HTMLWriter extends Writer{
 		writeStyleSheet(out, page);
 		out.println("</Head>");
 		out.println(jsToggle);
+		out.println(jsTopNavToggle);
 		out.println(jsLookupWindow); //FixedParamControl
 		//out.println(jsLookupDialog); //FixedParamControl
 		out.println(jsapplyFixedActionServer.replaceAll("-FixedControl-", page.getTemplate().getFixedActionfield())

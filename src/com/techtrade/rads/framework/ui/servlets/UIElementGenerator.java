@@ -717,6 +717,46 @@ public class UIElementGenerator {
 			}
 			elem = new UIElement(tile);
 		
+		}else if (("UIOL").equalsIgnoreCase(type)){
+				UIOL uiol = new UIOL();
+				uiol.setId(id);
+				elem = new UIElement(uiol);
+				uiol.setStyle(style);
+			if(!Utils.isNullList(doc.getChildElements())) {
+				for (XMLElement childElem : doc.getChildElements()) {
+						UIElement element = getUIElement(childElem, controller, page, styleonChildren, style);
+						if (element != null)
+							uiol.addElement(element);
+				}
+			}
+		}else if (("UINav").equalsIgnoreCase(type)){
+
+			UINav uiol = new UINav();
+			uiol.setId(id);
+			elem = new UIElement(uiol);
+			uiol.setStyle(style);
+			if(!Utils.isNullList(doc.getChildElements())) {
+				for (XMLElement childElem : doc.getChildElements()) {
+					UIElement element = getUIElement(childElem, controller, page, styleonChildren, style);
+					if (element != null)
+						uiol.addElement(element);
+				}
+			}
+
+		}else if (("UILI").equalsIgnoreCase(type)){
+
+			UILI uiol = new UILI();
+			uiol.setId(id);
+			elem = new UIElement(uiol);
+			uiol.setStyle(style);
+			if(!Utils.isNullList(doc.getChildElements())) {
+				for (XMLElement childElem : doc.getChildElements()) {
+					UIElement element = getUIElement(childElem, controller, page, styleonChildren, style);
+					if (element != null)
+						uiol.addElement(element);
+				}
+			}
+
 		}else if (("UIDiv").equalsIgnoreCase(type)){
 			UIDiv div = new UIDiv();
 			div.setId(id);

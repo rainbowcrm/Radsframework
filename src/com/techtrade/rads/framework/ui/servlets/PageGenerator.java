@@ -13,6 +13,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
 import com.techtrade.rads.framework.ui.components.*;
+import com.techtrade.rads.framework.ui.controls.*;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -37,18 +38,6 @@ import com.techtrade.rads.framework.ui.config.AppConfig;
 import com.techtrade.rads.framework.ui.config.PageConfig;
 import com.techtrade.rads.framework.ui.config.PanelConfig;
 import com.techtrade.rads.framework.ui.constants.FixedAction;
-import com.techtrade.rads.framework.ui.controls.UIButton;
-import com.techtrade.rads.framework.ui.controls.UICheckBox;
-import com.techtrade.rads.framework.ui.controls.UICondition;
-import com.techtrade.rads.framework.ui.controls.UIDiv;
-import com.techtrade.rads.framework.ui.controls.UIErrorList;
-import com.techtrade.rads.framework.ui.controls.UIFilterSet;
-import com.techtrade.rads.framework.ui.controls.UIHidden;
-import com.techtrade.rads.framework.ui.controls.UIImage;
-import com.techtrade.rads.framework.ui.controls.UILabel;
-import com.techtrade.rads.framework.ui.controls.UINote;
-import com.techtrade.rads.framework.ui.controls.UIRadioBox;
-import com.techtrade.rads.framework.ui.controls.UIText;
 import com.techtrade.rads.framework.ui.templates.CRUDTemplateType;
 import com.techtrade.rads.framework.ui.templates.DataSheetTemplateType;
 import com.techtrade.rads.framework.ui.templates.ListTemplateType;
@@ -109,6 +98,8 @@ public class PageGenerator {
 	protected static String TAG_RESPONSEELEMENT = "responseElement";
 	protected static String TAG_SECTIONTYPE = "type";
 	protected static String TAG_SECTION = "Section";
+	protected static String TAG_ENCLOSEINNAV = "encloseInNav";
+	protected static String TAG_NAVID = "navId";
 	protected static String TAG_LISTSECTION = "ListSection";
 	protected static String TAG_FILTERSECTION = "FilterSection";
 	protected static String TAG_ERRORSECTION = "ErrorSection";
@@ -692,6 +683,8 @@ public class PageGenerator {
 		
 		List <XMLElement> sectionElementList = section.getAllChildElements();
 		String sectionType = section.getAttributeValue(TAG_SECTIONTYPE);
+		String encloseInNav = section.getAttributeValue(TAG_ENCLOSEINNAV) ;
+		String navId = section.getAttributeValue(TAG_NAVID) ;
 		TemplateType.Section tempSection = null;
 		if ( !Utils.isNullList(template.getSections())  ) {
 			for (TemplateType.Section templateSection :  template.getSections()) {
@@ -749,7 +742,12 @@ public class PageGenerator {
 			div.setElements(newElementList);
 		}
 		
-		
+		if ("true".equalsIgnoreCase(encloseInNav))  {
+			UINav newNav= new UINav();
+			newNav.setId(navId);
+			newNav.addElement( new UIElement(div));
+			return newNav;
+		}
 		return div;
 	}
 	
@@ -785,7 +783,8 @@ public class PageGenerator {
 					}
 				}
 			}
-			UIDiv tableDet  = UIDiv.tabularizeElements("TBL" + tempSection.getId(), div.getElements(), tempSection.getNoRows(), tempSection.getNoCols()) ;
+			UIDiv tableDet  = UIDiv.tabularizeElements("TBL" + tempSection.getId(), div.getElements(), tempSection.getNoRows(), tempSection.getNoCols(),
+					tempSection.getHeaderStyle() ,tempSection.getRowStyle(),tempSection.getColStyle()) ;
 			div.setElements(null);
 			tableDet.setStyle(tempSection.getTabStyle());
 			div.addElement(new UIElement(tableDet));
