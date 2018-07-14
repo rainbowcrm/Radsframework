@@ -674,7 +674,34 @@ public class PageGenerator {
 		}
 		
 		
-	}
+	}else if (filterSection.isShowInDivtable())  {
+			int cond =0  ;
+			if (!Utils.isNullList(div.getElements()))  {
+				for (UIElement element : div.getElements() )  {
+					if (element instanceof UICondition) {
+			 			/*UITable tableDet  = UITable.tabularizeElements("TBLCnd" + cond++, ((UICondition)element).getTrueElements(), tempSection.getNoCols()) ;
+			 			((UICondition)element).setTrueElements(null);
+			 			((UICondition)element).addTrueElement(new UIElement(tableDet));*/
+						/*if(!Utils.isNullList(((UICondition)element).getTrueElements()))
+							div.insertAt(element, ((UICondition)element).getTrueElements());*/
+					}
+				}
+			}
+			UIDiv tableDet  = UIDiv.tabularizeElements("TBL" + filterSection.getId(), div.getElements(), filterSection.getNoRows(), filterSection.getNoCols(),
+					filterSection.getHeaderStyle() ,filterSection.getRowStyle(),filterSection.getColStyle()) ;
+			div.setElements(null);
+			tableDet.setStyle(filterSection.getTabStyle());
+			div.addElement(new UIElement(tableDet));
+
+			if (!Utils.isNullList(filterSection.getFixedPanels())) {
+				for(PanelDef pDef : filterSection.getFixedPanels()) {
+					List<UIElement> panelContents = getPanel(pDef, objController, page) ;
+					if (!Utils.isNullList(panelContents))
+						for (UIElement panelContent : panelContents)
+							div.addElement(panelContent);
+				}
+			}
+		}
 		
 		return div;
 		
