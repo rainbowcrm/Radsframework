@@ -602,7 +602,7 @@ public class HTMLReader extends Reader{
 	
 	protected List<FilterNode> readFilterNode(UIElement element, HttpServletRequest request) {
 		List<FilterNode> nodeList = new ArrayList<FilterNode>();
-		if (!Utils.isNullString(element.getModelProperty()) &&  !(element.getControl() instanceof UITable) ){
+		if (!Utils.isNullString(element.getModelProperty()) &&  !(element.getControl() instanceof UITable ) &&  !(element.getControl() instanceof UIDiv ) ){
 			String value  =  request.getParameter(element.getControl().getId()) ;
 			if (!Utils.isNull(value) ) {
 				FilterNode node = new FilterNode();
@@ -642,6 +642,14 @@ public class HTMLReader extends Reader{
 					}
 				}
 			}
+		}else if (element.getControl() instanceof UIDiv) {
+			UIDiv filterTable = (UIDiv)element.getControl() ;
+					if (!Utils.isNullList( filterTable.getElements())) {
+						for (UIElement innerElem  : filterTable.getElements()) {
+							List<FilterNode> innerList = readFilterNode(innerElem, request) ;
+							nodeList.addAll(innerList);
+						}
+					}
 		}
 		return nodeList  ;
 	}

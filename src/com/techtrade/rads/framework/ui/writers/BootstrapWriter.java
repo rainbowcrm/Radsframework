@@ -255,7 +255,7 @@ public class BootstrapWriter  extends  HTMLWriter{
 		} else if (Utils.isNullString(menu.getMenuLink())  && !Utils.isNullString(menu.getIframeSrc()) ) {
 			String iframeId = menu.getIframeId() ;
 			String iframeSrc = menu.getIframeSrc() ;
-			menuClick = "refreshIFrameSrc('"+ iframeId + "','"+ iframeSrc+"')" ;
+			menuClick = "refreshIFrameSrc('"+ iframeId + "','"+ iframeSrc+"',event)" ;
 		}
  		out.println("<li " +" onClick=" + menuClick +">") ;
 		if(!Utils.isNullString(iconList))
