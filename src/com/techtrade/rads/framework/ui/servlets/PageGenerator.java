@@ -873,6 +873,8 @@ public class PageGenerator {
 		ViewController objController  = (ViewController) Class.forName(controller).newInstance() ;
 		page.setViewController(objController);
 		page.setAccessCode(config.getAccessCode());
+		String title = root.getAttributeValue(TAG_TITLE);
+		page.setTitle(title);
 		IRadsContext ctx =null;
 		String auth = String.valueOf(req.getAttribute("authToken")) ;
 		if (!Utils.isNullString(auth)) {
@@ -889,8 +891,7 @@ public class PageGenerator {
 		if(mode != null)
 			((GeneralController)objController).setMode(mode);
 		((GeneralController)objController).setObject(object);
-		String title = root.getAttributeValue(TAG_TITLE);
-		page.setTitle(title);
+
 		XMLElement elements = root.getFirstChildElement(TAG_ELEMENTS);
 		page.setPageForwards(readPageForward(root.getFirstChildElement(TAG_FORWARDS)));
 		page.setAjaxGroups(readAjaxGroups(root.getFirstChildElement(TAG_AJAXGROUPS)));
@@ -1048,6 +1049,8 @@ public class PageGenerator {
 			ViewController objController  = (ViewController) Class.forName(controller).newInstance() ;
 			page.setViewController(objController);
 			page.setAccessCode(config.getAccessCode());
+			String title = root.getAttributeValue(TAG_TITLE);
+			page.setTitle(title);
 			IRadsContext ctx =null;
 			String auth = String.valueOf(req.getAttribute("authToken")) ;
 			if (!Utils.isNullString(auth)) {
@@ -1066,8 +1069,7 @@ public class PageGenerator {
 				((TransactionController)objController).setMode(mode);
 			((TransactionController)objController).setObject(object);
 			XMLElement elements = root.getFirstChildElement(TAG_ELEMENTS);
-			String title = root.getAttributeValue(TAG_TITLE);
-			page.setTitle(title);
+
 			page.setPageForwards(readPageForward(root.getFirstChildElement(TAG_FORWARDS)));
 			page.setAjaxGroups(readAjaxGroups(root.getFirstChildElement(TAG_AJAXGROUPS)));
 			UIForm form = readForm(elements, objController,page,mode,templateName);

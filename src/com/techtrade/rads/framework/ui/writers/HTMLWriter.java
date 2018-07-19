@@ -381,6 +381,8 @@ public class HTMLWriter extends Writer{
 					((UILabel)control).setLabel(String.valueOf(value));
 				if(control instanceof  UIImage && Utils.isNullString(((UIImage)control).getSrc()))
 					((UIImage)control).setSrc(String.valueOf(value));
+				if(control instanceof  UIIFrame && Utils.isNullString(((UIIFrame)control).getSrc()))
+					((UIIFrame)control).setSrc(String.valueOf(value));
 			}else if (!Utils.isNullString(propertyName) && object instanceof  ModelObject && element.getControl().getValue() == null) {
 				//control.setDataProperty(propertyName);
 				if ( propertyName.startsWith("Controller."))  {
@@ -679,6 +681,7 @@ public class HTMLWriter extends Writer{
 
     protected void writeIFrame(PrintWriter out, UIIFrame frame,Object value,ViewController controller) throws IOException {
 		String src = Utils.isNull(frame.getSrc())?"":"src='" + frame.getSrc() + "'";
+
 		String style = (!Utils.isNullString(frame.getStyle()) ? "class=\"" + frame.getStyle() + "\"" : "");
 		out.println("<iframe id= \""+ frame.getId() +   "\" " + src + " " + style +">");
 		if(!Utils.isNullList(frame.getElements())) {
